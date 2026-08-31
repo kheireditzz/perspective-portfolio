@@ -65,15 +65,15 @@
 </head>
 <body class="bg-[#07090e] text-slate-800 min-h-screen py-4 px-2 flex flex-col items-center justify-start antialiased selection:bg-brandOrange selection:text-white">
 
-  <!-- FLOATING TOOLBAR HANYA TAMPIL DI MODE PRIVATE EDIT -->
+  <!-- FLOATING TOOLBAR PRIVATE EDIT -->
   <div id="private-toolbar" class="w-[794px] max-w-full mb-3 no-print hidden bg-[#0e1424]/95 backdrop-blur-md border border-slate-800 p-3 rounded-2xl flex items-center justify-between gap-3 shadow-2xl">
     <div class="flex items-center gap-2">
       <div class="w-8 h-8 rounded-xl bg-brandOrange flex items-center justify-center text-black font-bold">
         <i data-feather="lock" class="w-4 h-4"></i>
       </div>
       <div>
-        <h1 class="text-white font-bold text-xs font-display leading-tight">PRIVATE CV EDITOR (SUPER CRUD MODE)</h1>
-        <p class="text-[10px] text-slate-400">Edit teks &bull; Hapus kartu/item dengan tombol merah ✕ &bull; Tambah item baru.</p>
+        <h1 class="text-white font-bold text-xs font-display leading-tight">SUPER FULL CRUD CV BUILDER</h1>
+        <p class="text-[10px] text-slate-400">Semua teks bisa diedit &bull; Semua elemen bisa ditambah &amp; dihapus &bull; Kanan-Kiri Penuh.</p>
       </div>
     </div>
 
@@ -94,17 +94,18 @@
   <!-- ======================================================== -->
   <div id="cv-sheet" class="a4-page rounded-2xl shadow-[0_10px_50px_rgba(0,0,0,0.8)] border border-slate-200 flex flex-col justify-between p-7 relative">
 
-    <div class="space-y-3.5">
+    <div class="space-y-3">
       <!-- 1. HEADER RESMI IDENTITAS -->
-      <div class="flex items-center gap-5 pb-3.5 border-b-2 border-slate-900">
+      <div class="flex items-center gap-5 pb-3 border-b-2 border-slate-900 cv-item relative group">
         <!-- FOTO PROFIL RESMI -->
-        <div class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-brandOrange shrink-0 bg-black shadow-md relative group">
+        <div class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-brandOrange shrink-0 bg-black shadow-md relative group cursor-pointer" onclick="changePhoto()">
           <img id="cv-photo" src="profile.jpg" alt="Miftahul Khairin" class="w-full h-full object-cover">
+          <div class="no-print absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-[10px] font-mono transition-opacity">Ganti Foto</div>
         </div>
 
         <!-- INFO NAMA & KONTAK -->
         <div class="flex-1 space-y-1">
-          <div class="inline-block px-2.5 py-0.5 rounded-full bg-orange-100 border border-orange-300 text-brandOrange font-mono text-[9px] font-bold uppercase tracking-wider">
+          <div class="inline-block px-2.5 py-0.5 rounded-full bg-orange-100 border border-orange-300 text-brandOrange font-mono text-[9px] font-bold uppercase tracking-wider editable" contenteditable="false">
             FULL-STACK DEVELOPER &bull; AI AUTOMATION ARCHITECT
           </div>
           <h1 id="cv-name" class="text-2xl font-black font-display uppercase tracking-tight text-slate-950 leading-none editable" contenteditable="false">
@@ -115,11 +116,11 @@
           </p>
 
           <!-- BARIS KONTAK RESMI -->
-          <div class="flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-mono text-slate-700 pt-1">
+          <div class="flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-mono text-slate-700 pt-0.5">
             <div class="flex items-center gap-1"><i data-feather="mail" class="w-3 h-3 text-brandOrange"></i> <span id="cv-email" class="editable" contenteditable="false">miftahulkhairim1@gmail.com</span></div>
             <div class="flex items-center gap-1"><i data-feather="phone" class="w-3 h-3 text-brandOrange"></i> <span id="cv-phone" class="editable" contenteditable="false">+62 895-3211-54498</span></div>
             <div class="flex items-center gap-1"><i data-feather="globe" class="w-3 h-3 text-brandOrange"></i> <span id="cv-web" class="editable" contenteditable="false">portofolio.kheireditz.my.id</span></div>
-            <div class="flex items-center gap-1"><i data-feather="github" class="w-3 h-3 text-brandOrange"></i> <span>github.com/kheireditzz</span></div>
+            <div class="flex items-center gap-1"><i data-feather="github" class="w-3 h-3 text-brandOrange"></i> <span class="editable" contenteditable="false">github.com/kheireditzz</span></div>
           </div>
         </div>
       </div>
@@ -128,39 +129,42 @@
       <div class="grid grid-cols-12 gap-5">
         
         <!-- KOLOM KIRI (BIODATA, SKILL, TOOLS, BAHASA & PENGHARGAAN) - 5 COLS -->
-        <div class="col-span-5 space-y-3 border-r border-slate-200 pr-4">
+        <div class="col-span-5 space-y-2.5 border-r border-slate-200 pr-4">
           
           <!-- BIODATA PRIBADI DETAIL -->
-          <div class="space-y-1.5">
-            <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5 border-b border-brandOrange pb-0.5">
-              <i data-feather="user-check" class="w-3 h-3 text-brandOrange"></i> BIODATA PRIBADI
-            </h3>
-            <div id="biodata-list" class="space-y-1.5 text-[10px]">
+          <div class="space-y-1">
+            <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
+              <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                <i data-feather="user-check" class="w-3 h-3 text-brandOrange"></i> BIODATA PRIBADI
+              </h3>
+              <button onclick="addBiodata()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
+            </div>
+            <div id="biodata-list" class="space-y-1 text-[10px]">
               <div class="cv-item relative group">
-                <span class="text-slate-400 block text-[8.5px] font-mono uppercase font-semibold">Tempat, Tanggal Lahir</span>
+                <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold">Tempat, Tanggal Lahir</span>
                 <span class="font-bold text-slate-800 editable" contenteditable="false">Indonesia, 15 Januari 2002</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
-                <span class="text-slate-400 block text-[8.5px] font-mono uppercase font-semibold">Jenis Kelamin / Agama</span>
+                <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold">Jenis Kelamin / Agama</span>
                 <span class="font-bold text-slate-800 editable" contenteditable="false">Laki-Laki / Islam</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
-                <span class="text-slate-400 block text-[8.5px] font-mono uppercase font-semibold">Kewarganegaraan</span>
+                <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold">Kewarganegaraan</span>
                 <span class="font-bold text-slate-800 editable" contenteditable="false">Indonesia (WNI)</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
               </div>
               <div class="cv-item relative group p-1.5 rounded-lg bg-emerald-50 border border-emerald-200">
-                <span class="text-[8.5px] text-emerald-600 font-mono font-bold uppercase block">Status Ketersediaan</span>
+                <span class="text-[8px] text-emerald-600 font-mono font-bold uppercase block">Status Ketersediaan</span>
                 <span class="font-bold text-emerald-700 editable" contenteditable="false">Siap Bekerja (Full-Time / Remote)</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-1 top-1 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
             </div>
           </div>
 
           <!-- KEAHLIAN TEKNIS (PROGRESS BARS) -->
-          <div class="space-y-1.5">
+          <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
                 <i data-feather="code" class="w-3 h-3 text-brandOrange"></i> KEAHLIAN TEKNIS
@@ -169,29 +173,29 @@
             </div>
             <div id="skills-list" class="space-y-1.5 text-[10px]">
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Frontend (React, Next.js 14, Tailwind)</span><span class="text-brandOrange font-mono font-bold">95%</span></div>
+                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Frontend (React, Next.js 14, Tailwind)</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">95%</span></div>
                 <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[95%]"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Backend &amp; API (Node.js, Express)</span><span class="text-brandOrange font-mono font-bold">90%</span></div>
+                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Backend &amp; API (Node.js, Express)</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">90%</span></div>
                 <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[90%]"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">AI Bot &amp; Workflow Automation</span><span class="text-brandOrange font-mono font-bold">95%</span></div>
+                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">AI Bot &amp; Workflow Automation</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">95%</span></div>
                 <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[95%]"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Python &amp; Linux/Termux Scripting</span><span class="text-brandOrange font-mono font-bold">88%</span></div>
+                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Python &amp; Linux/Termux Scripting</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">88%</span></div>
                 <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[88%]"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Database (PostgreSQL, Redis, SQL)</span><span class="text-brandOrange font-mono font-bold">85%</span></div>
+                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Database (PostgreSQL, Redis, SQL)</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">85%</span></div>
                 <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[85%]"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0 hover:underline">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
             </div>
           </div>
@@ -241,11 +245,11 @@
             </div>
           </div>
 
-          <!-- PENGHARGAAN & PENCAPAIAN (MENGISI PENUH BAWAH KIRI) -->
+          <!-- PENGHARGAAN & PENCAPAIAN UTAMA -->
           <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
-                <i data-feather="star" class="w-3 h-3 text-brandOrange"></i> PENCAPAIAN UTAMA
+                <i data-feather="star" class="w-3 h-3 text-brandOrange"></i> PENCAPAIAN &amp; LISENSI
               </h3>
               <button onclick="addAchievement()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
             </div>
@@ -265,11 +269,11 @@
 
         </div>
 
-        <!-- KOLOM KANAN (EXPERIENCE, PROJECTS, EDUCATION & METODOLOGI) - 7 COLS -->
-        <div class="col-span-7 space-y-3">
+        <!-- KOLOM KANAN (EXPERIENCE, PROJECTS, EDUCATION, METHODOLOGY & HIGHLIGHTS) - 7 COLS -->
+        <div class="col-span-7 space-y-2.5">
           
-          <!-- PENGALAMAN PROFESIONAL -->
-          <div class="space-y-1.5">
+          <!-- 1. PENGALAMAN PROFESIONAL -->
+          <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
                 <i data-feather="briefcase" class="w-3 h-3 text-brandOrange"></i> PENGALAMAN PROFESIONAL
@@ -277,7 +281,7 @@
               <button onclick="addExperience()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
             </div>
             
-            <div id="experience-list" class="space-y-2 border-l-2 border-brandOrange/40 pl-3">
+            <div id="experience-list" class="space-y-1.5 border-l-2 border-brandOrange/40 pl-3">
               <div class="cv-item space-y-0.5 relative group">
                 <span class="absolute -left-[17px] top-1.5 w-2 h-2 rounded-full bg-brandOrange"></span>
                 <div class="flex justify-between text-[9.5px] font-mono">
@@ -286,15 +290,15 @@
                 </div>
                 <h4 class="font-bold text-slate-900 text-[10.5px] editable" contenteditable="false">Independent Software &amp; Cloud Developer</h4>
                 <p class="text-[9.5px] text-slate-600 leading-relaxed editable" contenteditable="false">
-                  • Membangun sistem web Next.js 14, microservices Node.js, dan optimasi query PostgreSQL.<br>
+                  • Membangun arsitektur sistem web Next.js 14, microservices Node.js, dan optimasi query PostgreSQL.<br>
                   • Mengembangkan bot automasi TikTok &amp; WhatsApp Gateway API dengan uptime 99.9%.<br>
                   • Merancang engine antarmuka spasial kedalaman 3D dengan rendering fluida 120 FPS.
                 </p>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕ Hapus</button>
               </div>
 
-              <div class="cv-item space-y-0.5 relative pt-1 group">
-                <span class="absolute -left-[17px] top-2.5 w-2 h-2 rounded-full bg-slate-400"></span>
+              <div class="cv-item space-y-0.5 relative pt-0.5 group">
+                <span class="absolute -left-[17px] top-2 w-2 h-2 rounded-full bg-slate-400"></span>
                 <div class="flex justify-between text-[9.5px] font-mono">
                   <span class="font-bold text-slate-700 uppercase editable" contenteditable="false">FRONTEND &amp; UI/UX SPECIALIST</span>
                   <span class="text-slate-400 font-semibold editable" contenteditable="false">2021 — 2023</span>
@@ -309,8 +313,8 @@
             </div>
           </div>
 
-          <!-- PROYEK UNGGULAN TERPILIH -->
-          <div class="space-y-1.5">
+          <!-- 2. PROYEK UNGGULAN TERPILIH -->
+          <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
                 <i data-feather="layers" class="w-3 h-3 text-brandOrange"></i> PROYEK UNGGULAN TERPILIH
@@ -320,28 +324,28 @@
 
             <div id="projects-grid" class="grid grid-cols-2 gap-1.5 text-[9.5px]">
               <div class="cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group">
-                <span class="font-bold text-slate-900 block text-[10.5px] editable" contenteditable="false">Perspective 3D Portfolio</span>
+                <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">Perspective 3D Portfolio</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">Next.js • Tailwind • CSS 3D</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Engine portofolio interaktif spasial dengan Telegram Bot CMS terintegrasi.</p>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
               </div>
 
               <div class="cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group">
-                <span class="font-bold text-slate-900 block text-[10.5px] editable" contenteditable="false">TikTok Auto-Uploader</span>
+                <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">TikTok Auto-Uploader</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">Python • Selenium • FFmpeg</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Script automasi download HD tanpa watermark &amp; upload otomatis.</p>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
               </div>
 
               <div class="cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group">
-                <span class="font-bold text-slate-900 block text-[10.5px] editable" contenteditable="false">WhatsApp AI Gateway</span>
+                <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">WhatsApp AI Gateway</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">Node.js • Baileys • Gemini AI</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Customer service cerdas dengan respons multi-device otomatis.</p>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
               </div>
 
               <div class="cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group">
-                <span class="font-bold text-slate-900 block text-[10.5px] editable" contenteditable="false">Warehouse Cloud System</span>
+                <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">Warehouse Cloud System</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">React • Express • PostgreSQL</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Aplikasi manajemen stok multi-cabang dengan barcode scanner.</p>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
@@ -349,8 +353,8 @@
             </div>
           </div>
 
-          <!-- PENDIDIKAN & SERTIFIKASI RESMI -->
-          <div class="space-y-1.5">
+          <!-- 3. PENDIDIKAN & SERTIFIKASI RESMI -->
+          <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
                 <i data-feather="award" class="w-3 h-3 text-brandOrange"></i> PENDIDIKAN &amp; SERTIFIKASI
@@ -363,28 +367,51 @@
                   <h4 class="font-bold text-slate-900 text-[10px] editable" contenteditable="false">Teknik Informatika / Rekayasa Perangkat Lunak</h4>
                   <p class="text-slate-500 font-mono text-[8.5px] editable" contenteditable="false">Pendidikan Formal Bidang Komputasi &amp; Rekayasa Web</p>
                 </div>
-                <span class="font-mono text-brandOrange font-bold text-[9px] editable" contenteditable="false">2020 — 2024</span>
+                <span class="font-mono text-brandOrange font-bold text-[9px] editable shrink-0" contenteditable="false">2020 — 2024</span>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold ml-2">✕</button>
               </div>
               <div class="cv-item p-1.5 rounded-lg bg-slate-50 border border-slate-200 flex justify-between items-center relative group">
                 <span class="font-medium text-slate-800 editable" contenteditable="false">Sertifikasi Full-Stack Web Architecture &amp; Cloud Deployment</span>
-                <span class="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 font-mono font-bold text-[8px]">VERIFIED</span>
+                <span class="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 font-mono font-bold text-[8px] editable" contenteditable="false">VERIFIED</span>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold ml-2">✕</button>
               </div>
             </div>
           </div>
 
-          <!-- METODOLOGI & STANDAR KERJA (MENGISI PENUH BAGIAN BAWAH KANAN) -->
+          <!-- 4. METODOLOGI & STANDAR KERJA SISTEM -->
           <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
                 <i data-feather="check-circle" class="w-3 h-3 text-brandOrange"></i> METODOLOGI &amp; KEAHLIAN SISTEM
               </h3>
+              <button onclick="addMethodItem()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
             </div>
-            <div class="grid grid-cols-3 gap-1 text-[9px] font-mono text-slate-700">
-              <div class="p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold">Agile &amp; Scrum</div>
-              <div class="p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold">CI/CD &amp; DevOps</div>
-              <div class="p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold">REST API Design</div>
+            <div id="method-grid" class="grid grid-cols-3 gap-1 text-[9px] font-mono text-slate-700">
+              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">Agile &amp; Scrum <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
+              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">CI/CD DevOps <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
+              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">REST Architecture <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
+            </div>
+          </div>
+
+          <!-- 5. KEUNGGULAN SPESIALISASI KERJA (MENGISI PENUH SEBELAH KANAN BAWAH) -->
+          <div class="space-y-1">
+            <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
+              <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
+                <i data-feather="shield" class="w-3 h-3 text-brandOrange"></i> SPESIALISASI &amp; JAMINAN KERJA
+              </h3>
+              <button onclick="addSpecialtyItem()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
+            </div>
+            <div id="specialty-list" class="grid grid-cols-2 gap-1.5 text-[9px]">
+              <div class="cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="font-bold text-slate-800 block editable" contenteditable="false">Kecepatan &amp; Optimasi 120 FPS</span>
+                <span class="text-slate-500 editable" contenteditable="false">Kompresi aset visual &amp; Core Web Vitals tinggi.</span>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+              </div>
+              <div class="cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200">
+                <span class="font-bold text-slate-800 block editable" contenteditable="false">Keamanan &amp; High Availability</span>
+                <span class="text-slate-500 editable" contenteditable="false">Proteksi endpoint API &amp; uptime server 24/7.</span>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+              </div>
             </div>
           </div>
 
@@ -394,9 +421,9 @@
     </div>
 
     <!-- 3. FOOTER BAWAH LENGKAP & OTENTIKASI -->
-    <div class="border-t-2 border-slate-900 pt-2 flex justify-between items-center text-[9px] font-mono text-slate-600">
-      <div>Dokumen Resmi &bull; Curriculum Vitae Miftahul Khairin &bull; Verifikasi: <span class="text-brandOrange font-bold">portofolio.kheireditz.my.id</span></div>
-      <div>Status Dokumen: <span class="text-emerald-600 font-bold">Aktif &amp; Terverifikasi 2026</span></div>
+    <div class="border-t-2 border-slate-900 pt-2 flex justify-between items-center text-[9px] font-mono text-slate-600 cv-item relative group">
+      <div>Dokumen Resmi &bull; Curriculum Vitae Miftahul Khairin &bull; Verifikasi: <span class="text-brandOrange font-bold editable" contenteditable="false">portofolio.kheireditz.my.id</span></div>
+      <div>Status: <span class="text-emerald-600 font-bold editable" contenteditable="false">Aktif &amp; Terverifikasi 2026</span></div>
     </div>
 
   </div>
@@ -435,15 +462,35 @@
       }, 500);
     }
 
-    // FUNGSI TAMBAH ITEM (SUPER CRUD)
+    // FUNGSI GANTI FOTO
+    function changePhoto() {
+      const url = prompt("Masukkan URL Foto Baru (atau nama file, contoh: profile.jpg):", "profile.jpg");
+      if (url) {
+        document.getElementById('cv-photo').src = url;
+      }
+    }
+
+    // FUNGSI TAMBAH ITEM (SUPER FULL CRUD)
+    function addBiodata() {
+      const list = document.getElementById('biodata-list');
+      const div = document.createElement('div');
+      div.className = "cv-item relative group";
+      div.innerHTML = `
+        <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold editable" contenteditable="true">Label Baru</span>
+        <span class="font-bold text-slate-800 editable" contenteditable="true">Nilai Data Baru</span>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
+      `;
+      list.appendChild(div);
+    }
+
     function addSkill() {
       const list = document.getElementById('skills-list');
       const div = document.createElement('div');
       div.className = "cv-item relative group";
       div.innerHTML = `
-        <div class="flex justify-between font-semibold"><span class="editable" contenteditable="true">Keahlian Baru (Edit teks)</span><span class="text-brandOrange font-mono font-bold">85%</span></div>
+        <div class="flex justify-between font-semibold"><span class="editable" contenteditable="true">Keahlian Baru</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="true">85%</span></div>
         <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[85%]"></div></div>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0 hover:underline">✕</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
       `;
       list.appendChild(div);
       feather.replace();
@@ -464,7 +511,7 @@
       div.className = "cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200";
       div.innerHTML = `
         <span class="font-bold text-slate-800 block editable" contenteditable="true">Bahasa Baru</span>
-        <span class="text-slate-500 font-mono text-[8px] editable" contenteditable="true">Tingkat Kemahiran</span>
+        <span class="text-slate-500 font-mono text-[8px] editable" contenteditable="true">Kemahiran</span>
         <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
       `;
       list.appendChild(div);
@@ -476,7 +523,7 @@
       div.className = "cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200";
       div.innerHTML = `
         <span class="font-bold text-slate-800 block editable" contenteditable="true">Pencapaian Baru</span>
-        <span class="text-slate-600 text-[8.5px] editable" contenteditable="true">Deskripsi singkat pencapaian.</span>
+        <span class="text-slate-600 text-[8.5px] editable" contenteditable="true">Deskripsi pencapaian.</span>
         <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
       `;
       list.appendChild(div);
@@ -485,16 +532,16 @@
     function addExperience() {
       const list = document.getElementById('experience-list');
       const div = document.createElement('div');
-      div.className = "cv-item space-y-0.5 relative pt-1 group";
+      div.className = "cv-item space-y-0.5 relative pt-0.5 group";
       div.innerHTML = `
-        <span class="absolute -left-[17px] top-2.5 w-2 h-2 rounded-full bg-brandOrange"></span>
+        <span class="absolute -left-[17px] top-2 w-2 h-2 rounded-full bg-brandOrange"></span>
         <div class="flex justify-between text-[9.5px] font-mono">
-          <span class="font-bold text-brandOrange uppercase editable" contenteditable="true">POSISI / JABATAN BARU</span>
+          <span class="font-bold text-brandOrange uppercase editable" contenteditable="true">JABATAN BARU</span>
           <span class="text-slate-400 font-semibold editable" contenteditable="true">TAHUN — TAHUN</span>
         </div>
         <h4 class="font-bold text-slate-900 text-[10.5px] editable" contenteditable="true">Nama Perusahaan / Proyek</h4>
         <p class="text-[9.5px] text-slate-600 leading-relaxed editable" contenteditable="true">
-          • Uraikan tanggung jawab dan hasil kerja di sini.
+          • Uraikan tanggung jawab dan pencapaian di sini.
         </p>
         <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-1">✕ Hapus</button>
       `;
@@ -506,7 +553,7 @@
       const div = document.createElement('div');
       div.className = "cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group";
       div.innerHTML = `
-        <span class="font-bold text-slate-900 block text-[10.5px] editable" contenteditable="true">Judul Proyek Baru</span>
+        <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="true">Judul Proyek Baru</span>
         <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="true">Tech Stack</span>
         <p class="text-slate-600 leading-snug editable" contenteditable="true">Deskripsi singkat proyek.</p>
         <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
@@ -520,11 +567,32 @@
       div.className = "cv-item flex justify-between items-center relative group";
       div.innerHTML = `
         <div>
-          <h4 class="font-bold text-slate-900 text-[10px] editable" contenteditable="true">Nama Jurusan / Sertifikasi Baru</h4>
+          <h4 class="font-bold text-slate-900 text-[10px] editable" contenteditable="true">Jurusan / Sertifikasi Baru</h4>
           <p class="text-slate-500 font-mono text-[8.5px] editable" contenteditable="true">Institusi Penyelenggara</p>
         </div>
         <span class="font-mono text-brandOrange font-bold text-[9px] editable shrink-0" contenteditable="true">2024</span>
         <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold ml-2">✕</button>
+      `;
+      list.appendChild(div);
+    }
+
+    function addMethodItem() {
+      const grid = document.getElementById('method-grid');
+      const div = document.createElement('div');
+      div.className = "cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable";
+      div.setAttribute('contenteditable', 'true');
+      div.innerHTML = `Metode Baru <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button>`;
+      grid.appendChild(div);
+    }
+
+    function addSpecialtyItem() {
+      const list = document.getElementById('specialty-list');
+      const div = document.createElement('div');
+      div.className = "cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200";
+      div.innerHTML = `
+        <span class="font-bold text-slate-800 block editable" contenteditable="true">Spesialisasi Baru</span>
+        <span class="text-slate-500 editable" contenteditable="true">Deskripsi keunggulan kerja.</span>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
       `;
       list.appendChild(div);
     }
