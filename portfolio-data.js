@@ -21,8 +21,8 @@ window.PORTFOLIO_CONFIG = {
     profession: "Full-Stack Developer & Kreator Digital",
     location: "Indonesia • Siap Kerja Jarak Jauh (Remote)",
     status: "Tersedia untuk Proyek Baru & Konsultasi",
-    photo: "https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg",
-    logo: "https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg",
+    photo: "profile.jpg",
+    logo: "profile.jpg",
     bio: "Selamat datang di portofolio digital Miftahul Khairin. Mengembangkan aplikasi full-stack berskala besar, sistem otomatisasi cerdas, bot AI, dan antarmuka spasial modern dengan performa tinggi 120 FPS.",
     
     // Kontak & Chat Langsung
