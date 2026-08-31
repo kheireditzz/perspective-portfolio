@@ -188,50 +188,13 @@ window.PORTFOLIO_CONFIG = {
   ],
 
   // =========================================================================
-  // 6. PRODUK TOKO DIGITAL (LENGKAP DENGAN HARGA, FITUR, DEMO & WHATSAPP)
+  // 6. PORTAL TOKO DIGITAL RESMI
   // =========================================================================
-  products: [
-    {
-      id: 1,
-      badge: "FULL-STACK SAAS",
-      title: "OmniAI Multi-Model SaaS Platform",
-      desc: "Platform SaaS multi-AI (GPT-4o, Claude, Gemini, DeepSeek) dengan sistem pembayaran otomatis QRIS & lisensi komersial lifetime.",
-      price: "Rp 149.000",
-      originalPrice: "Rp 499.000",
-      demoUrl: "https://produk.kheireditz.my.id",
-      features: [
-        "Full-Stack Next.js 15 + FastAPI Python",
-        "Integrasi Supabase Cloud PostgreSQL",
-        "Pembayaran QRIS & Lisensi Otomatis"
-      ]
-    },
-    {
-      id: 2,
-      badge: "DASHBOARD UI",
-      title: "Next.js 15 Tailwind UI Dashboard Kit",
-      desc: "Koleksi 45+ modul antarmuka dashboard analitik, billing panel, charts dan manajemen pengguna dengan tema dark mode Obsidian & Orange.",
-      price: "Rp 119.000",
-      originalPrice: "Rp 399.000",
-      demoUrl: "https://produk.kheireditz.my.id",
-      features: [
-        "45+ Komponen Reusable & Responsive",
-        "Charts Interaktif Recharts & Lucide Icons",
-        "Desain Ultra Modern 120 FPS"
-      ]
-    },
-    {
-      id: 3,
-      badge: "BOT OTOMASI",
-      title: "TikTok Affiliate Smart Uploader Suite",
-      desc: "Script Python otomatisasi upload video affiliasi, AI caption generator, pemilihan audio tren, dan anti-deteksi headless.",
-      price: "Rp 99.000",
-      originalPrice: "Rp 349.000",
-      demoUrl: "https://produk.kheireditz.my.id",
-      features: [
-        "Script Python Otomasi Termux & VPS",
-        "Bypass Headless & Multi-Akun",
-        "Panduan Setup Lengkap & Lifetime Update"
-      ]
-    }
-  ]
+  store: {
+    title: "Kheireditz Produk Digital",
+    url: "https://produk.kheireditz.my.id",
+    description: "Platform toko digital resmi untuk pembelian source code, script otomatisasi, SaaS starter kit, dan template antarmuka modern dengan QRIS otomatis.",
+    badge: "OFFICIAL STORE",
+    status: "ONLINE 24/7"
+  }
 };
