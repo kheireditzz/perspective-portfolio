@@ -5,6 +5,8 @@ import time
 import re
 import subprocess
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 BOT_TOKEN = "8762053043:AAEIUgJzTFu_G_lMNunjhZ4LqQMrzbnwnyI"
 ADMIN_ID = 5185334850
@@ -15,7 +17,13 @@ DATA_FILE = os.path.join(BASE_DIR, "portfolio-data.js")
 VIDEOS_DIR = os.path.join(BASE_DIR, "videos")
 os.makedirs(VIDEOS_DIR, exist_ok=True)
 
+# High Performance Connection Pooling
 session = requests.Session()
+retries = Retry(total=3, backoff_factor=0.2, status_forcelist=[500, 502, 503, 504])
+adapter = HTTPAdapter(max_retries=retries, pool_connections=20, pool_maxsize=20)
+session.mount("https://", adapter)
+session.mount("http://", adapter)
+
 user_states = {}
 
 def api_call(method, payload=None, files=None):
@@ -24,29 +32,20 @@ def api_call(method, payload=None, files=None):
         if files:
             r = session.post(url, data=payload, files=files, timeout=60)
         elif payload:
-            r = session.post(url, json=payload, timeout=60)
+            r = session.post(url, json=payload, timeout=10)
         else:
-            r = session.get(url, timeout=60)
+            r = session.get(url, timeout=10)
         return r.json()
     except Exception as e:
-        print(f"API Error [{method}]: {e}")
         return {"ok": False, "description": str(e)}
 
-def send_typing(chat_id):
-    try:
-        api_call("sendChatAction", {"chat_id": chat_id, "action": "typing"})
-    except Exception:
-        pass
-
 def send_msg(chat_id, text, reply_markup=None):
-    send_typing(chat_id)
     payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML"}
     if reply_markup:
         payload["reply_markup"] = reply_markup
     return api_call("sendMessage", payload)
 
 def edit_msg(chat_id, message_id, text, reply_markup=None):
-    send_typing(chat_id)
     payload = {"chat_id": chat_id, "message_id": message_id, "text": text, "parse_mode": "HTML"}
     if reply_markup:
         payload["reply_markup"] = reply_markup
@@ -94,26 +93,26 @@ def main_menu():
         "inline_keyboard": [
             [
                 {"text": "👤 Profil & Bio", "callback_data": "m_profile"},
-                {"text": "📸 Foto & Favicon", "callback_data": "m_photo"}
+                {"text": "📸 Foto Profil", "callback_data": "m_photo"}
             ],
             [
                 {"text": "🛍️ Toko Digital", "callback_data": "m_products"},
-                {"text": "💼 Portofolio Proyek", "callback_data": "m_projects"}
+                {"text": "💼 Portofolio", "callback_data": "m_projects"}
             ],
             [
                 {"text": "🖼️ Galeri Foto", "callback_data": "m_gallery"},
-                {"text": "🎥 Video YouTube / File", "callback_data": "m_videos"}
+                {"text": "🎥 Video Showcase", "callback_data": "m_videos"}
             ],
             [
-                {"text": "🃏 3D Canvas Cards", "callback_data": "m_cards3d"},
-                {"text": "📞 Kontak & Medsos", "callback_data": "m_contact"}
+                {"text": "🃏 Kartu 3D", "callback_data": "m_cards3d"},
+                {"text": "📞 Kontak / Medsos", "callback_data": "m_contact"}
             ],
             [
-                {"text": "🚀 DEPLOY KE VERCEL (LIVE)", "callback_data": "act_deploy"}
+                {"text": "🚀 DEPLOY KE WEB LIVE", "callback_data": "act_deploy"}
             ],
             [
-                {"text": "🌐 Cek Status Web", "callback_data": "act_status"},
-                {"text": "📥 Backup Data Web", "callback_data": "act_backup"}
+                {"text": "🌐 Status", "callback_data": "act_status"},
+                {"text": "📥 Backup", "callback_data": "act_backup"}
             ]
         ]
     }
@@ -125,7 +124,7 @@ def handle_message(msg):
         text = msg.get("text", "").strip() if "text" in msg else msg.get("caption", "").strip()
         
         if user_id != ADMIN_ID:
-            send_msg(chat_id, "⛔ <b>Akses Ditolak.</b> Bot ini khusus untuk pemilik portfolio.")
+            send_msg(chat_id, "⛔ <b>Akses Ditolak.</b> Bot pribadi.")
             return
 
         # 1. HANDLE VIDEO
@@ -144,7 +143,7 @@ def handle_message(msg):
                 video_file_id = doc["file_id"]
 
         if video_file_id:
-            status_msg = send_msg(chat_id, "⏳ <b>Menerima video dari HP & memproses penyimpanan...</b>")
+            status_msg = send_msg(chat_id, "⏳ <i>Mengunduh video...</i>")
             m_id = status_msg.get("result", {}).get("message_id")
             
             info = api_call("getFile", {"file_id": video_file_id})
@@ -179,14 +178,13 @@ def handle_message(msg):
                 user_states[chat_id] = None
                 kb = {
                     "inline_keyboard": [
-                        [{"text": "🚀 DEPLOY KE VERCEL SEKARANG", "callback_data": "act_deploy"}],
-                        [{"text": "🎥 Lihat Daftar Video", "callback_data": "m_videos"}],
-                        [{"text": "🏠 Menu Utama", "callback_data": "b_main"}]
+                        [{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}],
+                        [{"text": "🏠 Menu", "callback_data": "b_main"}]
                     ]
                 }
-                edit_msg(chat_id, m_id, f"✅ <b>VIDEO BERHASIL DISIMPAN KE WEB!</b> 🎥\n\n• <b>Judul:</b> {vid_title}\n• <b>File:</b> <code>{rel_vid_path}</code>\n• <b>Ukuran:</b> {os.path.getsize(local_vid_path) // 1024} KB\n\nKlik <b>Deploy Ke Vercel Sekarang</b> untuk mempublikasikan!", kb)
+                edit_msg(chat_id, m_id, f"✅ <b>Video Tersimpan!</b> 🎥\n• <b>Judul:</b> {vid_title}\n• <b>File:</b> <code>{rel_vid_path}</code>", kb)
             else:
-                edit_msg(chat_id, m_id, "⚠️ <b>Video Terlalu Besar (>20MB).</b>\nKirim video pendek (<20MB) atau gunakan link YouTube via menu 🎥 Video YouTube.")
+                edit_msg(chat_id, m_id, "⚠️ <b>Video >20MB.</b> Gunakan link YouTube via menu Video.")
             return
 
         # 2. HANDLE FOTO
@@ -201,7 +199,7 @@ def handle_message(msg):
                 photo_file_id = doc["file_id"]
 
         if photo_file_id:
-            status_msg = send_msg(chat_id, "⏳ <b>Menerima foto & mengoptimasi semua aset web...</b>")
+            status_msg = send_msg(chat_id, "⏳ <i>Mengoptimasi foto...</i>")
             m_id = status_msg.get("result", {}).get("message_id")
             
             info = api_call("getFile", {"file_id": photo_file_id})
@@ -229,13 +227,13 @@ def handle_message(msg):
                 user_states[chat_id] = None
                 kb = {
                     "inline_keyboard": [
-                        [{"text": "🚀 DEPLOY SEKARANG", "callback_data": "act_deploy"}],
-                        [{"text": "🏠 Menu Utama", "callback_data": "b_main"}]
+                        [{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}],
+                        [{"text": "🏠 Menu", "callback_data": "b_main"}]
                     ]
                 }
-                edit_msg(chat_id, m_id, "✅ <b>FOTO BERHASIL DIUPDATE!</b> 📸\n\n• Foto Profil Utama: ✅\n• Favicon Browser: ✅\n• Apple Touch Icon: ✅\n• Google Images SEO: ✅\n\nKlik tombol di bawah untuk mempublikasikan!", kb)
+                edit_msg(chat_id, m_id, "✅ <b>Foto Profil & Favicon Diperbarui!</b> 📸\nKlik Deploy untuk menerapkan ke web.", kb)
             else:
-                edit_msg(chat_id, m_id, "❌ Gagal mengunduh foto dari Telegram.")
+                edit_msg(chat_id, m_id, "❌ Gagal mengunduh foto.")
             return
 
         # 3. COMMANDS
@@ -247,68 +245,56 @@ def handle_message(msg):
             if cmd in ["/start", "/menu"]:
                 user_states[chat_id] = None
                 welcome = (
-                    "⚡ <b>PORTFOLIO SUPER CMS TELEGRAM 24/7</b> ⚡\n"
-                    "━━━━━━━━━━━━━━━━━━━━━\n"
-                    "Halo <b>Miftahul Khairin</b>!\n"
-                    "Kelola seluruh website Anda langsung dari sini secara lengkap:\n\n"
-                    "• 👤 Profil, Nama & Bio\n"
-                    "• 📸 <b>Upload Foto Profil / Ikon</b> (Kirim foto langsung)\n"
-                    "• 🎥 <b>Upload Video Showcase MP4</b> (Kirim video langsung)\n"
-                    "• 🛍️ Produk Toko Digital (Tambah/Hapus/Edit)\n"
-                    "• 💼 Portofolio Karya & Proyek\n"
-                    "• 🖼️ Galeri Foto Dokumentasi\n"
-                    "• 🃏 3D Canvas Depth Cards\n"
-                    "• 📞 WhatsApp, IG, TikTok & Email\n\n"
-                    "👇 <b>Pilih menu yang ingin dikelola:</b>"
+                    "🎛️ <b>PORTFOLIO DASHBOARD CMS</b>\n"
+                    "━━━━━━━━━━━━━━━━━━━━\n"
+                    "👤 <b>Miftahul Khairin</b>\n"
+                    "🌐 portofolio.kheireditz.my.id\n\n"
+                    "Pilih kategori di bawah untuk mengelola website:"
                 )
                 send_msg(chat_id, welcome, main_menu())
                 return
 
             elif cmd == "/help":
                 help_text = (
-                    "📖 <b>PANDUAN LENGKAP CMS</b>\n"
-                    "━━━━━━━━━━━━━━━━━━━━━\n"
-                    "• /menu - Menu Utama Dashboard\n"
-                    "• /deploy - Langsung Deploy ke Web Live\n"
-                    "• /status - Cek status commit & web\n"
-                    "• /backup - Download file backup\n"
-                    "• /setnama [Nama] - Ganti Nama Lengkap\n"
-                    "• /setprofesi [Profesi] - Ganti Profesi\n"
-                    "• /setbio [Bio] - Ganti Bio\n"
-                    "• /setwa [Nomor WA] - Ganti No WhatsApp\n"
-                    "• /batal - Batalkan input\n\n"
-                    "💡 <b>Tips:</b>\n"
-                    "- Kirim foto langsung untuk ganti foto profil & favicon.\n"
-                    "- Kirim video MP4 langsung untuk menambah video showcase baru di web!"
+                    "📖 <b>DAFTAR PERINTAH CEPAT</b>\n"
+                    "━━━━━━━━━━━━━━━━━━━━\n"
+                    "• /menu — Buka Dashboard Utama\n"
+                    "• /deploy — Deploy ke Web Live\n"
+                    "• /status — Status Web & Git\n"
+                    "• /backup — Download File Data\n"
+                    "• /setnama [Nama] — Ganti Nama\n"
+                    "• /setprofesi [Profesi] — Ganti Profesi\n"
+                    "• /setbio [Bio] — Ganti Bio\n"
+                    "• /setwa [No WA] — Ganti Nomor WA\n"
+                    "• /batal — Batalkan Input"
                 )
                 send_msg(chat_id, help_text)
                 return
 
             elif cmd == "/deploy":
-                status_m = send_msg(chat_id, "⏳ <b>Sedang melakukan Deploy ke Vercel & GitHub...</b>")
+                status_m = send_msg(chat_id, "⏳ <i>Mendeploy ke Vercel & GitHub...</i>")
                 m_id = status_m.get("result", {}).get("message_id")
                 succ, log = git_and_deploy()
                 kb = {
                     "inline_keyboard": [
                         [{"text": "🌐 Buka Web Live", "url": "https://portofolio.kheireditz.my.id/"}],
-                        [{"text": "🏠 Menu Utama", "callback_data": "b_main"}]
+                        [{"text": "🏠 Menu", "callback_data": "b_main"}]
                     ]
                 }
                 if succ:
-                    edit_msg(chat_id, m_id, "✅ <b>DEPLOY BERHASIL 100%!</b> 🚀\nPerubahan sudah live di:\n👉 https://portofolio.kheireditz.my.id/", kb)
+                    edit_msg(chat_id, m_id, "✅ <b>DEPLOY SUKSES!</b> 🚀\nWebsite live dan terupdate.", kb)
                 else:
-                    edit_msg(chat_id, m_id, f"❌ Deploy Gagal:\n<code>{log[-300:]}</code>")
+                    edit_msg(chat_id, m_id, f"❌ Deploy Gagal:\n<code>{log[-200:]}</code>")
                 return
 
             elif cmd == "/status":
                 res = subprocess.run(f"git -C {BASE_DIR} log -1 --pretty=format:'%h - %s (%cr)'", shell=True, capture_output=True, text=True)
                 status_text = (
-                    "🌐 <b>STATUS WEB SAAT INI</b>\n"
-                    "━━━━━━━━━━━━━━━━━━━━━\n"
-                    "• <b>URL:</b> https://portofolio.kheireditz.my.id/\n"
-                    "• <b>Repository:</b> kheireditzz/perspective-portfolio\n"
-                    f"• <b>Commit Terakhir:</b> <code>{res.stdout}</code>\n"
-                    "• <b>Bot CMS:</b> 🟢 Aktif 24/7 (Daemon)"
+                    "🌐 <b>STATUS SISTEM</b>\n"
+                    "━━━━━━━━━━━━━━━━━━━━\n"
+                    f"• <b>Domain:</b> portofolio.kheireditz.my.id\n"
+                    f"• <b>Git:</b> <code>{res.stdout}</code>\n"
+                    f"• <b>CMS Bot:</b> 🟢 Aktif 24/7"
                 )
                 send_msg(chat_id, status_text)
                 return
@@ -316,7 +302,7 @@ def handle_message(msg):
             elif cmd == "/backup":
                 if os.path.exists(DATA_FILE):
                     with open(DATA_FILE, 'rb') as f:
-                        api_call("sendDocument", {"chat_id": chat_id, "caption": "📦 Backup portfolio-data.js"}, files={"document": f})
+                        api_call("sendDocument", {"chat_id": chat_id, "caption": "📦 Backup Data Web"}, files={"document": f})
                 return
 
             elif cmd in ["/batal", "/cancel"]:
@@ -338,23 +324,31 @@ def handle_message(msg):
                 kb = {
                     "inline_keyboard": [
                         [{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}],
-                        [{"text": "🏠 Menu Utama", "callback_data": "b_main"}]
+                        [{"text": "🏠 Menu", "callback_data": "b_main"}]
                     ]
                 }
-                send_msg(chat_id, f"✅ <b>Berhasil Disimpan!</b>\nNilai baru: <code>{arg}</code>", kb)
+                send_msg(chat_id, f"✅ <b>Data Disimpan!</b>\n<code>{arg}</code>", kb)
                 return
 
         # 4. HANDLE GUIDED FORM INPUTS
         state = user_states.get(chat_id)
         if not state:
-            send_msg(chat_id, "💡 Gunakan /menu untuk membuka tombol menu CMS, atau /help untuk melihat bantuan.")
+            send_msg(chat_id, "💡 Ketik /menu untuk membuka dashboard.")
             return
 
         action = state.get("action")
         d = load_data()
         if not d: return
 
-        if action == "edit_profile_field":
+        if action == "set_photo_url":
+            url = text.strip()
+            d['profile']['photo'] = url
+            d['profile']['logo'] = url
+            save_data(d)
+            user_states[chat_id] = None
+            send_finish(chat_id, "Foto Profil", url, "m_photo")
+
+        elif action == "edit_profile_field":
             field = state.get("field")
             if field == "name": d['profile']['name'] = text; d['profile']['headerTitle'] = text
             elif field == "profession": d['profile']['profession'] = text
@@ -375,7 +369,7 @@ def handle_message(msg):
             elif field == "tg": d['profile']['telegram'] = text
             save_data(d)
             user_states[chat_id] = None
-            send_finish(chat_id, "Kontak / Medsos", text, "m_contact")
+            send_finish(chat_id, "Kontak", text, "m_contact")
 
         elif action == "edit_prod_field":
             field = state.get("field"); idx = state.get("idx")
@@ -412,7 +406,7 @@ def handle_message(msg):
         elif action == "edit_card3d_title":
             card_key = state.get("card_key")
             user_states[chat_id] = {"action": "edit_card3d_desc", "card_key": card_key, "title": text}
-            send_msg(chat_id, f"🃏 Judul: <b>{text}</b>\n\nSekarang ketik <b>Deskripsi Kartu 3D</b>:")
+            send_msg(chat_id, f"🃏 Judul: <b>{text}</b>\n\nKetik <b>Deskripsi Kartu</b>:")
 
         elif action == "edit_card3d_desc":
             card_key = state.get("card_key"); title = state.get("title")
@@ -421,15 +415,15 @@ def handle_message(msg):
                 d['cards3D'][card_key]['desc'] = text
                 save_data(d)
             user_states[chat_id] = None
-            send_finish(chat_id, f"Kartu 3D [{card_key}]", f"{title} - {text}", "m_cards3d")
+            send_finish(chat_id, f"Kartu 3D", f"{title}", "m_cards3d")
 
         # Add Product flow
         elif action == "add_prod_1":
             user_states[chat_id] = {"action": "add_prod_2", "title": text}
-            send_msg(chat_id, f"📦 Judul: <b>{text}</b>\n\nSekarang ketik <b>Harga</b> (contoh: <code>Rp 199.000</code>):")
+            send_msg(chat_id, f"📦 Judul: <b>{text}</b>\n\nKetik <b>Harga</b> (contoh: <code>Rp 199.000</code>):")
         elif action == "add_prod_2":
             user_states[chat_id] = {"action": "add_prod_3", "title": state.get("title"), "price": text}
-            send_msg(chat_id, f"💵 Harga: <b>{text}</b>\n\nSekarang ketik <b>Deskripsi Singkat</b>:")
+            send_msg(chat_id, f"💵 Harga: <b>{text}</b>\n\nKetik <b>Deskripsi Singkat</b>:")
         elif action == "add_prod_3":
             new_prod = {
                 "id": int(time.time()),
@@ -449,7 +443,7 @@ def handle_message(msg):
         # Add Project flow
         elif action == "add_proj_1":
             user_states[chat_id] = {"action": "add_proj_2", "title": text}
-            send_msg(chat_id, f"💼 Judul: <b>{text}</b>\n\nKetik <b>Tech Stack</b> (contoh: <code>Next.js • Node.js • Python</code>):")
+            send_msg(chat_id, f"💼 Judul: <b>{text}</b>\n\nKetik <b>Tech Stack</b> (contoh: <code>Next.js • Node.js</code>):")
         elif action == "add_proj_2":
             user_states[chat_id] = {"action": "add_proj_3", "title": state.get("title"), "tech": text}
             send_msg(chat_id, f"⚙️ Tech: <b>{text}</b>\n\nKetik <b>Deskripsi Singkat</b>:")
@@ -472,7 +466,7 @@ def handle_message(msg):
         # Add Gallery flow
         elif action == "add_gal_1":
             user_states[chat_id] = {"action": "add_gal_2", "title": text}
-            send_msg(chat_id, f"🖼️ Judul: <b>{text}</b>\n\nKetik <b>Tag / Kategori</b> (contoh: <code>DOKUMENTASI KARYA</code>):")
+            send_msg(chat_id, f"🖼️ Judul: <b>{text}</b>\n\nKetik <b>Tag / Kategori</b> (contoh: <code>DOKUMENTASI</code>):")
         elif action == "add_gal_2":
             user_states[chat_id] = {"action": "add_gal_3", "title": state.get("title"), "tag": text}
             send_msg(chat_id, f"🏷️ Tag: <b>{text}</b>\n\nKetik <b>URL Gambar</b> (atau ketik <code>profile.jpg</code>):")
@@ -489,25 +483,35 @@ def handle_message(msg):
             user_states[chat_id] = None
             send_finish(chat_id, "Foto Galeri Baru", state.get("title"), "m_gallery")
 
-        # Add Video flow (via text URL)
+        # Add Video flow
         elif action == "add_vid_1":
             user_states[chat_id] = {"action": "add_vid_2", "title": text}
-            send_msg(chat_id, f"🎬 Judul: <b>{text}</b>\n\nKirimkan <b>Link URL YouTube</b> atau file video:")
+            send_msg(chat_id, f"🎬 Judul: <b>{text}</b>\n\nKirimkan <b>Link YouTube / URL Video</b>:")
         elif action == "add_vid_2":
-            yt_id = "dQw4w9WgXcQ"
-            m = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11}).*', text)
-            if m: yt_id = m.group(1)
+            url = text.strip()
+            title = state.get("title")
+            
+            is_direct_mp4 = bool(re.search(r'\.(mp4|webm|mov|ogg)$', url, re.I))
+            if is_direct_mp4:
+                embed_src = url
+            else:
+                yt_id = "dQw4w9WgXcQ"
+                m = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11}).*', url)
+                if m: yt_id = m.group(1)
+                embed_src = f"https://www.youtube-nocookie.com/embed/{yt_id}?controls=1&rel=0"
+
             new_vid = {
                 "id": int(time.time()),
-                "title": state.get("title"),
-                "desc": "Video demonstrasi resmi.",
-                "embed": f"https://www.youtube-nocookie.com/embed/{yt_id}?controls=1&rel=0",
-                "videoUrl": text
+                "title": title,
+                "desc": "Video showcase resmi.",
+                "embed": embed_src,
+                "file": url if is_direct_mp4 else "",
+                "videoUrl": url
             }
             d.setdefault('videos', []).insert(0, new_vid)
             save_data(d)
             user_states[chat_id] = None
-            send_finish(chat_id, "Video Baru", state.get("title"), "m_videos")
+            send_finish(chat_id, "Video Baru", title, "m_videos")
     except Exception as e:
         print(f"Error in handle_message: {e}")
 
@@ -527,31 +531,38 @@ def handle_callback(call):
 
         if action == "b_main":
             user_states[chat_id] = None
-            edit_msg(chat_id, m_id, "⚡ <b>PORTFOLIO SUPER CMS TELEGRAM</b>\nSilakan pilih kategori yang ingin dikelola:", main_menu())
+            text = (
+                "🎛️ <b>PORTFOLIO DASHBOARD CMS</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━\n"
+                "👤 <b>Miftahul Khairin</b>\n"
+                "🌐 portofolio.kheireditz.my.id\n\n"
+                "Pilih kategori untuk dikelola:"
+            )
+            edit_msg(chat_id, m_id, text, main_menu())
 
         elif action == "act_deploy":
-            edit_msg(chat_id, m_id, "⏳ <b>Sedang melakukan Deploy ke Vercel & GitHub...</b>")
+            edit_msg(chat_id, m_id, "⏳ <i>Mendeploy ke Vercel & GitHub...</i>")
             succ, log = git_and_deploy()
             kb = {
                 "inline_keyboard": [
                     [{"text": "🌐 Buka Web Live", "url": "https://portofolio.kheireditz.my.id/"}],
-                    [{"text": "🏠 Menu Utama", "callback_data": "b_main"}]
+                    [{"text": "🏠 Menu", "callback_data": "b_main"}]
                 ]
             }
             if succ:
-                edit_msg(chat_id, m_id, "✅ <b>BERHASIL DITERAPKAN KE WEB!</b> 🚀\nPerubahan sudah live di:\n👉 https://portofolio.kheireditz.my.id/", kb)
+                edit_msg(chat_id, m_id, "✅ <b>DEPLOY SUKSES!</b> 🚀\nWebsite live dan terupdate.", kb)
             else:
-                edit_msg(chat_id, m_id, f"❌ Deploy Gagal:\n<code>{log[-300:]}</code>")
+                edit_msg(chat_id, m_id, f"❌ Deploy Gagal:\n<code>{log[-200:]}</code>")
 
         elif action == "act_status":
             res = subprocess.run(f"git -C {BASE_DIR} log -1 --pretty=format:'%h - %s (%cr)'", shell=True, capture_output=True, text=True)
-            kb = {"inline_keyboard": [[{"text": "🏠 Kembali", "callback_data": "b_main"}]]}
-            edit_msg(chat_id, m_id, f"🌐 <b>STATUS WEB SAAT INI</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>URL:</b> https://portofolio.kheireditz.my.id/\n• <b>Commit:</b> <code>{res.stdout}</code>\n• <b>Status:</b> 🟢 Live", kb)
+            kb = {"inline_keyboard": [[{"text": "🏠 Menu", "callback_data": "b_main"}]]}
+            edit_msg(chat_id, m_id, f"🌐 <b>STATUS SISTEM</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>Domain:</b> portofolio.kheireditz.my.id\n• <b>Git:</b> <code>{res.stdout}</code>\n• <b>CMS:</b> 🟢 Aktif", kb)
 
         elif action == "act_backup":
             if os.path.exists(DATA_FILE):
                 with open(DATA_FILE, 'rb') as f:
-                    api_call("sendDocument", {"chat_id": chat_id, "caption": "📦 Backup portfolio-data.js"}, files={"document": f})
+                    api_call("sendDocument", {"chat_id": chat_id, "caption": "📦 Backup Data Web"}, files={"document": f})
 
         elif action == "m_profile":
             p = d.get('profile', {}) if d else {}
@@ -559,11 +570,11 @@ def handle_callback(call):
                 "inline_keyboard": [
                     [{"text": "✏️ Nama", "callback_data": "ed_p_name"}, {"text": "💼 Profesi", "callback_data": "ed_p_profession"}],
                     [{"text": "📍 Lokasi", "callback_data": "ed_p_location"}, {"text": "🟢 Status", "callback_data": "ed_p_status"}],
-                    [{"text": "📝 Edit Deskripsi Bio", "callback_data": "ed_p_bio"}],
-                    [{"text": "🔙 Menu Utama", "callback_data": "b_main"}]
+                    [{"text": "📝 Edit Bio", "callback_data": "ed_p_bio"}],
+                    [{"text": "🔙 Menu", "callback_data": "b_main"}]
                 ]
             }
-            text = f"👤 <b>INFORMASI PROFIL & BIO</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Nama:</b> {p.get('name')}\n• <b>Profesi:</b> {p.get('profession')}\n• <b>Lokasi:</b> {p.get('location')}\n• <b>Status:</b> {p.get('status')}\n• <b>Bio:</b> {p.get('bio')}\n\nPilih yang ingin diedit:"
+            text = f"👤 <b>PROFIL & BIO</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>Nama:</b> {p.get('name')}\n• <b>Profesi:</b> {p.get('profession')}\n• <b>Lokasi:</b> {p.get('location')}\n• <b>Status:</b> {p.get('status')}\n• <b>Bio:</b> {p.get('bio')}"
             edit_msg(chat_id, m_id, text, kb)
 
         elif action == "m_contact":
@@ -574,22 +585,34 @@ def handle_callback(call):
                     [{"text": "💬 WhatsApp", "callback_data": "ed_c_wa"}, {"text": "✉️ Email", "callback_data": "ed_c_email"}],
                     [{"text": "📸 Instagram", "callback_data": "ed_c_ig"}, {"text": "🎬 TikTok", "callback_data": "ed_c_tiktok"}],
                     [{"text": "🐙 GitHub", "callback_data": "ed_c_github"}, {"text": "✈️ Telegram", "callback_data": "ed_c_tg"}],
-                    [{"text": "🔙 Menu Utama", "callback_data": "b_main"}]
+                    [{"text": "🔙 Menu", "callback_data": "b_main"}]
                 ]
             }
-            text = f"📞 <b>KONTAK & SOSMED</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>WhatsApp:</b> +{p.get('whatsapp')}\n• <b>Email:</b> {p.get('email')}\n• <b>Instagram:</b> {soc.get('instagram')}\n• <b>TikTok:</b> {soc.get('tiktok')}\n• <b>GitHub:</b> {soc.get('github')}\n• <b>Telegram:</b> {p.get('telegram')}\n\nPilih yang ingin diedit:"
+            text = f"📞 <b>KONTAK & SOSMED</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>WhatsApp:</b> +{p.get('whatsapp')}\n• <b>Email:</b> {p.get('email')}\n• <b>IG:</b> {soc.get('instagram')}\n• <b>TikTok:</b> {soc.get('tiktok')}\n• <b>GitHub:</b> {soc.get('github')}"
             edit_msg(chat_id, m_id, text, kb)
 
         elif action == "m_photo":
-            kb = {"inline_keyboard": [[{"text": "🔙 Menu Utama", "callback_data": "b_main"}]]}
-            edit_msg(chat_id, m_id, "📸 <b>GANTI FOTO PROFIL & FAVICON</b>\n━━━━━━━━━━━━━━━━━━━━━\nKirim foto apa saja ke chat bot ini untuk otomatis mengganti Foto Profil & Ikon Web!", kb)
+            p = d.get('profile', {}) if d else {}
+            kb = {
+                "inline_keyboard": [
+                    [{"text": "🔗 Input Link URL Gambar", "callback_data": "set_photo_link"}],
+                    [{"text": "🔙 Menu", "callback_data": "b_main"}]
+                ]
+            }
+            text = f"📸 <b>FOTO PROFIL & FAVICON</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>Sumber:</b> <code>{p.get('photo')}</code>\n\n💡 <i>Kirim foto langsung ke chat atau klik tombol link:</i>"
+            edit_msg(chat_id, m_id, text, kb)
+
+        elif action == "set_photo_link":
+            user_states[chat_id] = {"action": "set_photo_url"}
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_photo"}]]}
+            edit_msg(chat_id, m_id, "🔗 Ketik <b>Link URL Gambar</b>:", kb)
 
         elif action == "m_products":
             prods = d.get('products', []) if d else []
             kb_rows = [[{"text": f"📦 {it.get('title')} ({it.get('price')})", "callback_data": f"vp_{i}"}] for i, it in enumerate(prods)]
-            kb_rows.append([{"text": "➕ Tambah Produk Baru", "callback_data": "add_prod"}])
-            kb_rows.append([{"text": "🔙 Menu Utama", "callback_data": "b_main"}])
-            edit_msg(chat_id, m_id, f"🛍️ <b>PRODUK TOKO DIGITAL ({len(prods)} Produk)</b>\nKlik produk untuk melihat/edit/hapus:", {"inline_keyboard": kb_rows})
+            kb_rows.append([{"text": "➕ Tambah Produk", "callback_data": "add_prod"}])
+            kb_rows.append([{"text": "🔙 Menu", "callback_data": "b_main"}])
+            edit_msg(chat_id, m_id, f"🛍️ <b>TOKO DIGITAL ({len(prods)} Produk)</b>\nPilih produk untuk kelola:", {"inline_keyboard": kb_rows})
 
         elif action.startswith("vp_"):
             idx = int(action.split("_")[1]); prods = d.get('products', [])
@@ -599,31 +622,31 @@ def handle_callback(call):
                     "inline_keyboard": [
                         [{"text": "✏️ Judul", "callback_data": f"ed_pr_title_{idx}"}, {"text": "💵 Harga", "callback_data": f"ed_pr_price_{idx}"}],
                         [{"text": "🏷️ Badge", "callback_data": f"ed_pr_badge_{idx}"}, {"text": "📝 Deskripsi", "callback_data": f"ed_pr_desc_{idx}"}],
-                        [{"text": "🗑️ Hapus Produk Ini", "callback_data": f"dp_{idx}"}],
-                        [{"text": "🔙 Kembali ke Toko", "callback_data": "m_products"}]
+                        [{"text": "🗑️ Hapus Produk", "callback_data": f"dp_{idx}"}],
+                        [{"text": "🔙 Daftar Produk", "callback_data": "m_products"}]
                     ]
                 }
-                text = f"📦 <b>DETAIL PRODUK #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {p.get('title')}\n• <b>Badge:</b> {p.get('badge')}\n• <b>Harga:</b> {p.get('price')}\n• <b>Deskripsi:</b> {p.get('desc')}"
+                text = f"📦 <b>PRODUK #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {p.get('title')}\n• <b>Harga:</b> {p.get('price')}\n• <b>Badge:</b> {p.get('badge')}\n• <b>Deskripsi:</b> {p.get('desc')}"
                 edit_msg(chat_id, m_id, text, kb)
 
         elif action.startswith("dp_"):
             idx = int(action.split("_")[1])
             if d and 'products' in d and idx < len(d['products']):
                 rem = d['products'].pop(idx); save_data(d)
-                kb = {"inline_keyboard": [[{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}], [{"text": "🛍️ Daftar Produk", "callback_data": "m_products"}]]}
-                edit_msg(chat_id, m_id, f"✅ Produk <b>{rem.get('title')}</b> berhasil dihapus!", kb)
+                kb = {"inline_keyboard": [[{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}], [{"text": "🛍️ Produk", "callback_data": "m_products"}]]}
+                edit_msg(chat_id, m_id, f"✅ Produk <b>{rem.get('title')}</b> dihapus!", kb)
 
         elif action == "add_prod":
             user_states[chat_id] = {"action": "add_prod_1"}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_products"}]]}
-            edit_msg(chat_id, m_id, "➕ <b>TAMBAH PRODUK (1/3)</b>\nKetik <b>Judul Produk</b>:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_products"}]]}
+            edit_msg(chat_id, m_id, "➕ <b>TAMBAH PRODUK</b>\nKetik <b>Judul Produk</b>:", kb)
 
         elif action == "m_projects":
             projs = d.get('projects', []) if d else []
             kb_rows = [[{"text": f"💼 {it.get('title')}", "callback_data": f"vproj_{i}"}] for i, it in enumerate(projs)]
-            kb_rows.append([{"text": "➕ Tambah Proyek Baru", "callback_data": "add_proj"}])
-            kb_rows.append([{"text": "🔙 Menu Utama", "callback_data": "b_main"}])
-            edit_msg(chat_id, m_id, f"💼 <b>PORTOFOLIO PROYEK ({len(projs)} Proyek)</b>\nKlik proyek untuk mengelola:", {"inline_keyboard": kb_rows})
+            kb_rows.append([{"text": "➕ Tambah Proyek", "callback_data": "add_proj"}])
+            kb_rows.append([{"text": "🔙 Menu", "callback_data": "b_main"}])
+            edit_msg(chat_id, m_id, f"💼 <b>PORTOFOLIO ({len(projs)} Proyek)</b>\nPilih proyek untuk kelola:", {"inline_keyboard": kb_rows})
 
         elif action.startswith("vproj_"):
             idx = int(action.split("_")[1]); projs = d.get('projects', [])
@@ -633,30 +656,30 @@ def handle_callback(call):
                     "inline_keyboard": [
                         [{"text": "✏️ Judul", "callback_data": f"ed_pj_title_{idx}"}, {"text": "⚙️ Tech", "callback_data": f"ed_pj_tech_{idx}"}],
                         [{"text": "📝 Deskripsi", "callback_data": f"ed_pj_desc_{idx}"}, {"text": "🗑️ Hapus Proyek", "callback_data": f"dproj_{idx}"}],
-                        [{"text": "🔙 Kembali ke Proyek", "callback_data": "m_projects"}]
+                        [{"text": "🔙 Daftar Proyek", "callback_data": "m_projects"}]
                     ]
                 }
-                text = f"💼 <b>DETAIL PROYEK #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Kategori:</b> {p.get('category')}\n• <b>Judul:</b> {p.get('title')}\n• <b>Tech:</b> {p.get('tech')}\n• <b>Deskripsi:</b> {p.get('desc')}"
+                text = f"💼 <b>PROYEK #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {p.get('title')}\n• <b>Tech:</b> {p.get('tech')}\n• <b>Deskripsi:</b> {p.get('desc')}"
                 edit_msg(chat_id, m_id, text, kb)
 
         elif action.startswith("dproj_"):
             idx = int(action.split("_")[1])
             if d and 'projects' in d and idx < len(d['projects']):
                 rem = d['projects'].pop(idx); save_data(d)
-                kb = {"inline_keyboard": [[{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}], [{"text": "💼 Daftar Proyek", "callback_data": "m_projects"}]]}
-                edit_msg(chat_id, m_id, f"✅ Proyek <b>{rem.get('title')}</b> berhasil dihapus!", kb)
+                kb = {"inline_keyboard": [[{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}], [{"text": "💼 Proyek", "callback_data": "m_projects"}]]}
+                edit_msg(chat_id, m_id, f"✅ Proyek <b>{rem.get('title')}</b> dihapus!", kb)
 
         elif action == "add_proj":
             user_states[chat_id] = {"action": "add_proj_1"}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_projects"}]]}
-            edit_msg(chat_id, m_id, "➕ <b>TAMBAH PROYEK (1/3)</b>\nKetik <b>Judul Proyek</b>:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_projects"}]]}
+            edit_msg(chat_id, m_id, "➕ <b>TAMBAH PROYEK</b>\nKetik <b>Judul Proyek</b>:", kb)
 
         elif action == "m_gallery":
             gals = d.get('gallery', []) if d else []
             kb_rows = [[{"text": f"🖼️ {it.get('title')} [{it.get('tag')}]", "callback_data": f"vg_{i}"}] for i, it in enumerate(gals)]
-            kb_rows.append([{"text": "➕ Tambah Foto Galeri", "callback_data": "add_gal"}])
-            kb_rows.append([{"text": "🔙 Menu Utama", "callback_data": "b_main"}])
-            edit_msg(chat_id, m_id, f"🖼️ <b>GALERI FOTO ({len(gals)} Foto)</b>\nKelola foto dokumentasi:", {"inline_keyboard": kb_rows})
+            kb_rows.append([{"text": "➕ Tambah Foto", "callback_data": "add_gal"}])
+            kb_rows.append([{"text": "🔙 Menu", "callback_data": "b_main"}])
+            edit_msg(chat_id, m_id, f"🖼️ <b>GALERI FOTO ({len(gals)} Foto)</b>\nPilih foto untuk kelola:", {"inline_keyboard": kb_rows})
 
         elif action.startswith("vg_"):
             idx = int(action.split("_")[1]); gals = d.get('gallery', [])
@@ -665,11 +688,11 @@ def handle_callback(call):
                 kb = {
                     "inline_keyboard": [
                         [{"text": "✏️ Judul", "callback_data": f"ed_gl_title_{idx}"}, {"text": "🏷️ Tag", "callback_data": f"ed_gl_tag_{idx}"}],
-                        [{"text": "🗑️ Hapus Foto", "callback_data": f"dg_{idx}"}],
-                        [{"text": "🔙 Kembali ke Galeri", "callback_data": "m_gallery"}]
+                        [{"text": "🔗 URL", "callback_data": f"ed_gl_img_{idx}"}, {"text": "🗑️ Hapus Foto", "callback_data": f"dg_{idx}"}],
+                        [{"text": "🔙 Galeri", "callback_data": "m_gallery"}]
                     ]
                 }
-                text = f"🖼️ <b>FOTO GALERI #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {g.get('title')}\n• <b>Tag:</b> {g.get('tag')}\n• <b>URL:</b> {g.get('img')}"
+                text = f"🖼️ <b>FOTO #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {g.get('title')}\n• <b>Tag:</b> {g.get('tag')}\n• <b>URL:</b> <code>{g.get('img')}</code>"
                 edit_msg(chat_id, m_id, text, kb)
 
         elif action.startswith("dg_"):
@@ -677,19 +700,19 @@ def handle_callback(call):
             if d and 'gallery' in d and idx < len(d['gallery']):
                 rem = d['gallery'].pop(idx); save_data(d)
                 kb = {"inline_keyboard": [[{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}], [{"text": "🖼️ Galeri", "callback_data": "m_gallery"}]]}
-                edit_msg(chat_id, m_id, f"✅ Foto <b>{rem.get('title')}</b> berhasil dihapus!", kb)
+                edit_msg(chat_id, m_id, f"✅ Foto <b>{rem.get('title')}</b> dihapus!", kb)
 
         elif action == "add_gal":
             user_states[chat_id] = {"action": "add_gal_1"}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_gallery"}]]}
-            edit_msg(chat_id, m_id, "➕ <b>TAMBAH FOTO GALERI (1/3)</b>\nKetik <b>Judul Foto / Karya</b>:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_gallery"}]]}
+            edit_msg(chat_id, m_id, "➕ <b>TAMBAH FOTO</b>\nKetik <b>Judul Foto</b>:", kb)
 
         elif action == "m_videos":
             vids = d.get('videos', []) if d else []
             kb_rows = [[{"text": f"🎬 {it.get('title')}", "callback_data": f"vv_{i}"}] for i, it in enumerate(vids)]
-            kb_rows.append([{"text": "➕ Tambah Video YouTube", "callback_data": "add_vid"}])
-            kb_rows.append([{"text": "🔙 Menu Utama", "callback_data": "b_main"}])
-            edit_msg(chat_id, m_id, f"🎥 <b>VIDEO SHOWCASE ({len(vids)} Video)</b>\n━━━━━━━━━━━━━━━━━━━━━\n💡 <b>Cara Upload Video dari HP:</b>\nKirim video <code>.mp4</code> (<20MB) langsung ke chat bot ini!\n\nAtau klik tombol di bawah untuk link YouTube:", {"inline_keyboard": kb_rows})
+            kb_rows.append([{"text": "➕ Tambah Video (Link)", "callback_data": "add_vid"}])
+            kb_rows.append([{"text": "🔙 Menu", "callback_data": "b_main"}])
+            edit_msg(chat_id, m_id, f"🎥 <b>VIDEO SHOWCASE ({len(vids)} Video)</b>\nKirim file MP4 ke chat atau klik Tambah:", {"inline_keyboard": kb_rows})
 
         elif action.startswith("vv_"):
             idx = int(action.split("_")[1]); vids = d.get('videos', [])
@@ -697,25 +720,26 @@ def handle_callback(call):
                 v = vids[idx]
                 kb = {
                     "inline_keyboard": [
-                        [{"text": "✏️ Judul", "callback_data": f"ed_vd_title_{idx}"}, {"text": "🗑️ Hapus Video", "callback_data": f"dv_{idx}"}],
-                        [{"text": "🔙 Kembali ke Video", "callback_data": "m_videos"}]
+                        [{"text": "✏️ Judul", "callback_data": f"ed_vd_title_{idx}"}, {"text": "🔗 URL", "callback_data": f"ed_vd_embed_{idx}"}],
+                        [{"text": "🗑️ Hapus Video", "callback_data": f"dv_{idx}"}],
+                        [{"text": "🔙 Video", "callback_data": "m_videos"}]
                     ]
                 }
                 src = v.get('file') or v.get('embed') or v.get('videoUrl')
-                text = f"🎬 <b>VIDEO #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {v.get('title')}\n• <b>Sumber:</b> <code>{src}</code>"
+                text = f"🎬 <b>VIDEO #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {v.get('title')}\n• <b>Sumber:</b> <code>{src}</code>"
                 edit_msg(chat_id, m_id, text, kb)
 
         elif action.startswith("dv_"):
             idx = int(action.split("_")[1])
             if d and 'videos' in d and idx < len(d['videos']):
                 rem = d['videos'].pop(idx); save_data(d)
-                kb = {"inline_keyboard": [[{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}], [{"text": "🎥 Daftar Video", "callback_data": "m_videos"}]]}
-                edit_msg(chat_id, m_id, f"✅ Video <b>{rem.get('title')}</b> berhasil dihapus!", kb)
+                kb = {"inline_keyboard": [[{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}], [{"text": "🎥 Video", "callback_data": "m_videos"}]]}
+                edit_msg(chat_id, m_id, f"✅ Video <b>{rem.get('title')}</b> dihapus!", kb)
 
         elif action == "add_vid":
             user_states[chat_id] = {"action": "add_vid_1"}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_videos"}]]}
-            edit_msg(chat_id, m_id, "🎬 <b>TAMBAH VIDEO YOUTUBE (1/2)</b>\nKetik <b>Judul Video</b>:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_videos"}]]}
+            edit_msg(chat_id, m_id, "🎬 <b>TAMBAH VIDEO</b>\nKetik <b>Judul Video</b>:", kb)
 
         elif action == "m_cards3d":
             c = d.get('cards3D', {}) if d else {}
@@ -724,70 +748,70 @@ def handle_callback(call):
                     [{"text": f"1️⃣ {c.get('skill', {}).get('title', 'Skill')}", "callback_data": "ed_c3_skill"}],
                     [{"text": f"2️⃣ {c.get('asset', {}).get('title', 'Asset')}", "callback_data": "ed_c3_asset"}],
                     [{"text": f"3️⃣ {c.get('video', {}).get('title', 'Video')}", "callback_data": "ed_c3_video"}],
-                    [{"text": "🔙 Menu Utama", "callback_data": "b_main"}]
+                    [{"text": "🔙 Menu", "callback_data": "b_main"}]
                 ]
             }
-            edit_msg(chat_id, m_id, "🃏 <b>3 KARTU KANVAS KEDALAMAN 3D</b>\nPilih kartu yang ingin diedit:", kb)
+            edit_msg(chat_id, m_id, "🃏 <b>KARTU 3D</b>\nPilih kartu yang ingin diedit:", kb)
 
         elif action.startswith("ed_c3_"):
             key = action.replace("ed_c3_", "")
             user_states[chat_id] = {"action": "edit_card3d_title", "card_key": key}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_cards3d"}]]}
-            edit_msg(chat_id, m_id, f"🃏 Ketik <b>Judul Baru</b> untuk Kartu [<code>{key}</code>]:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_cards3d"}]]}
+            edit_msg(chat_id, m_id, f"🃏 Ketik <b>Judul Baru</b> untuk [<code>{key}</code>]:", kb)
 
         elif action.startswith("ed_p_"):
             field = action.replace("ed_p_", "")
             user_states[chat_id] = {"action": "edit_profile_field", "field": field}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_profile"}]]}
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_profile"}]]}
             edit_msg(chat_id, m_id, f"✏️ Ketik <b>nilai baru</b> untuk [<code>{field}</code>]:", kb)
 
         elif action.startswith("ed_c_"):
             field = action.replace("ed_c_", "")
             user_states[chat_id] = {"action": "edit_contact_field", "field": field}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_contact"}]]}
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": "m_contact"}]]}
             edit_msg(chat_id, m_id, f"📞 Ketik <b>nilai baru</b> untuk [<code>{field}</code>]:", kb)
 
         elif action.startswith("ed_pr_"):
             parts = action.split("_"); field = parts[2]; idx = int(parts[3])
             user_states[chat_id] = {"action": "edit_prod_field", "field": field, "idx": idx}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": f"vp_{idx}"}]]}
-            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b> untuk produk #{idx+1}:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": f"vp_{idx}"}]]}
+            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b>:", kb)
 
         elif action.startswith("ed_pj_"):
             parts = action.split("_"); field = parts[2]; idx = int(parts[3])
             user_states[chat_id] = {"action": "edit_proj_field", "field": field, "idx": idx}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": f"vproj_{idx}"}]]}
-            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b> untuk proyek #{idx+1}:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": f"vproj_{idx}"}]]}
+            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b>:", kb)
 
         elif action.startswith("ed_gl_"):
             parts = action.split("_"); field = parts[2]; idx = int(parts[3])
             user_states[chat_id] = {"action": "edit_gal_field", "field": field, "idx": idx}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": f"vg_{idx}"}]]}
-            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b> untuk foto #{idx+1}:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": f"vg_{idx}"}]]}
+            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b>:", kb)
 
         elif action.startswith("ed_vd_"):
             parts = action.split("_"); field = parts[2]; idx = int(parts[3])
             user_states[chat_id] = {"action": "edit_vid_field", "field": field, "idx": idx}
-            kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": f"vv_{idx}"}]]}
-            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b> untuk video #{idx+1}:", kb)
+            kb = {"inline_keyboard": [[{"text": "❌ Batal", "callback_data": f"vv_{idx}"}]]}
+            edit_msg(chat_id, m_id, f"✏️ Ketik <b>{field} baru</b>:", kb)
     except Exception as e:
         print(f"Error in handle_callback: {e}")
 
 def send_finish(chat_id, category, val, back_menu):
     kb = {
         "inline_keyboard": [
-            [{"text": "🚀 DEPLOY SEKARANG", "callback_data": "act_deploy"}],
-            [{"text": "🔙 Kembali ke Kategori", "callback_data": back_menu}, {"text": "🏠 Menu Utama", "callback_data": "b_main"}]
+            [{"text": "🚀 Deploy Sekarang", "callback_data": "act_deploy"}],
+            [{"text": "🔙 Kembali", "callback_data": back_menu}, {"text": "🏠 Menu", "callback_data": "b_main"}]
         ]
     }
-    send_msg(chat_id, f"✅ <b>PERUBAHAN DISIMPAN!</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Kategori:</b> {category}\n• <b>Data Baru:</b> <code>{val}</code>\n\nKlik <b>Deploy Sekarang</b> untuk menerapkan ke web!", kb)
+    send_msg(chat_id, f"✅ <b>{category} Disimpan!</b>\n<code>{val}</code>", kb)
 
 def run_loop():
-    print("Ultra Fast & Robust Telegram CMS Engine running with Persistent Session...")
+    print("Ultra Fast Instant Polling running with Keep-Alive...")
     offset = 0
     while True:
         try:
-            res = api_call("getUpdates", {"offset": offset, "timeout": 15})
+            res = api_call("getUpdates", {"offset": offset, "timeout": 2, "limit": 20})
             if res.get("ok"):
                 updates = res.get("result", [])
                 for u in updates:
@@ -796,10 +820,10 @@ def run_loop():
                         handle_message(u["message"])
                     elif "callback_query" in u:
                         handle_callback(u["callback_query"])
-            time.sleep(0.05)
+            time.sleep(0.01)
         except Exception as e:
-            print(f"Loop error: {e}")
-            time.sleep(1)
+            print(f"Loop reconnect: {e}")
+            time.sleep(0.5)
 
 if __name__ == "__main__":
     run_loop()

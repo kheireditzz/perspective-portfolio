@@ -456,10 +456,10 @@
       <!-- Tombol Aksi Kanan (Hanya Tombol Hamburger Menu Super Clean) -->
       <div class="flex items-center gap-3">
         <!-- TOMBOL HAMBURGER MENU (SEMUA DEVICE: DESKTOP, TABLET & MOBILE) -->
-        <button id="hamburger-btn" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-brandOrange text-white font-mono text-xs font-bold flex items-center gap-2.5 shadow-[0_0_20px_rgba(255,107,0,0.2)] transition-all group active:scale-95">
-          <span class="text-slate-300 group-hover:text-brandOrange transition-colors">MENU</span>
-          <div class="w-6 h-6 rounded-lg bg-brandOrange/10 border border-brandOrange/30 flex items-center justify-center text-brandOrange">
-            <i id="hamburger-icon" data-feather="menu" class="w-3.5 h-3.5"></i>
+        <button type="button" id="hamburger-btn" onclick="event.stopPropagation(); toggleMobileMenu();" class="px-4 py-2.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-brandOrange text-white font-mono text-xs font-bold flex items-center gap-2.5 shadow-[0_0_20px_rgba(255,107,0,0.2)] transition-all group active:scale-95 cursor-pointer select-none">
+          <span class="text-slate-300 group-hover:text-brandOrange transition-colors pointer-events-none">MENU</span>
+          <div class="w-6 h-6 rounded-lg bg-brandOrange/10 border border-brandOrange/30 flex items-center justify-center text-brandOrange pointer-events-none">
+            <i id="hamburger-icon" data-feather="menu" class="w-3.5 h-3.5 pointer-events-none"></i>
           </div>
         </button>
       </div>
