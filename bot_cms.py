@@ -105,14 +105,15 @@ def main_menu():
             ],
             [
                 {"text": "🃏 Kartu 3D", "callback_data": "m_cards3d"},
-                {"text": "📞 Kontak / Medsos", "callback_data": "m_contact"}
+                {"text": "📄 CV / Resume PDF", "url": "https://portofolio.kheireditz.my.id/cv.html"}
             ],
             [
-                {"text": "🚀 DEPLOY KE WEB LIVE", "callback_data": "act_deploy"}
+                {"text": "📞 Kontak & Medsos", "callback_data": "m_contact"},
+                {"text": "🚀 DEPLOY KE WEB", "callback_data": "act_deploy"}
             ],
             [
                 {"text": "🌐 Status", "callback_data": "act_status"},
-                {"text": "📥 Backup", "callback_data": "act_backup"}
+                {"text": "📥 Backup Data", "callback_data": "act_backup"}
             ]
         ]
     }
