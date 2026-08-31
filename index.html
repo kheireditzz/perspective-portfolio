@@ -1365,11 +1365,22 @@
       const videos = (window.PORTFOLIO_CONFIG && window.PORTFOLIO_CONFIG.videos) || [];
 
       if (wrapper) {
-        wrapper.innerHTML = videos.map((v, idx) => `
+        wrapper.innerHTML = videos.map((v, idx) => {
+          const isFile = v.file || (v.embed && v.embed.match(/\.(mp4|webm|mov|ogg)$/i)) || (v.videoUrl && v.videoUrl.match(/\.(mp4|webm|mov|ogg)$/i));
+          const videoSrc = v.file || v.embed || v.videoUrl;
+
+          return `
           <div class="swiper-slide h-auto">
             <div class="h-full rounded-3xl overflow-hidden border border-purpleAccent/40 shadow-[0_0_40px_rgba(168,85,247,0.2)] bg-slate-950 p-4 space-y-3 flex flex-col justify-between group">
               <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-900 flex items-center justify-center border border-slate-800">
-                <iframe class="w-full h-full" src="${v.embed}" title="${v.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                ${isFile ? `
+                  <video class="w-full h-full object-cover" controls playsinline preload="metadata">
+                    <source src="${videoSrc}" type="video/mp4">
+                    Browser Anda tidak mendukung tag video.
+                  </video>
+                ` : `
+                  <iframe class="w-full h-full" src="${v.embed}" title="${v.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                `}
               </div>
               <div class="px-2 pb-1 space-y-2">
                 <div>
@@ -1377,20 +1388,22 @@
                   <h4 class="text-white font-bold text-base font-display">${v.title}</h4>
                   <p class="text-xs text-slate-400 mt-1">${v.desc || ''}</p>
                 </div>
-                ${v.videoUrl ? `
+                ${v.videoUrl && !isFile ? `
                 <div class="pt-2 border-t border-slate-800/80 flex justify-end">
                   <a href="${v.videoUrl}" target="_blank" class="px-3 py-1.5 rounded-xl bg-purpleAccent/20 hover:bg-purpleAccent text-purple300 hover:text-white font-mono text-[11px] font-bold flex items-center gap-1.5 transition-all">
-                    <span>Buka di YouTube</span>
+                    <span>Buka Video</span>
                     <i data-feather="external-link" class="w-3.5 h-3.5"></i>
                   </a>
-                </div>` : ''}
+                </div>
+                ` : ''}
               </div>
             </div>
           </div>
-        `).join('');
+        `;
+        }).join('');
       }
 
-      if (window.swiperVideosInstance) window.swiperVideosInstance.update();
+      if (window.swiperVideoInstance) window.swiperVideoInstance.update();
       feather.replace();
     }
 

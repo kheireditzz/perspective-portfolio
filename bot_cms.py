@@ -12,6 +12,8 @@ API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 BASE_DIR = "/data/data/com.termux/files/home/perspective-portfolio"
 DATA_FILE = os.path.join(BASE_DIR, "portfolio-data.js")
+VIDEOS_DIR = os.path.join(BASE_DIR, "videos")
+os.makedirs(VIDEOS_DIR, exist_ok=True)
 
 user_states = {}
 
@@ -19,9 +21,9 @@ def api_post(endpoint, payload=None, files=None):
     try:
         url = f"{API_URL}/{endpoint}"
         if files:
-            r = requests.post(url, data=payload, files=files, timeout=30)
+            r = requests.post(url, data=payload, files=files, timeout=40)
         else:
-            r = requests.post(url, json=payload, timeout=30)
+            r = requests.post(url, json=payload, timeout=40)
         return r.json()
     except Exception as e:
         print(f"API error in {endpoint}: {e}")
@@ -30,7 +32,7 @@ def api_post(endpoint, payload=None, files=None):
 def api_get(endpoint, params=None):
     try:
         url = f"{API_URL}/{endpoint}"
-        r = requests.get(url, params=params, timeout=30)
+        r = requests.get(url, params=params, timeout=40)
         return r.json()
     except Exception as e:
         print(f"API error in {endpoint}: {e}")
@@ -84,12 +86,8 @@ def save_data(data):
 
 def git_and_deploy():
     try:
-        cmd = f"""cd {BASE_DIR} && \
-git add . && \
-git commit -m "update: content update via Telegram Bot CMS" && \
-git push origin main && \
-vercel deploy --prod --yes --cwd {BASE_DIR}"""
-        res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=90)
+        cmd = f"bash {BASE_DIR}/deploy.sh"
+        res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
         return res.returncode == 0, res.stdout + res.stderr
     except Exception as e:
         return False, str(e)
@@ -107,7 +105,7 @@ def main_menu():
             ],
             [
                 {"text": "🖼️ Galeri Foto", "callback_data": "m_gallery"},
-                {"text": "🎥 Video YouTube", "callback_data": "m_videos"}
+                {"text": "🎥 Upload Video Showcase", "callback_data": "m_videos"}
             ],
             [
                 {"text": "🃏 3D Canvas Cards", "callback_data": "m_cards3d"},
@@ -126,19 +124,81 @@ def main_menu():
 def handle_message(msg):
     chat_id = msg.get("chat", {}).get("id")
     user_id = msg.get("from", {}).get("id")
-    text = msg.get("text", "").strip()
+    text = msg.get("text", "").strip() if "text" in msg else msg.get("caption", "").strip()
     
     if user_id != ADMIN_ID:
         send_msg(chat_id, "⛔ <b>Akses Ditolak.</b> Bot ini khusus untuk pemilik portfolio.")
         return
 
-    # Handle Photo Upload
-    if "photo" in msg:
-        photos = msg.get("photo")
-        largest_photo = photos[-1]
-        file_id = largest_photo.get("file_id")
+    # Handle Video Upload
+    video_file_id = None
+    if "video" in msg:
+        video_file_id = msg["video"]["file_id"]
+    elif "document" in msg:
+        doc = msg["document"]
+        mime = doc.get("mime_type", "")
+        if mime.startswith("video/") or doc.get("file_name", "").lower().endswith(('.mp4', '.mov', '.webm', '.mkv')):
+            video_file_id = doc["file_id"]
+
+    if video_file_id:
+        status_msg = send_msg(chat_id, "⏳ <b>Menerima & mengunduh video showcase...</b>")
+        m_id = status_msg.get("result", {}).get("message_id")
         
-        info = api_get("getFile", {"file_id": file_id})
+        info = api_get("getFile", {"file_id": video_file_id})
+        file_path = info.get("result", {}).get("file_path")
+        if file_path:
+            download_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}"
+            r = requests.get(download_url)
+            
+            vid_filename = f"video_{int(time.time())}.mp4"
+            local_vid_path = os.path.join(VIDEOS_DIR, vid_filename)
+            rel_vid_path = f"videos/{vid_filename}"
+            
+            with open(local_vid_path, 'wb') as f:
+                f.write(r.content)
+
+            d = load_data()
+            if d:
+                vid_title = text if text else f"Showcase Video Karya {len(d.get('videos', [])) + 1}"
+                new_vid = {
+                    "id": int(time.time()),
+                    "title": vid_title,
+                    "desc": "Video demonstrasi interaktif.",
+                    "file": rel_vid_path,
+                    "embed": rel_vid_path,
+                    "videoUrl": ""
+                }
+                d.setdefault('videos', []).insert(0, new_vid)
+                save_data(d)
+
+            user_states[chat_id] = None
+            kb = {
+                "inline_keyboard": [
+                    [{"text": "🚀 DEPLOY KE VERCEL SEKARANG", "callback_data": "act_deploy"}],
+                    [{"text": "🎥 Lihat Daftar Video", "callback_data": "m_videos"}],
+                    [{"text": "🏠 Menu Utama", "callback_data": "b_main"}]
+                ]
+            }
+            edit_msg(chat_id, m_id, f"✅ <b>VIDEO BERHASIL DIUPLOAD KE WEBSITE!</b> 🎥\n\n• <b>Judul:</b> {vid_title}\n• <b>File:</b> <code>{rel_vid_path}</code>\n• <b>Status:</b> Siap Diputar di Web (HTML5 Video)\n\nKlik Deploy untuk mempublikasikan langsung!", kb)
+        else:
+            edit_msg(chat_id, m_id, "❌ Gagal mengunduh file video dari Telegram.")
+        return
+
+    # Handle Photo (Compressed Photo or Document File)
+    photo_file_id = None
+    if "photo" in msg:
+        photo_file_id = msg["photo"][-1]["file_id"]
+    elif "document" in msg:
+        doc = msg["document"]
+        mime = doc.get("mime_type", "")
+        if mime.startswith("image/") or doc.get("file_name", "").lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
+            photo_file_id = doc["file_id"]
+
+    if photo_file_id:
+        status_msg = send_msg(chat_id, "⏳ <b>Menerima & mengunduh foto profil & ikon...</b>")
+        m_id = status_msg.get("result", {}).get("message_id")
+        
+        info = api_get("getFile", {"file_id": photo_file_id})
         file_path = info.get("result", {}).get("file_path")
         if file_path:
             download_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}"
@@ -160,13 +220,16 @@ def handle_message(msg):
                 d['profile']['logo'] = 'profile.jpg'
                 save_data(d)
 
+            user_states[chat_id] = None
             kb = {
                 "inline_keyboard": [
                     [{"text": "🚀 DEPLOY SEKARANG", "callback_data": "act_deploy"}],
                     [{"text": "🏠 Menu Utama", "callback_data": "b_main"}]
                 ]
             }
-            send_msg(chat_id, "✅ <b>FOTO BERHASIL DIUPDATE!</b> 📸\nFoto Profil, Favicon browser, dan Apple Touch Icon telah diperbarui.\n\nKlik Deploy untuk mempublikasikan!", kb)
+            edit_msg(chat_id, m_id, "✅ <b>FOTO BERHASIL DIUPDATE!</b> 📸\n\n• Foto Profil Utama: ✅\n• Favicon Browser: ✅\n• Apple Touch Icon: ✅\n• Google Images SEO: ✅\n\nKlik tombol di bawah untuk mempublikasikan!", kb)
+        else:
+            edit_msg(chat_id, m_id, "❌ Gagal mengunduh foto dari Telegram.")
         return
 
     # Commands
@@ -183,13 +246,13 @@ def handle_message(msg):
                 "Halo <b>Miftahul Khairin</b>!\n"
                 "Kelola seluruh website Anda langsung dari sini secara lengkap:\n\n"
                 "• 👤 Profil, Nama & Bio\n"
+                "• 📸 <b>Upload Foto Profil / Ikon</b> (Kirim foto langsung)\n"
+                "• 🎥 <b>Upload Video Showcase MP4</b> (Kirim video langsung)\n"
                 "• 🛍️ Produk Toko Digital (Tambah/Hapus/Edit)\n"
                 "• 💼 Portofolio Karya & Proyek\n"
                 "• 🖼️ Galeri Foto Dokumentasi\n"
-                "• 🎥 Video YouTube Showcase\n"
                 "• 🃏 3D Canvas Depth Cards\n"
-                "• 📞 WhatsApp, IG, TikTok & Email\n"
-                "• 📸 Upload Foto & Favicon Langsung\n\n"
+                "• 📞 WhatsApp, IG, TikTok & Email\n\n"
                 "👇 <b>Pilih menu yang ingin dikelola:</b>"
             )
             send_msg(chat_id, welcome, main_menu())
@@ -207,7 +270,10 @@ def handle_message(msg):
                 "• /setprofesi [Profesi] - Ganti Profesi\n"
                 "• /setbio [Bio] - Ganti Bio\n"
                 "• /setwa [Nomor WA] - Ganti No WhatsApp\n"
-                "• /batal - Batalkan input"
+                "• /batal - Batalkan input\n\n"
+                "💡 <b>Tips:</b>\n"
+                "- Kirim foto langsung untuk ganti foto profil & favicon.\n"
+                "- Kirim file video .mp4 langsung untuk menambah video showcase baru di web!"
             )
             send_msg(chat_id, help_text)
             return
@@ -417,10 +483,10 @@ def handle_message(msg):
         user_states[chat_id] = None
         send_finish(chat_id, "Foto Galeri Baru", state.get("title"), "m_gallery")
 
-    # Add Video flow
+    # Add Video flow (via text URL)
     elif action == "add_vid_1":
         user_states[chat_id] = {"action": "add_vid_2", "title": text}
-        send_msg(chat_id, f"🎬 Judul: <b>{text}</b>\n\nKirimkan <b>Link URL YouTube</b>:")
+        send_msg(chat_id, f"🎬 Judul: <b>{text}</b>\n\nKirimkan <b>Link URL YouTube</b> atau file video:")
     elif action == "add_vid_2":
         yt_id = "dQw4w9WgXcQ"
         m = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11}).*', text)
@@ -507,7 +573,6 @@ def handle_callback(call):
 
     elif action == "m_photo":
         kb = {"inline_keyboard": [[{"text": "🔙 Menu Utama", "callback_data": "b_main"}]]}
-        user_states[chat_id] = {"action": "upload_photo"}
         edit_msg(chat_id, m_id, "📸 <b>GANTI FOTO PROFIL & FAVICON</b>\n━━━━━━━━━━━━━━━━━━━━━\nKirim foto apa saja ke chat bot ini untuk otomatis mengganti Foto Profil & Ikon Web!", kb)
 
     elif action == "m_products":
@@ -615,7 +680,7 @@ def handle_callback(call):
         kb_rows = [[{"text": f"🎬 {it.get('title')}", "callback_data": f"vv_{i}"}] for i, it in enumerate(vids)]
         kb_rows.append([{"text": "➕ Tambah Video YouTube", "callback_data": "add_vid"}])
         kb_rows.append([{"text": "🔙 Menu Utama", "callback_data": "b_main"}])
-        edit_msg(chat_id, m_id, f"🎥 <b>VIDEO SHOWCASE ({len(vids)} Video)</b>\nKelola video demonstrasi YouTube:", {"inline_keyboard": kb_rows})
+        edit_msg(chat_id, m_id, f"🎥 <b>VIDEO SHOWCASE ({len(vids)} Video)</b>\n━━━━━━━━━━━━━━━━━━━━━\n💡 <b>Cara Upload Video:</b>\nCukup kirimkan file video <code>.mp4</code> langsung ke chat bot ini!\n\nAtau klik tombol di bawah untuk link YouTube:", {"inline_keyboard": kb_rows})
 
     elif action.startswith("vv_"):
         idx = int(action.split("_")[1]); vids = d.get('videos', [])
@@ -627,7 +692,8 @@ def handle_callback(call):
                     [{"text": "🔙 Kembali ke Video", "callback_data": "m_videos"}]
                 ]
             }
-            text = f"🎬 <b>VIDEO #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {v.get('title')}\n• <b>Link:</b> {v.get('videoUrl')}"
+            src = v.get('file') or v.get('embed') or v.get('videoUrl')
+            text = f"🎬 <b>VIDEO #{idx+1}</b>\n━━━━━━━━━━━━━━━━━━━━━\n• <b>Judul:</b> {v.get('title')}\n• <b>Sumber:</b> <code>{src}</code>"
             edit_msg(chat_id, m_id, text, kb)
 
     elif action.startswith("dv_"):
@@ -640,7 +706,7 @@ def handle_callback(call):
     elif action == "add_vid":
         user_states[chat_id] = {"action": "add_vid_1"}
         kb = {"inline_keyboard": [[{"text": "❌ Batalkan", "callback_data": "m_videos"}]]}
-        edit_msg(chat_id, m_id, "🎬 <b>TAMBAH VIDEO (1/2)</b>\nKetik <b>Judul Video</b>:", kb)
+        edit_msg(chat_id, m_id, "🎬 <b>TAMBAH VIDEO YOUTUBE (1/2)</b>\nKetik <b>Judul Video</b>:", kb)
 
     elif action == "m_cards3d":
         c = d.get('cards3D', {}) if d else {}
