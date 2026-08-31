@@ -32,11 +32,11 @@ window.PORTFOLIO_CONFIG = {
     
     // Tautan Media Sosial & Kode
     socialLinks: {
-      github: "https://github.com/miftahulkhairin",
+      github: "https://github.com/kheireditzz",
       linkedin: "https://linkedin.com/in/miftahulkhairin",
-      instagram: "https://instagram.com/miftahulkhairin",
+      instagram: "https://www.instagram.com/khairindtz",
       youtube: "https://youtube.com/@miftahulkhairin",
-      tiktok: "https://tiktok.com/@miftahulkhairin"
+      tiktok: "https://tiktok.com/@kheireditz"
     },
 
     // Header & Teks Tombol
