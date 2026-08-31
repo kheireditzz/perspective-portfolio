@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miftahul Khairin — Portofolio Full-Stack Developer & Kreator Digital</title>
+  
+  <!-- Fonts: Inter, Chakra Petch & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Feather Icons CDN -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- AOS Animation on Scroll Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- Swiper.js for Touch Carousels & Sliders -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- FILE DATA UTAMA PORTOFOLIO (MUDAH DIEDIT LANGSUNG) -->
+  <script src="portfolio-data.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deep: '#07090e',
+            canvas: '#0c0f17',
+            brandOrange: {
+              DEFAULT: '#FF6B00',
+              hover: '#E05D00',
+              light: '#FFA04D',
+              glow: 'rgba(255, 107, 0, 0.45)'
+            },
+            amberAccent: {
+              DEFAULT: '#F59E0B',
+              light: '#FCD34D',
+              dark: '#D97706'
+            },
+            purpleAccent: {
+              DEFAULT: '#A855F7',
+              glow: 'rgba(168, 85, 247, 0.3)'
+            },
+            cyanAccent: {
+              DEFAULT: '#06B6D4',
+              glow: 'rgba(6, 182, 212, 0.3)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Chakra Petch"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 120 FPS GPU Hardware Acceleration & Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden !important;
+    }
+
+    body {
+      max-width: 100vw;
+      overflow-x: hidden !important;
+      background-color: #07090e;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* GPU Optimized Acceleration Layers */
+    .spatial-screen-card, 
+    .swiper-slide, 
+    #main-header, 
+    .nav-capsule,
+    /* ========================================== */
+    /* TOTAL ANTI-COPY & ANTI-DOWNLOAD CONTENT PROTECTION */
+    /* ========================================== */
+    *, *::before, *::after {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important; /* Matikan popup simpan gambar di HP / Mobile */
+    }
+
+    /* Izinkan input form & textarea tetap bisa diketik */
+    input, textarea {
+      -webkit-user-select: text !important;
+      -moz-user-select: text !important;
+      -ms-user-select: text !important;
+      user-select: text !important;
+    }
+
+    /* Cegah drag and drop gambar / foto agar tidak bisa disalin */
+    img, svg, picture, video {
+      pointer-events: auto;
+      -webkit-user-drag: none !important;
+      user-select: none !important;
+      -webkit-touch-callout: none !important;
+    }
+
+    /* Ambient Spatial Glow: Vibrant Dynamic Orange + Amber + Purple Accents */
+    .perspective-canvas-bg {
+      background: 
+        radial-gradient(circle at 85% 12%, rgba(255, 107, 0, 0.28) 0%, rgba(255, 107, 0, 0.05) 35%, transparent 65%),
+        radial-gradient(circle at 10% 45%, rgba(168, 85, 247, 0.18) 0%, rgba(168, 85, 247, 0.02) 30%, transparent 60%),
+        radial-gradient(circle at 50% 85%, rgba(245, 158, 11, 0.2) 0%, transparent 60%),
+        #07090e;
+      overflow-x: clip;
+    }
+
+    /* FIXED HEADER DI ATAS PERMANEN TANPA IKUT TERSCROLL */
+    #main-header {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 9999 !important;
+      transition: background-color 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    /* Floating Capsule Nav */
+    .nav-capsule {
+      background: rgba(15, 18, 28, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+    }
+
+    .version-badge {
+      background: rgba(255, 107, 0, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 107, 0, 0.35);
+      border-radius: 9999px;
+    }
+
+    /* 3D Spatial Canvas Screen Box (Perspective 3D Depth) */
+    .perspective-container {
+      perspective: 1400px;
+      perspective-origin: center 35%;
+      width: 100%;
+      max-width: 100%;
+      overflow: visible;
+    }
+
+    .spatial-screen-card {
+      transform: rotateX(16deg) scale(0.95);
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+      background: linear-gradient(180deg, rgba(20, 24, 38, 0.92) 0%, rgba(7, 9, 14, 0.98) 100%);
+      border: 1px solid rgba(255, 107, 0, 0.25);
+      box-shadow: 
+    /* 3D Depth Card & Spatial Hologram Effect */
+    .depth-avatar-wrapper {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    .depth-avatar-card {
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+    .depth-avatar-card:hover {
+      transform: translateY(-8px) rotateX(8deg) rotateY(-8deg) scale(1.06);
+      box-shadow: 
+        0 25px 50px -12px rgba(255, 107, 0, 0.6),
+        0 0 40px rgba(255, 107, 0, 0.4),
+        inset 0 0 20px rgba(255, 107, 0, 0.3);
+    }
+    .depth-layer-bg {
+      transform: translateZ(-20px);
+    }
+    .depth-layer-img {
+      transform: translateZ(30px);
+    }
+    .depth-layer-badge {
+      transform: translateZ(50px);
+    }
+    .depth-layer-ring {
+      transform: translateZ(15px);
+      animation: spinDepth 12s linear infinite;
+    }
+    @keyframes spinDepth {
+      0% { transform: translateZ(15px) rotate(0deg); }
+      100% { transform: translateZ(15px) rotate(360deg); }
+    }
+
+    .spatial-screen-card:hover {
+      transform: rotateX(6deg) translateY(-8px) scale(0.97);
+      box-shadow: 
+        0 40px 100px -15px rgba(255, 107, 0, 0.55),
+        0 0 0 1px rgba(255, 107, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .screen-inner-mesh {
+      background: 
+        radial-gradient(circle at 25% 20%, rgba(255, 107, 0, 0.55) 0%, transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.35) 0%, transparent 55%),
+        linear-gradient(135deg, #1c130c 0%, #07090e 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Opening Intro Screen Animation (Ultra Smooth & No-Glitch) */
+    #opening-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #07090e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: all;
+    }
+    #opening-splash.fade-out {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    /* Swiper custom styling & 3D Coverflow Center Spotlight (Awal Kecil -> Tengah Membesar -> Samping Kecil) */
+    .swiper {
+      overflow: visible !important;
+      padding: 24px 0 45px 0 !important;
+    }
+    .swiper-slide {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, filter 0.5s ease !important;
+      transform: scale(0.85);
+      opacity: 0.55;
+      filter: blur(1px) brightness(0.7);
+      height: auto !important;
+    }
+    .swiper-slide-active {
+      transform: scale(1.06) translateY(-8px) !important;
+      opacity: 1 !important;
+      filter: blur(0px) brightness(1.05) !important;
+      z-index: 10 !important;
+    }
+    .swiper-pagination-bullet-active {
+      background: #FF6B00 !important;
+      width: 24px !important;
+      border-radius: 9999px !important;
+    }
+    .swiper-pagination-bullet {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Custom Selection */
+    ::selection {
+      background: #FF6B00;
+      color: #07090e;
+    }
+
+    /* Animasi Ikon & Interaktivitas Klik/Sentuh (Haptic Tap & Micro-Interactions) */
+    .feather {
+      display: inline-block;
+      vertical-align: middle;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease, color 0.3s ease;
+    }
+
+    /* ========================================== */
+    /* 3D DEPTH PRESS & SINK-IN EFFECT KETIKA DITELAN/DITEKAN */
+    /* ========================================== */
+    button,
+    a,
+    .depth-avatar-card,
+    .spatial-screen-card,
+    input,
+    textarea,
+    select {
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), filter 0.22s ease !important;
+    }
+
+    /* Efek tenggelam masuk ke dalam kanvas 3D (3D Depth Sink-in & Inset Shadow) */
+    button:active,
+    a:active,
+    .depth-avatar-card:active,
+    .spatial-screen-card:active {
+      transform: perspective(800px) translateZ(-18px) scale(0.93) translateY(4px) !important;
+      box-shadow: 
+        inset 0 6px 18px rgba(0, 0, 0, 0.8),
+        inset 0 0 25px rgba(255, 107, 0, 0.35),
+        0 2px 5px rgba(0, 0, 0, 0.5) !important;
+      filter: brightness(0.92) contrast(1.1) !important;
+    }
+
+    /* Efek tenggelam pada ikon saat ditekan */
+    button:active .feather,
+    a:active .feather,
+    .group:active .feather {
+      transform: scale(0.85) translateZ(-10px) !important;
+      filter: drop-shadow(0 0 12px rgba(255, 107, 0, 0.9)) !important;
+    }
+
+    /* Modal Backdrop & 100% Perfect Dead Center Viewport (Flexbox Safe) */
+    .modal-backdrop-centered {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 99999 !important;
+      padding: 1.25rem !important;
+      background: rgba(0, 0, 0, 0.88) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      animation: modalFadeIn 0.25s ease-out forwards;
+      box-sizing: border-box !important;
+    }
+    .modal-backdrop-centered.hidden,
+    .hidden {
+      display: none !important;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.94); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body class="perspective-canvas-bg min-h-screen selection:bg-brandOrange selection:text-black">
+
+  <!-- ========================================== -->
+  <!-- 2. HEADER ATAS (STICKY PERMANEN + BLUR)    -->
+  <!-- ========================================== -->
+  <header id="main-header" class="py-5 px-6" data-aos="fade-down" data-aos-duration="800">
+    <div id="header-container" class="max-w-7xl mx-auto flex items-center justify-between rounded-full px-4 sm:px-6 py-2">
+      
+      <!-- Logo & Nama Profil -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="relative w-10 h-10 rounded-xl overflow-hidden border border-brandOrange/40 shadow-[0_0_20px_rgba(255,107,0,0.4)] group-hover:scale-105 transition-transform bg-black">
+          <img id="nav-brand-logo" src="https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg" alt="Logo" class="w-full h-full object-cover">
+        </div>
+        <div class="flex flex-col">
+          <span id="nav-brand-name" class="font-bold text-base tracking-tight text-white uppercase font-display leading-none">Miftahul Khairin</span>
+          <span id="nav-brand-sub" class="font-mono text-[9px] text-brandOrange tracking-widest uppercase mt-0.5">Perspective Engine</span>
+        </div>
+      </a>
+
+      <!-- Tombol Aksi Kanan (Hanya Tombol Hamburger Menu Super Clean) -->
+      <div class="flex items-center gap-3">
+        <!-- TOMBOL HAMBURGER MENU (SEMUA DEVICE: DESKTOP, TABLET & MOBILE) -->
+        <button id="hamburger-btn" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-brandOrange text-white font-mono text-xs font-bold flex items-center gap-2.5 shadow-[0_0_20px_rgba(255,107,0,0.2)] transition-all group active:scale-95">
+          <span class="text-slate-300 group-hover:text-brandOrange transition-colors">MENU</span>
+          <div class="w-6 h-6 rounded-lg bg-brandOrange/10 border border-brandOrange/30 flex items-center justify-center text-brandOrange">
+            <i id="hamburger-icon" data-feather="menu" class="w-3.5 h-3.5"></i>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- DRAWER OVERLAY & MENU HAMBURGER SLIDE-OUT -->
+  <div id="mobile-menu-drawer" class="fixed inset-0 z-[15000] hidden bg-black/80 backdrop-blur-xl transition-all duration-300">
+    <div class="fixed top-0 right-0 w-80 max-w-[85vw] h-full bg-[#0a0d16] border-l border-brandOrange/30 p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
+      
+      <!-- Drawer Header -->
+      <div class="space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg overflow-hidden border border-brandOrange bg-black">
+              <img id="drawer-brand-logo" src="https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg" alt="Logo" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <span id="drawer-brand-name" class="font-bold text-sm text-white font-display uppercase block">Miftahul Khairin</span>
+              <span id="drawer-brand-sub" class="text-[10px] font-mono text-brandOrange tracking-wider uppercase">Menu Navigasi</span>
+            </div>
+          </div>
+          <button onclick="toggleMobileMenu()" class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+            <i data-feather="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Menu Links -->
+        <nav class="flex flex-col space-y-3 font-medium text-sm">
+          <a href="#about" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
+            <i data-feather="user" class="w-4 h-4 text-brandOrange"></i> Profil Saya
+          </a>
+          <a href="#projects" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
+            <i data-feather="layers" class="w-4 h-4 text-brandOrange"></i> Hasil Karya & Proyek
+          </a>
+          <a href="#gallery" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
+            <i data-feather="image" class="w-4 h-4 text-cyanAccent"></i> Galeri Dokumentasi
+          </a>
+          <a href="#video" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
+            <i data-feather="video" class="w-4 h-4 text-purpleAccent"></i> Video Showcase
+          </a>
+          <a href="#store" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl bg-brandOrange/10 border border-brandOrange/30 text-brandOrange flex items-center gap-3 font-bold transition-colors">
+            <i data-feather="shopping-bag" class="w-4 h-4"></i> Toko Digital & Source Code
+          </a>
+          <a href="#cv" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
+            <i data-feather="file-text" class="w-4 h-4 text-amberAccent"></i> CV & Resume Karir
+          </a>
+        </nav>
+      </div>
+
+      <!-- Drawer Bottom Actions (Hubungi Saya) -->
+      <div class="pt-6 border-t border-slate-800 space-y-3">
+        <a href="#contact" onclick="toggleMobileMenu()" class="w-full py-3.5 rounded-xl bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,107,0,0.5)] transition-all">
+          <span>Hubungi Saya</span>
+          <i data-feather="send" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PADDING TOP PEMISAH HEADER -->
+  <div class="pt-24 sm:pt-28"></div>
+
+  <!-- ========================================== -->
+  <!-- 3. HERO UTAMA (PERSPECTIVE SYSTEM)        -->
+  <!-- ========================================== -->
+  <main class="relative z-10 pt-10 md:pt-16 px-6">
+    
+    <div class="max-w-4xl mx-auto text-center space-y-7" data-aos="fade-up" data-aos-duration="900">
+      
+      <!-- Judul Utama dengan Animasi Ketikan (Typewriter) -->
+      <div class="space-y-4">
+        <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight font-display uppercase" data-aos="fade-up" data-aos-delay="200">
+          MY <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandOrange via-amberAccent to-orange-200">PORTOFOLIO</span>
+        </h1>
+        
+        <!-- Baris Animasi Ketikan Berulang (Continuous Typewriter Effect) -->
+        <div class="h-10 sm:h-12 flex items-center justify-center font-mono text-lg sm:text-2xl text-brandOrange-light font-bold" data-aos="fade-up" data-aos-delay="250">
+          <span class="text-slate-400 mr-2">&gt;</span>
+          <span id="typewriter-text" class="text-white"></span>
+          <span class="inline-block w-2.5 h-6 sm:h-7 bg-brandOrange ml-1 animate-pulse"></span>
+        </div>
+      </div>
+
+      <!-- Paragraf Deskripsi Profil -->
+      <p id="hero-bio" class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed" data-aos="fade-up" data-aos-delay="300">
+        Selamat datang di ruang karya digital <strong>Miftahul Khairin</strong>. Merancang kode presisi tinggi, otomatisasi cerdas, dan antarmuka masa depan.
+      </p>
+
+      <!-- Tombol Aksi Hero -->
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-2" data-aos="fade-up" data-aos-delay="400">
+        <a href="#projects" class="px-7 py-3.5 rounded-full bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-sm flex items-center gap-2 shadow-[0_0_30px_rgba(255,107,0,0.5)] transition-all">
+          <span>Jelajahi Hasil Karya</span>
+          <i data-feather="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#cv" class="px-7 py-3.5 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-white font-medium text-sm flex items-center gap-2 transition-all">
+          <i data-feather="file-text" class="w-4 h-4 text-brandOrange"></i>
+          <span>Lihat CV & Resume</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. KANVAS PREVIEW 3D KEDALAMAN PERSPECTIVE -->
+    <!-- ========================================== -->
+    <div id="about" class="max-w-5xl mx-auto mt-16 perspective-container" data-aos="fade-up" data-aos-duration="1000">
+      <div class="spatial-screen-card rounded-2xl p-5 sm:p-7 relative overflow-hidden">
+
+        <!-- Bagian Dalam Kanvas 3D: Foto, Nama, Profesi, Alamat -->
+        <div class="rounded-xl screen-inner-mesh p-6 sm:p-8 relative overflow-hidden" data-aos="zoom-in" data-aos-delay="200">
+          
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            
+            <!-- Kiri: Foto Profil 3D Depth Effect & Info Pribadi -->
+            <div class="lg:col-span-5 flex flex-col items-center sm:items-start text-center sm:text-left space-y-4" data-aos="fade-right" data-aos-delay="300">
+              
+              <!-- 3D DEPTH AVATAR CONTAINER -->
+              <div class="depth-avatar-wrapper cursor-pointer">
+                <div class="relative depth-avatar-card w-36 h-36 rounded-3xl p-1.5 flex items-center justify-center">
+                  
+                  <!-- Layer 1: Ambient Glow Background (Depth Z: -20px) -->
+                  <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-brandOrange via-amberAccent to-purpleAccent blur-xl opacity-75 group-hover:opacity-100 depth-layer-bg transition-all duration-500"></div>
+                  
+                  <!-- Layer 2: Rotating Spatial Tech Ring (Depth Z: +15px) -->
+                  <div class="absolute inset-0 rounded-3xl border-2 border-dashed border-brandOrange/40 depth-layer-ring pointer-events-none"></div>
+
+                  <!-- Layer 3: Glass Frame Border -->
+                  <div class="relative w-full h-full rounded-2xl overflow-hidden border-2 border-brandOrange bg-slate-950/80 shadow-2xl depth-layer-img">
+                    <img id="main-profile-img" src="https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg" alt="Miftahul Khairin" class="w-full h-full object-cover">
+                    <!-- Glass Shine Reflection -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent pointer-events-none"></div>
+                  </div>
+
+                  <!-- Layer 4: Online Status Indicator (Depth Z: +50px) -->
+                  <span class="absolute bottom-0 right-0 w-5 h-5 bg-emerald-500 border-2 border-[#07090e] rounded-full shadow-[0_0_15px_#10b981] depth-layer-badge flex items-center justify-center">
+                    <span class="w-2 h-2 rounded-full bg-white animate-ping opacity-75"></span>
+                  </span>
+
+                </div>
+              </div>
+              
+              <div>
+                <h3 id="main-name" class="text-2xl font-bold text-white flex items-center gap-2 justify-center sm:justify-start font-display">
+                  MIFTAHUL KHAIRIN <i data-feather="check-circle" class="w-4 h-4 text-brandOrange"></i>
+                </h3>
+                <p id="main-profession" class="text-xs font-mono text-brandOrange-light font-bold">Full-Stack Developer & Kreator Digital</p>
+                <p id="main-address" class="text-xs text-slate-300 mt-1.5 flex items-center gap-1.5 justify-center sm:justify-start font-mono">
+                  <i data-feather="map-pin" class="w-3.5 h-3.5 text-brandOrange"></i> Indonesia &bull; Siap Kerja Jarak Jauh (Remote)
+                </p>
+              </div>
+            </div>
+
+            <!-- Kanan: 3 Kartu Arsitektur & Layanan (Interactive Click & Hover FX) -->
+            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4" data-aos="fade-left" data-aos-delay="400">
+              
+              <!-- Kartu 1: Keahlian Utama -->
+              <div class="p-4 rounded-xl bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/10 hover:border-brandOrange/60 transition-all duration-300 shadow-lg hover:scale-[1.03] active:scale-95 cursor-pointer group" data-aos="fade-up" data-aos-delay="450">
+                <div class="text-brandOrange font-mono text-xs mb-1 flex items-center gap-1.5 font-bold">
+                  <i data-feather="code" class="w-3.5 h-3.5 group-hover:rotate-12 transition-transform"></i> <span id="card-skill-badge">KEAHLIAN UTAMA</span>
+                </div>
+                <div id="card-skill-title" class="text-sm font-bold text-white group-hover:text-brandOrange-light transition-colors">Next.js 14, Node.js, Go & Python</div>
+                <div id="card-skill-desc" class="text-[11px] text-slate-400 mt-1">Aplikasi web modern, API cloud & microservices</div>
+              </div>
+
+              <!-- Kartu 2: Aset Digital -->
+              <div class="p-4 rounded-xl bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/10 hover:border-amberAccent/60 transition-all duration-300 shadow-lg hover:scale-[1.03] active:scale-95 cursor-pointer group" data-aos="fade-up" data-aos-delay="500">
+                <div class="text-amberAccent font-mono text-xs mb-1 flex items-center gap-1.5 font-bold">
+                  <i data-feather="shopping-bag" class="w-3.5 h-3.5 group-hover:rotate-12 transition-transform"></i> <span id="card-asset-badge">ASET & PRODUK DIGITAL</span>
+                </div>
+                <div id="card-asset-title" class="text-sm font-bold text-white group-hover:text-amber-200 transition-colors">Toko Digital & Script Otomasi</div>
+                <div id="card-asset-desc" class="text-[11px] text-slate-400 mt-1">Source code, bot affiliate & integrasi AI cerdas</div>
+              </div>
+
+              <!-- Kartu 3: Video Demo Showcase -->
+              <div class="p-4 rounded-xl bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/10 hover:border-purpleAccent/60 transition-all duration-300 shadow-lg sm:col-span-2 flex items-center justify-between hover:scale-[1.02] active:scale-95 group" data-aos="fade-up" data-aos-delay="550">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-purpleAccent/20 text-purpleAccent flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-feather="video" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div id="card-video-title" class="text-xs font-bold text-white group-hover:text-purple-300 transition-colors">Video Demonstrasi & Showcase</div>
+                    <div id="card-video-desc" class="text-[11px] text-slate-400">Tonton presentasi video & demo langsung karya</div>
+                  </div>
+                </div>
+                <a id="card-video-btn" href="#video" class="px-3.5 py-1.5 rounded-full bg-brandOrange/20 hover:bg-brandOrange text-xs text-brandOrange hover:text-black font-bold transition-all shadow-md">
+                  <span id="card-video-btn-text">Tonton Video</span>
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 5. SLIDER HASIL KARYA & PROYEK (SWIPER)   -->
+    <!-- ========================================== -->
+    <section id="projects" class="py-24 max-w-7xl mx-auto" data-aos="fade-up">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div data-aos="fade-right">
+          <div class="text-xs font-mono text-brandOrange uppercase tracking-widest mb-2 flex items-center gap-2">
+            <i data-feather="layers" class="w-3.5 h-3.5"></i> Slider Interaktif Proyek
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-display uppercase">
+            Hasil Karya & Proyek Unggulan
+          </h2>
+        </div>
+        <div class="flex items-center gap-2" data-aos="fade-left">
+          <button id="slide-prev" class="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-brandOrange transition-all">
+            <i data-feather="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <button id="slide-next" class="w-10 h-10 rounded-full bg-brandOrange text-black font-bold flex items-center justify-center hover:bg-brandOrange-hover transition-all">
+            <i data-feather="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Swiper Slider Container Proyek (DYNAMIC CMS) -->
+      <div class="swiper projectSwiper pb-12" data-aos="zoom-in-up">
+        <div id="projects-swiper-wrapper" class="swiper-wrapper">
+          <!-- Item Proyek akan dirender secara dinamis oleh JavaScript / Panel Admin -->
+        </div>
+        <div class="swiper-pagination mt-6"></div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 6. SLIDER GALERI INTERAKTIF (DENGAN NOTE)  -->
+    <!-- ========================================== -->
+    <section id="gallery" class="py-20 border-t border-slate-800/80 max-w-7xl mx-auto" data-aos="fade-up">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div data-aos="fade-right">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyanAccent/10 border border-cyanAccent/30 text-cyanAccent text-xs font-mono">
+            <i data-feather="image" class="w-3.5 h-3.5"></i> SLIDER GALERI &bull; KLIK UNTUK LIHAT CATATAN & INFO
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display uppercase mt-2">
+            Galeri Dokumentasi & Karya Spasial
+          </h2>
+        </div>
+        <div class="flex items-center gap-2" data-aos="fade-left">
+          <button id="gal-prev" class="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-brandOrange hover:border-brandOrange transition-all">
+            <i data-feather="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <button id="gal-next" class="w-10 h-10 rounded-full bg-brandOrange text-black flex items-center justify-center hover:bg-brandOrange-hover transition-all">
+            <i data-feather="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Swiper Slider Container Galeri (DYNAMIC CMS) -->
+      <div class="swiper gallerySwiper pb-12" data-aos="zoom-in-up">
+        <div id="gallery-swiper-wrapper" class="swiper-wrapper">
+          <!-- Item Galeri akan dirender secara dinamis oleh JavaScript / Panel Admin -->
+        </div>
+        <div class="swiper-pagination mt-6"></div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 7. ETALASE JUALAN PRODUK DIGITAL           -->
+    <!-- ========================================== -->
+    <section id="store" class="py-20 border-t border-slate-800/80 max-w-7xl mx-auto" data-aos="fade-up">
+      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3" data-aos="zoom-in">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brandOrange/10 border border-brandOrange/30 text-brandOrange text-xs font-mono font-bold">
+          <i data-feather="tag" class="w-3.5 h-3.5"></i> TOKO PRODUK DIGITAL &bull; MIFTAHUL KHAIRIN
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display uppercase">
+          Etalase Produk Digital & Source Code
+        </h2>
+        <p class="text-sm text-slate-400">
+          Source code siap pakai, bot otomatisasi, template antarmuka, dan aset digital siap pakai. Klik tombol untuk pesan langsung melalui WhatsApp.
+        </p>
+      </div>
+
+      <!-- DYNAMIC STORE PRODUCTS GRID (DAPAT DITAMBAH, DIUBAH & DIHAPUS DARI ADMIN) -->
+      <div id="store-products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Produk akan dirender secara dinamis oleh JavaScript / Admin Panel -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 8. VIDEO SHOWCASE (3D COVERFLOW SLIDER)    -->
+    <!-- ========================================== -->
+    <section id="video" class="py-20 border-t border-slate-800/80 max-w-7xl mx-auto" data-aos="fade-up">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div data-aos="fade-right">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purpleAccent/10 border border-purpleAccent/30 text-purpleAccent text-xs font-mono">
+            <i data-feather="play" class="w-3.5 h-3.5"></i> SLIDER VIDEO SHOWCASE &bull; 3D SPOTLIGHT
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display uppercase mt-2">
+            Video Reel & Demonstrasi Proyek
+          </h2>
+        </div>
+        <div class="flex items-center gap-2" data-aos="fade-left">
+          <button id="vid-prev" class="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-purpleAccent hover:border-purpleAccent transition-all">
+            <i data-feather="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <button id="vid-next" class="w-10 h-10 rounded-full bg-purpleAccent text-white font-bold flex items-center justify-center hover:bg-purple-400 transition-all">
+            <i data-feather="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Swiper Slider Container Video (3D COVERFLOW DYNAMIC) -->
+      <div class="swiper videoSwiper pb-12" data-aos="zoom-in-up">
+        <div id="video-swiper-wrapper" class="swiper-wrapper">
+          <!-- Item Video Dinamis akan dirender oleh JavaScript -->
+        </div>
+        <div class="swiper-pagination mt-6"></div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 9. CV & RESUME (RIWAYAT KARIR)             -->
+    <!-- ========================================== -->
+    <section id="cv" class="py-20 border-t border-slate-800/80 max-w-5xl mx-auto" data-aos="fade-up">
+      <div class="p-8 sm:p-12 rounded-3xl bg-slate-900/60 border border-slate-700/60 shadow-2xl relative overflow-hidden">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-800" data-aos="fade-down">
+          <div>
+            <div class="text-xs font-mono text-brandOrange uppercase tracking-widest mb-1 flex items-center gap-2 font-bold">
+              <i data-feather="file-text" class="w-4 h-4"></i> CURRICULUM VITAE &bull; MIFTAHUL KHAIRIN
+            </div>
+            <h2 class="text-3xl font-extrabold text-white font-display uppercase">Riwayat Karir & Kompetensi</h2>
+          </div>
+          <button onclick="window.print()" class="px-6 py-3 rounded-full bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all shrink-0">
+            <i data-feather="download" class="w-4 h-4"></i> Cetak / Unduh CV
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8">
+          
+          <!-- Kolom Pengalaman -->
+          <div class="space-y-6" data-aos="fade-right">
+            <h3 class="text-lg font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
+              <i data-feather="briefcase" class="w-4 h-4 text-brandOrange"></i> Pengalaman Kerja
+            </h3>
+            
+            <div class="space-y-4 border-l-2 border-slate-800 pl-4">
+              <div class="space-y-1 relative" data-aos="fade-up" data-aos-delay="100">
+                <span class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-brandOrange"></span>
+                <span class="text-[11px] font-mono text-brandOrange font-bold">2023 &mdash; SEKARANG</span>
+                <h4 class="font-bold text-white text-sm">Lead Full-Stack Developer</h4>
+                <p class="text-xs text-slate-400">Merancang arsitektur aplikasi web enterprise, API microservices performa tinggi, dan sistem otomasi.</p>
+              </div>
+
+              <div class="space-y-1 relative" data-aos="fade-up" data-aos-delay="200">
+                <span class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-amberAccent"></span>
+                <span class="text-[11px] font-mono text-amberAccent font-bold">2021 &mdash; 2023</span>
+                <h4 class="font-bold text-white text-sm">Spesialis Frontend & UI/UX</h4>
+                <p class="text-xs text-slate-400">Membangun antarmuka interaktif dengan Next.js, Tailwind CSS, dan animasi grafis 3D.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kolom Sertifikasi & Keahlian -->
+          <div class="space-y-6" data-aos="fade-left">
+            <h3 class="text-lg font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
+              <i data-feather="award" class="w-4 h-4 text-brandOrange"></i> Sertifikasi & Keahlian Utama
+            </h3>
+            
+            <div class="space-y-3">
+              <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs" data-aos="fade-up" data-aos-delay="150">
+                <span class="text-white font-medium">Arsitektur Web Full-Stack & Cloud</span>
+                <span class="text-brandOrange font-mono font-bold">Ahli</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs" data-aos="fade-up" data-aos-delay="250">
+                <span class="text-white font-medium">Optimasi Database PostgreSQL & Redis</span>
+                <span class="text-brandOrange font-mono font-bold">Tingkat Lanjut</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs" data-aos="fade-up" data-aos-delay="350">
+                <span class="text-white font-medium">React, Next.js 14, Three.js & Tailwind</span>
+                <span class="text-brandOrange font-mono font-bold">Master</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 10. FORM KONTAK & PESAN PROYEK             -->
+    <!-- ========================================== -->
+    <section id="contact" class="py-24 border-t border-slate-800/80 max-w-3xl mx-auto text-center space-y-8" data-aos="fade-up">
+      <div class="space-y-3" data-aos="zoom-in">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brandOrange/10 border border-brandOrange/30 text-brandOrange text-xs font-mono font-bold">
+          <i data-feather="mail" class="w-3.5 h-3.5"></i> TRANSMISI PESAN &bull; KONTAK
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-display uppercase">
+          Hubungi Miftahul Khairin
+        </h2>
+        <p class="text-sm text-slate-400 max-w-lg mx-auto">
+          Ingin memesan pembuatan aplikasi web kustom, berdiskusi proyek digital, atau membeli produk digital? Kirim pesan langsung melalui form di bawah.
+        </p>
+      </div>
+
+      <form onsubmit="event.preventDefault(); alert('Terima kasih! Pesan Anda telah berhasil terkirim ke Miftahul Khairin.');" class="space-y-4 text-left" data-aos="fade-up" data-aos-delay="100">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-mono text-slate-400 mb-1">NAMA LENGKAP</label>
+            <input type="text" required placeholder="Nama Anda" class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brandOrange transition-all">
+          </div>
+          <div>
+            <label class="block text-xs font-mono text-slate-400 mb-1">EMAIL / NO WHATSAPP</label>
+            <input type="text" required placeholder="email@anda.com / 0812xxxx" class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brandOrange transition-all">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-slate-400 mb-1">DETAIL KEBUTUHAN / PROYEK</label>
+          <textarea rows="4" required placeholder="Ceritakan ide proyek, kebutuhan pembuatan sistem aplikasi, atau pemesanan produk digital..." class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brandOrange transition-all"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-sm flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(255,107,0,0.5)] transition-all">
+          <span>Kirim Pesan Transmisi</span>
+          <i data-feather="send" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 11. FOOTER BAWAH                           -->
+  <!-- ========================================== -->
+
+  <!-- Modal Detail Proyek (Ukuran Besar Desktop & 100% Dead Center) -->
+  <div id="project-modal" class="fixed inset-0 z-[99999] hidden transition-all">
+    <div class="bg-gradient-to-b from-[#141828] via-[#0d101a] to-[#07090f] border-2 border-brandOrange/50 rounded-3xl max-w-3xl w-full p-6 sm:p-10 space-y-6 shadow-[0_25px_100px_rgba(255,107,0,0.4)] relative max-h-[85vh] overflow-y-auto flex flex-col justify-between">
+      
+      <!-- Tombol Close Modal -->
+      <button onclick="closeProjectModal()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-brandOrange transition-all active:scale-90 shadow-lg">
+        <i data-feather="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="space-y-5">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brandOrange/15 border border-brandOrange/40 text-brandOrange text-xs font-mono font-bold">
+          <i data-feather="layers" class="w-4 h-4"></i> DETAIL HASIL KARYA & PROYEK
+        </div>
+        
+        <h3 id="modal-project-title" class="text-2xl sm:text-4xl font-extrabold text-white font-display uppercase tracking-tight"></h3>
+        
+        <p id="modal-project-desc" class="text-sm sm:text-base text-slate-300 leading-relaxed font-normal"></p>
+
+        <!-- Kotak Spesifikasi Teknologi -->
+        <div class="p-5 rounded-2xl bg-slate-950/90 border border-slate-800/90 space-y-2 shadow-inner">
+          <div class="text-xs font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i data-feather="cpu" class="w-4 h-4 text-brandOrange"></i> Teknologi & Arsitektur Sistem
+          </div>
+          <div id="modal-project-tech" class="text-sm font-mono text-brandOrange-light font-bold"></div>
+        </div>
+      </div>
+
+      <!-- Tombol Aksi Buka Demo / Repositori -->
+      <div class="pt-6 border-t border-slate-800 flex items-center justify-end gap-3">
+        <button onclick="closeProjectModal()" class="px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-semibold text-xs transition-all">
+          Tutup
+        </button>
+        <a id="modal-project-link" href="#" target="_blank" class="px-8 py-3 rounded-full bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_30px_rgba(255,107,0,0.5)] transition-all">
+          <span>Buka Repositori / Demo Langsung</span>
+          <i data-feather="external-link" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal Detail Galeri & Foto (Ukuran Besar Desktop & 100% Dead Center dengan Foto HD) -->
+  <div id="gallery-modal" class="fixed inset-0 z-[99999] hidden transition-all">
+    <div class="bg-gradient-to-b from-[#101b2a] via-[#0a111b] to-[#05080e] border-2 border-cyanAccent/50 rounded-3xl max-w-4xl w-full p-6 sm:p-10 space-y-6 shadow-[0_25px_100px_rgba(6,182,212,0.4)] relative max-h-[85vh] overflow-y-auto flex flex-col justify-between">
+      
+      <!-- Tombol Close Modal -->
+      <button onclick="closeGalleryModal()" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyanAccent transition-all active:scale-90 shadow-lg">
+        <i data-feather="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="space-y-5">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyanAccent/15 border border-cyanAccent/40 text-cyanAccent text-xs font-mono font-bold">
+          <i data-feather="image" class="w-4 h-4"></i> DOKUMENTASI VISUAL & FOTO
+        </div>
+        
+        <!-- Pratinjau Foto Besar HD untuk Desktop -->
+        <div class="w-full h-64 sm:h-80 rounded-2xl overflow-hidden border border-cyanAccent/40 bg-black shadow-2xl relative">
+          <img id="modal-gal-img" src="https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg" alt="Preview Foto" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+        </div>
+
+        <h3 id="modal-gal-title" class="text-2xl sm:text-4xl font-extrabold text-white font-display uppercase tracking-tight"></h3>
+        
+        <p id="modal-gal-desc" class="text-sm sm:text-base text-slate-300 leading-relaxed font-normal"></p>
+
+        <!-- Kotak Catatan Teknis -->
+        <div class="p-5 rounded-2xl bg-slate-950/90 border border-slate-800/90 space-y-2 shadow-inner">
+          <div class="text-xs font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i data-feather="info" class="w-4 h-4 text-cyanAccent"></i> Catatan & Info Konfigurasi
+          </div>
+          <div id="modal-gal-note" class="text-sm font-mono text-cyan-300 font-medium leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- Tombol Tutup -->
+      <div class="pt-4 border-t border-slate-800 flex items-center justify-end">
+        <button onclick="closeGalleryModal()" class="px-8 py-3 rounded-full bg-cyanAccent hover:bg-cyan-300 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_30px_rgba(6,182,212,0.4)]">
+          Tutup Catatan
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 12. FOOTER BAWAH                           -->
+  <!-- ========================================== -->
+  <footer class="border-t border-slate-800/80 py-12 px-6 bg-[#04060a]">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500">
+      <div class="flex items-center gap-3 text-slate-300">
+        <div class="w-7 h-7 rounded-lg overflow-hidden border border-brandOrange/50 shadow-[0_0_15px_rgba(255,107,0,0.3)] bg-black flex items-center justify-center shrink-0">
+          <img src="https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg" alt="Logo" class="w-full h-full object-cover">
+        </div>
+        <span class="font-bold text-white">Miftahul Khairin</span>
+        <span class="text-slate-600">&bull;</span>
+        <span class="text-slate-400">Portofolio Sistem Spasial Perspective</span>
+      </div>
+      <div>
+        Dibuat dengan <span class="text-brandOrange font-bold">Perspective System</span> &bull; Feather Icons &bull; Admin Panel Ready
+      </div>
+      <div>
+        &copy; 2026 Miftahul Khairin. Hak Cipta Dilindungi.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- 13. LOGIKA SKRIP JAVASCRIPT & ADMIN ENGINE -->
+  <!-- ========================================== -->
+  <script>
+    // ==========================================
+    // SISTEM TOTAL PROTEKSI ANTI-COPY & ANTI-DOWNLOAD
+    // ==========================================
+    // 1. Matikan Klik Kanan (Context Menu) di seluruh layar
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // 2. Matikan Drag & Drop gambar/foto ke desktop atau browser tab
+    document.addEventListener('dragstart', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // 3. Matikan Shortcut Download & Salin (Ctrl+S, Ctrl+C, Ctrl+U, F12)
+    document.addEventListener('keydown', (e) => {
+      if (
+        (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) ||
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j'))
+      ) {
+        // Kecualikan jika sedang mengetik di input form admin
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          return false;
+        }
+      }
+    });
+
+    // Inisialisasi Feather Icons
+    feather.replace();
+
+    // Inisialisasi AOS (Animation on Scroll)
+    AOS.init({
+      once: false,
+      mirror: true,
+      duration: 700,
+      offset: 50,
+      easing: 'ease-out-cubic'
+    });
+
+    // Variabel Global Swiper Instance
+    let swiperProjectsInstance = null;
+    let swiperGalleryInstance = null;
+    let swiperVideosInstance = null;
+
+    function initSwipers() {
+      if (swiperProjectsInstance) swiperProjectsInstance.destroy(true, true);
+      if (swiperGalleryInstance) swiperGalleryInstance.destroy(true, true);
+      if (swiperVideosInstance) swiperVideosInstance.destroy(true, true);
+
+      swiperProjectsInstance = new Swiper('.projectSwiper', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 0,
+          depth: 160,
+          modifier: 1.2,
+          slideShadows: false,
+        },
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        pagination: {
+          el: '.projectSwiper .swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '#slide-next',
+          prevEl: '#slide-prev',
+        },
+        breakpoints: {
+          320: { slidesPerView: 1.15, spaceBetween: 16 },
+          640: { slidesPerView: 1.8, spaceBetween: 24 },
+          1024: { slidesPerView: 2.5, spaceBetween: 32 }
+        }
+      });
+
+      swiperGalleryInstance = new Swiper('.gallerySwiper', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 0,
+          depth: 160,
+          modifier: 1.2,
+          slideShadows: false,
+        },
+        loop: true,
+        autoplay: {
+          delay: 2600,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        pagination: {
+          el: '.gallerySwiper .swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '#gal-next',
+          prevEl: '#gal-prev',
+        },
+        breakpoints: {
+          320: { slidesPerView: 1.15, spaceBetween: 16 },
+          640: { slidesPerView: 1.8, spaceBetween: 24 },
+          1024: { slidesPerView: 2.5, spaceBetween: 32 }
+        }
+      });
+
+      swiperVideosInstance = new Swiper('.videoSwiper', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 0,
+          depth: 160,
+          modifier: 1.2,
+          slideShadows: false,
+        },
+        loop: true,
+        autoplay: {
+          delay: 3200,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        pagination: {
+          el: '.videoSwiper .swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '#vid-next',
+          prevEl: '#vid-prev',
+        },
+        breakpoints: {
+          320: { slidesPerView: 1.15, spaceBetween: 16 },
+          640: { slidesPerView: 1.6, spaceBetween: 24 },
+          1024: { slidesPerView: 2.2, spaceBetween: 32 }
+        }
+      });
+    }
+
+    // Inisialisasi Instan Saat Halaman Dimuat (Langsung Tampil dengan Animasi Halus)
+    window.addEventListener('DOMContentLoaded', () => {
+      // Inisialisasi AOS Langsung
+      AOS.init({
+        once: true,
+        duration: 800,
+        offset: 30,
+        easing: 'ease-out-cubic'
+      });
+
+      // Inisialisasi Efek Animasi Ketikan (Continuous Typewriter Effect)
+      initTypewriter();
+
+      // Render SEMUA KONTEN DARI PORTFOLIO_CONFIG
+      renderAllFromConfig();
+
+      // Inisialisasi Slider Swiper 3D Coverflow Spotlight
+      initSwipers();
+
+      // Refresh posisi animasi
+      setTimeout(() => {
+        AOS.refresh();
+      }, 100);
+    });
+
+    // ==========================================
+    // MESIN ANIMASI KETIKAN BERULANG (TYPEWRITER)
+    // ==========================================
+    const phrases = [
+      "Full-Stack Developer & Tech Innovator",
+      "Spesialis Otomasi Bot AI & Cloud Microservices",
+      "Desain Antarmuka Spasial 3D Berperforma Tinggi",
+      "Kreator Solusi Digital & Script Otomasi Pintar",
+      "Arsitektur Web Modern 120 FPS & Ultra Cepat"
+    ];
+
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 90;
+
+    function initTypewriter() {
+      const target = document.getElementById('typewriter-text');
+      if (!target) return;
+
+      const currentPhrase = phrases[phraseIndex];
+
+      if (isDeleting) {
+        target.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        typingSpeed = 40;
+      } else {
+        target.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+        typingSpeed = 90;
+      }
+
+      if (!isDeleting && charIndex === currentPhrase.length) {
+        // Berhenti sejenak di akhir kata
+        typingSpeed = 1800;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        typingSpeed = 400;
+      }
+
+      setTimeout(initTypewriter, typingSpeed);
+    }
+
+    // Sticky Header Morphing & Dynamic Natural Blur Transition on Scroll
+    const mainHeader = document.getElementById('main-header');
+    const headerContainer = document.getElementById('header-container');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 30) {
+        mainHeader.style.paddingTop = '0.75rem';
+        mainHeader.style.paddingBottom = '0.75rem';
+        mainHeader.style.backdropFilter = 'blur(24px)';
+        mainHeader.style.webkitBackdropFilter = 'blur(24px)';
+        mainHeader.style.backgroundColor = 'rgba(7, 9, 14, 0.85)';
+        mainHeader.style.boxShadow = '0 15px 35px -5px rgba(0, 0, 0, 0.6)';
+      } else {
+        mainHeader.style.paddingTop = '1.25rem';
+        mainHeader.style.paddingBottom = '1.25rem';
+        mainHeader.style.backdropFilter = 'blur(0px)';
+        mainHeader.style.webkitBackdropFilter = 'blur(0px)';
+        mainHeader.style.backgroundColor = 'transparent';
+        mainHeader.style.boxShadow = 'none';
+      }
+    });
+
+    // ==========================================
+    // RENDER SEMUA KONTEN DARI PORTFOLIO_CONFIG
+    // ==========================================
+    function renderAllFromConfig() {
+      const config = window.PORTFOLIO_CONFIG || {};
+
+      // 1. Profil & Header Data
+      if (config.profile) {
+        const p = config.profile;
+        if (document.getElementById('main-name')) document.getElementById('main-name').innerHTML = `${p.name} <i data-feather="check-circle" class="w-4 h-4 text-brandOrange"></i>`;
+        if (document.getElementById('main-profession')) document.getElementById('main-profession').innerText = p.profession;
+        if (document.getElementById('main-address')) document.getElementById('main-address').innerHTML = `<i data-feather="map-pin" class="w-3.5 h-3.5 text-brandOrange"></i> ${p.location}`;
+        if (document.getElementById('hero-bio')) document.getElementById('hero-bio').innerText = p.bio;
+        if (document.getElementById('main-profile-img') && p.photo) document.getElementById('main-profile-img').src = p.photo;
+        if (document.getElementById('nav-brand-logo') && (p.logo || p.photo)) document.getElementById('nav-brand-logo').src = p.logo || p.photo;
+        if (document.getElementById('drawer-brand-logo') && (p.logo || p.photo)) document.getElementById('drawer-brand-logo').src = p.logo || p.photo;
+        if (document.getElementById('nav-brand-name')) document.getElementById('nav-brand-name').innerText = p.headerTitle || p.name;
+        if (document.getElementById('drawer-brand-name')) document.getElementById('drawer-brand-name').innerText = p.headerTitle || p.name;
+        if (document.getElementById('nav-brand-sub')) document.getElementById('nav-brand-sub').innerText = p.headerSubtitle || "Perspective Engine";
+      }
+
+      // 2. 3 Kartu Kanvas 3D
+      if (config.cards3D) {
+        const c = config.cards3D;
+        if (c.skill) {
+          if (document.getElementById('card-skill-title')) document.getElementById('card-skill-title').innerText = c.skill.title;
+          if (document.getElementById('card-skill-desc')) document.getElementById('card-skill-desc').innerText = c.skill.desc;
+        }
+        if (c.asset) {
+          if (document.getElementById('card-asset-title')) document.getElementById('card-asset-title').innerText = c.asset.title;
+          if (document.getElementById('card-asset-desc')) document.getElementById('card-asset-desc').innerText = c.asset.desc;
+        }
+        if (c.video) {
+          if (document.getElementById('card-video-title')) document.getElementById('card-video-title').innerText = c.video.title;
+          if (document.getElementById('card-video-desc')) document.getElementById('card-video-desc').innerText = c.video.desc;
+        }
+      }
+
+      // 3. Render Proyek
+      renderProjects();
+
+      // 4. Render Galeri
+      renderGallery();
+
+      // 5. Render Video
+      renderVideos();
+
+      // 6. Render Produk Toko Digital
+      renderStoreProducts();
+
+      feather.replace();
+    }
+
+    // 1. RENDER PROYEK
+    function renderProjects() {
+      const wrapper = document.getElementById('projects-swiper-wrapper');
+      const projects = (window.PORTFOLIO_CONFIG && window.PORTFOLIO_CONFIG.projects) || [];
+
+      if (wrapper) {
+        wrapper.innerHTML = projects.map((p, idx) => `
+          <div class="swiper-slide h-auto">
+            <div class="h-full rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-brandOrange/60 transition-all duration-300 p-6 flex flex-col justify-between group">
+              <div>
+                <div class="h-48 rounded-xl bg-gradient-to-br from-orange-950 via-slate-900 to-slate-950 border border-slate-800/80 mb-6 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                  <div class="w-20 h-20 rounded-xl bg-brandOrange/10 border border-brandOrange/30 flex items-center justify-center text-brandOrange shadow-[0_0_30px_rgba(255,107,0,0.3)]">
+                    <i data-feather="${p.icon || 'layers'}" class="w-8 h-8"></i>
+                  </div>
+                </div>
+                <div class="text-xs font-mono text-brandOrange mb-1">${p.category || 'PROYEK UNGGULAN'}</div>
+                <h3 class="text-xl font-bold text-white font-display">${p.title}</h3>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">${p.desc}</p>
+              </div>
+              <div class="pt-6 mt-6 border-t border-slate-800/60 flex items-center justify-between text-xs font-mono text-slate-400">
+                <span class="text-brandOrange-light font-medium">${p.tech || 'Full-Stack Web'}</span>
+                <a href="${p.link || '#'}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-slate-800 hover:bg-brandOrange hover:text-black text-slate-300 text-xs font-mono transition-all flex items-center gap-1">
+                  <span>Demo</span>
+                  <i data-feather="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      if (window.swiperProjectsInstance) window.swiperProjectsInstance.update();
+      feather.replace();
+    }
+
+    // 2. RENDER GALERI FOTO
+    function renderGallery() {
+      const wrapper = document.getElementById('gallery-swiper-wrapper');
+      const gallery = (window.PORTFOLIO_CONFIG && window.PORTFOLIO_CONFIG.gallery) || [];
+
+      if (wrapper) {
+        wrapper.innerHTML = gallery.map((g, idx) => `
+          <div class="swiper-slide select-none pointer-events-auto">
+            <div class="group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-brandOrange transition-all duration-300">
+              <img src="${g.img}" alt="${g.title}" class="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent p-6 flex flex-col justify-end pointer-events-none">
+                <span class="text-xs font-mono text-brandOrange font-bold">${g.tag || 'FOTO DOKUMENTASI'}</span>
+                <h4 class="text-white font-bold text-base font-display">${g.title}</h4>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      if (window.swiperGalleryInstance) window.swiperGalleryInstance.update();
+      feather.replace();
+    }
+
+    // 3. RENDER VIDEO SHOWCASE (3D COVERFLOW SLIDER)
+    function renderVideos() {
+      const wrapper = document.getElementById('video-swiper-wrapper');
+      const videos = (window.PORTFOLIO_CONFIG && window.PORTFOLIO_CONFIG.videos) || [];
+
+      if (wrapper) {
+        wrapper.innerHTML = videos.map((v, idx) => `
+          <div class="swiper-slide h-auto">
+            <div class="h-full rounded-3xl overflow-hidden border border-purpleAccent/40 shadow-[0_0_40px_rgba(168,85,247,0.2)] bg-slate-950 p-4 space-y-3 flex flex-col justify-between group">
+              <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-900 flex items-center justify-center border border-slate-800">
+                <iframe class="w-full h-full" src="${v.embed}" title="${v.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+              <div class="px-2 pb-1 space-y-2">
+                <div>
+                  <span class="text-[10px] font-mono text-purpleAccent font-bold uppercase tracking-wider block mb-1">0${idx+1} / DEMO VIDEO</span>
+                  <h4 class="text-white font-bold text-base font-display">${v.title}</h4>
+                  <p class="text-xs text-slate-400 mt-1">${v.desc || ''}</p>
+                </div>
+                ${v.videoUrl ? `
+                <div class="pt-2 border-t border-slate-800/80 flex justify-end">
+                  <a href="${v.videoUrl}" target="_blank" class="px-3 py-1.5 rounded-xl bg-purpleAccent/20 hover:bg-purpleAccent text-purple300 hover:text-white font-mono text-[11px] font-bold flex items-center gap-1.5 transition-all">
+                    <span>Buka di YouTube</span>
+                    <i data-feather="external-link" class="w-3.5 h-3.5"></i>
+                  </a>
+                </div>` : ''}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      if (window.swiperVideosInstance) window.swiperVideosInstance.update();
+      feather.replace();
+    }
+
+    // 4. RENDER PRODUK TOKO DIGITAL
+    function renderStoreProducts() {
+      const container = document.getElementById('store-products-container');
+      const config = window.PORTFOLIO_CONFIG || {};
+      const products = config.products || [];
+      const waNumber = (config.profile && config.profile.whatsapp) || '6281234567890';
+      const ownerName = (config.profile && config.profile.name) || 'Miftahul Khairin';
+
+      if (container) {
+        container.innerHTML = products.map((p, idx) => `
+          <div class="rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 hover:border-brandOrange/60 p-6 flex flex-col justify-between shadow-xl transition-all" data-aos="fade-up" data-aos-delay="${(idx + 1) * 100}">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-1 rounded-md bg-brandOrange/20 text-brandOrange text-[11px] font-mono font-bold">${p.badge}</span>
+                <div class="text-right">
+                  ${p.originalPrice ? `<span class="block text-[11px] font-mono text-slate-500 line-through">${p.originalPrice}</span>` : ''}
+                  <span class="text-lg font-bold text-white font-mono">${p.price}</span>
+                </div>
+              </div>
+              <h3 class="text-xl font-bold text-white font-display">${p.title}</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">${p.desc}</p>
+              <ul class="text-xs text-slate-300 space-y-1.5 font-mono pt-2 border-t border-slate-800">
+                ${(p.features || []).map(f => `<li class="flex items-center gap-2"><i data-feather="check" class="w-3.5 h-3.5 text-brandOrange"></i> ${f}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="pt-6 mt-6 border-t border-slate-800 space-y-2.5">
+              ${p.demoUrl ? `
+              <a href="${p.demoUrl}" target="_blank" class="w-full py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-mono text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-700">
+                <span>Lihat Preview Demo</span>
+                <i data-feather="external-link" class="w-3.5 h-3.5"></i>
+              </a>` : ''}
+              <a href="https://wa.me/${waNumber}?text=Halo%20${encodeURIComponent(ownerName)},%20saya%20tertarik%20membeli%20${encodeURIComponent(p.title)}" target="_blank" class="w-full py-3 rounded-xl bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,107,0,0.3)] transition-all">
+                <i data-feather="shopping-cart" class="w-4 h-4"></i> Beli Sekarang (WhatsApp)
+              </a>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      feather.replace();
+    }
+
+    // Hamburger Mobile Drawer Logic
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-menu-drawer');
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        drawer.classList.add('flex');
+        lockBodyScroll();
+      } else {
+        drawer.classList.add('hidden');
+        drawer.classList.remove('flex');
+        unlockBodyScroll();
+      }
+      feather.replace();
+    }
+
+    // Scroll Lock Utility
+    let openModalsCount = 0;
+    function lockBodyScroll() {
+      openModalsCount++;
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    }
+    function unlockBodyScroll() {
+      openModalsCount = Math.max(0, openModalsCount - 1);
+      if (openModalsCount === 0) {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    }
+  </script>
+</body>
+</html>
