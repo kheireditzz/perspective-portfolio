@@ -4,362 +4,429 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Curriculum Vitae — Miftahul Khairin</title>
-  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <!-- Google Fonts: Plus Jakarta Sans, Outfit & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Chakra+Petch:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Feather Icons CDN -->
   <script src="https://unpkg.com/feather-icons"></script>
-  <!-- html2pdf.js for 1-Click Instant High-Res PDF Export -->
+  <!-- html2pdf.js for High Definition Vector & Canvas PDF Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandOrange: '#ff6b00',
+            brandOrangeHover: '#e05e00',
+            darkSlate: '#0b0f19',
+            cardSlate: '#111827',
+            accentCyan: '#06b6d4'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
     @media print {
       .no-print { display: none !important; }
-      body { background: #ffffff !important; color: #000000 !important; padding: 0 !important; }
-      .cv-container { box-shadow: none !important; border: none !important; max-width: 100% !important; margin: 0 !important; width: 100% !important; }
-      .page-break { page-break-inside: avoid; }
+      body { background: #ffffff !important; color: #0f172a !important; padding: 0 !important; }
+      .cv-sheet { box-shadow: none !important; border: none !important; width: 100% !important; margin: 0 !important; max-width: 100% !important; }
+      .page-break-avoid { page-break-inside: avoid; }
     }
+    
     .editable:focus {
       outline: 2px dashed #ff6b00;
-      outline-offset: 4px;
-      background-color: rgba(255, 107, 0, 0.05);
+      outline-offset: 3px;
+      background-color: rgba(255, 107, 0, 0.08);
       border-radius: 4px;
     }
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .font-display {
-      font-family: 'Chakra Petch', sans-serif;
+    
+    .cv-item-hover:hover .delete-btn {
+      opacity: 1 !important;
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-800 min-h-screen py-8 px-3 sm:px-6">
+<body class="bg-[#07090e] text-slate-800 min-h-screen py-6 sm:py-10 px-2 sm:px-6 antialiased selection:bg-brandOrange selection:text-white">
 
-  <!-- TOP FLOATING ACTION BAR (EDITOR & DOWNLOAD TOOLBAR) -->
-  <div class="max-w-4xl mx-auto mb-6 no-print bg-slate-950/90 backdrop-blur-md border border-slate-800 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 shadow-2xl sticky top-4 z-50">
+  <!-- ========================================== -->
+  <!-- FLOATING COMMAND & ACTION TOOLBAR (NO-PRINT) -->
+  <!-- ========================================== -->
+  <header class="max-w-5xl mx-auto mb-8 no-print bg-[#0e1424]/90 backdrop-blur-xl border border-slate-800 p-4 sm:p-5 rounded-2xl flex flex-wrap items-center justify-between gap-4 shadow-[0_10px_40px_rgba(0,0,0,0.8)] sticky top-4 z-50">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-500">
+      <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brandOrange to-orange-700 flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
         <i data-feather="file-text" class="w-5 h-5"></i>
       </div>
       <div>
-        <h1 class="text-white font-bold text-sm sm:text-base font-display">CV BUILDER &amp; EXPORTER</h1>
-        <p class="text-xs text-slate-400">Klik teks langsung di kertas untuk mengedit secara instan.</p>
+        <div class="flex items-center gap-2">
+          <h1 class="text-white font-bold text-base sm:text-lg font-display tracking-tight">SUPER CV BUILDER &amp; DESIGNER</h1>
+          <span class="px-2 py-0.5 rounded-full bg-brandOrange/20 text-brandOrange border border-brandOrange/30 text-[10px] font-mono font-bold uppercase">PRO ULTRA</span>
+        </div>
+        <p class="text-xs text-slate-400">Sentuh teks untuk mengedit &bull; Tambah/Hapus riwayat &bull; Unduh PDF HD.</p>
       </div>
     </div>
 
+    <!-- ACTION BUTTONS -->
     <div class="flex items-center gap-2.5 flex-wrap">
-      <button onclick="toggleEditMode()" id="btn-edit-mode" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-semibold flex items-center gap-2 border border-slate-700 transition-all">
-        <i data-feather="edit-3" class="w-3.5 h-3.5 text-orange-400"></i>
+      <button onclick="toggleEditMode()" id="btn-edit-mode" class="px-4 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-mono font-semibold flex items-center gap-2 border border-slate-700 transition-all active:scale-95">
+        <i data-feather="edit-2" class="w-3.5 h-3.5 text-brandOrange"></i>
         <span id="txt-edit-mode">Mode Edit: Aktif</span>
       </button>
-      
-      <button onclick="downloadPDF()" class="px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(255,107,0,0.4)] transition-all">
+
+      <button onclick="downloadPDF()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brandOrange to-orange-600 hover:from-brandOrangeHover hover:to-orange-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(255,107,0,0.5)] transition-all active:scale-95">
         <i data-feather="download" class="w-4 h-4"></i>
-        <span>Download PDF</span>
+        <span>Download PDF (A4 HD)</span>
       </button>
 
-      <a href="https://portofolio.kheireditz.my.id/" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono flex items-center gap-1.5 border border-slate-700 transition-all">
+      <a href="https://portofolio.kheireditz.my.id/" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono flex items-center gap-1.5 border border-slate-700 transition-all">
         <i data-feather="globe" class="w-3.5 h-3.5"></i>
         <span>Web</span>
       </a>
     </div>
-  </div>
+  </header>
 
-  <!-- A4 PRINTABLE & EXPORTABLE CV CANVAS CONTAINER -->
-  <div id="cv-content" class="cv-container max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 min-h-[1100px] flex flex-col justify-between">
-    
-    <!-- HEADER SECTION (BRANDING & PHOTO) -->
-    <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white p-8 sm:p-10 border-b-4 border-orange-500 relative">
-      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8 relative z-10">
+  <!-- ========================================== -->
+  <!-- A4 PRINTABLE MASTER CV CANVAS               -->
+  <!-- ========================================== -->
+  <main id="cv-sheet" class="cv-sheet max-w-5xl mx-auto bg-white rounded-3xl shadow-[0_20px_70px_rgba(0,0,0,0.9)] overflow-hidden border border-slate-200 min-h-[1120px] flex flex-col justify-between">
+
+    <!-- TOP MODERN ULTRA HEADER -->
+    <section class="bg-gradient-to-r from-[#0a0e1a] via-[#0f172a] to-[#0a0e1a] text-white p-8 sm:p-12 relative overflow-hidden border-b-4 border-brandOrange">
+      <!-- Decorative Background Glow -->
+      <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-brandOrange/10 blur-3xl pointer-events-none"></div>
+      <div class="absolute left-1/3 -bottom-20 w-80 h-80 rounded-full bg-accentCyan/10 blur-3xl pointer-events-none"></div>
+
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
         
-        <!-- FOTO PROFIL RESMI -->
-        <div class="relative group shrink-0">
-          <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-orange-500 shadow-2xl bg-black">
-            <img id="cv-profile-img" src="profile.jpg" alt="Miftahul Khairin" class="w-full h-full object-cover">
+        <!-- FOTO PROFIL RESMI BERBINGKAI ELEGAN -->
+        <div class="relative shrink-0 group">
+          <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-3xl overflow-hidden p-1 bg-gradient-to-tr from-brandOrange via-amber-400 to-brandOrange shadow-[0_10px_30px_rgba(255,107,0,0.35)]">
+            <div class="w-full h-full rounded-[22px] overflow-hidden bg-black">
+              <img id="cv-avatar" src="profile.jpg" alt="Miftahul Khairin" class="w-full h-full object-cover">
+            </div>
           </div>
-          <div class="no-print absolute -bottom-2 -right-2 bg-orange-600 text-white p-1.5 rounded-lg text-[10px] font-mono cursor-pointer shadow-lg hover:bg-orange-500" onclick="changePhotoPrompt()" title="Ganti Foto">
-            <i data-feather="camera" class="w-3.5 h-3.5"></i>
-          </div>
+          <!-- Ganti Foto Floating Trigger (No-Print) -->
+          <button onclick="changePhotoPrompt()" class="no-print absolute -bottom-2 -right-2 w-9 h-9 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-white flex items-center justify-center shadow-lg border-2 border-[#0a0e1a] transition-transform active:scale-90" title="Ganti Foto">
+            <i data-feather="camera" class="w-4 h-4"></i>
+          </button>
         </div>
 
-        <!-- IDENTITAS NAMA & JABATAN -->
-        <div class="space-y-2 text-center sm:text-left flex-1">
-          <div class="inline-block px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/40 text-orange-400 font-mono text-[11px] font-bold uppercase tracking-widest mb-1 editable" contenteditable="true">
-            FULL-STACK DEVELOPER &bull; AI AUTOMATION &bull; CREATOR
+        <!-- INFO NAMA, PROFESI & SUMMARY -->
+        <div class="space-y-3 text-center md:text-left flex-1">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brandOrange/15 border border-brandOrange/40 text-brandOrange font-mono text-xs font-bold uppercase tracking-widest editable" contenteditable="true">
+            <span class="w-2 h-2 rounded-full bg-brandOrange animate-pulse"></span>
+            FULL-STACK ARCHITECT &bull; AI AUTOMATION ENGINEER
           </div>
-          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight font-display uppercase editable" contenteditable="true">
+
+          <h1 class="text-3xl sm:text-5xl font-black font-display tracking-tight uppercase text-white editable" contenteditable="true">
             MIFTAHUL KHAIRIN
           </h1>
-          <p class="text-sm sm:text-base text-slate-300 font-medium editable leading-relaxed max-w-2xl" contenteditable="true">
-            Pengembang perangkat lunak berpengalaman dalam membangun arsitektur sistem web skala tinggi, bot otomatisasi AI, antarmuka spasial interaktif, dan aplikasi mobile modern.
+
+          <p class="text-sm sm:text-base text-slate-300 font-normal leading-relaxed editable max-w-3xl" contenteditable="true">
+            Software Engineer berdedikasi tinggi dengan spesialisasi pengembangan sistem web modern skala enterprise, integrasi arsitektur cloud, automasi bot pintar berbasis AI, dan visual interaktif 3D berperforma tinggi.
           </p>
 
-          <!-- BADGE RINGKASAN KONTAK -->
-          <div class="pt-3 flex flex-wrap justify-center sm:justify-start gap-x-5 gap-y-2 text-xs font-mono text-slate-300">
-            <div class="flex items-center gap-1.5">
-              <i data-feather="mail" class="w-3.5 h-3.5 text-orange-400"></i>
+          <!-- BADGE KONTAK RESMI & SOSMED -->
+          <div class="pt-3 flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2.5 text-xs font-mono text-slate-300">
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
+              <i data-feather="mail" class="w-3.5 h-3.5 text-brandOrange"></i>
               <span class="editable" contenteditable="true">miftahulkhairim1@gmail.com</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <i data-feather="phone" class="w-3.5 h-3.5 text-orange-400"></i>
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
+              <i data-feather="phone" class="w-3.5 h-3.5 text-brandOrange"></i>
               <span class="editable" contenteditable="true">+62 895-3211-54498</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <i data-feather="globe" class="w-3.5 h-3.5 text-orange-400"></i>
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
+              <i data-feather="globe" class="w-3.5 h-3.5 text-brandOrange"></i>
               <span class="editable" contenteditable="true">portofolio.kheireditz.my.id</span>
             </div>
-            <div class="flex items-center gap-1.5">
-              <i data-feather="map-pin" class="w-3.5 h-3.5 text-orange-400"></i>
-              <span class="editable" contenteditable="true">Indonesia (Siap Kerja Remote)</span>
+            <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60">
+              <i data-feather="map-pin" class="w-3.5 h-3.5 text-brandOrange"></i>
+              <span class="editable" contenteditable="true">Indonesia (Siap Relokasi / Remote)</span>
             </div>
           </div>
 
         </div>
 
       </div>
-    </div>
+    </section>
 
-    <!-- MAIN BODY GRID (2 COLUMNS: SIDEBAR DATA & MAIN CONTENT) -->
-    <div class="p-8 sm:p-10 grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-10 flex-1">
+    <!-- ========================================== -->
+    <!-- DUAL COLUMN BODY (SIDEBAR + MAIN CONTENT)  -->
+    <!-- ========================================== -->
+    <div class="p-8 sm:p-12 grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-12 flex-1">
       
-      <!-- KOLOM KIRI (DATA PRIBADI, KEAHLIAN, BAHASA & SOSIAL) - 4 COLUMNS -->
+      <!-- KOLOM KIRI (SIDEBAR DATA, BIODATA, SKILL, SOSMED) - 4 COLS -->
       <div class="md:col-span-4 space-y-8 border-r-0 md:border-r border-slate-200 md:pr-8">
         
-        <!-- BIODATA & DATA PRIBADI LENGKAP -->
-        <div class="space-y-3">
-          <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-orange-600 flex items-center gap-2 border-b border-slate-200 pb-1.5">
-            <i data-feather="user-check" class="w-3.5 h-3.5"></i> BIODATA PRIBADI
-          </h3>
-          <div class="space-y-2.5 text-xs">
-            <div>
-              <span class="text-slate-400 block text-[10px] font-mono uppercase">Tempat, Tanggal Lahir</span>
+        <!-- BIODATA PRIBADI DETAIL -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between border-b-2 border-brandOrange/30 pb-2">
+            <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2">
+              <i data-feather="user" class="w-4 h-4 text-brandOrange"></i> BIODATA PRIBADI
+            </h3>
+          </div>
+          <div class="space-y-3 text-xs">
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+              <span class="text-slate-400 block text-[10px] font-mono uppercase font-semibold">Tempat &amp; Tanggal Lahir</span>
               <span class="font-bold text-slate-800 editable" contenteditable="true">Indonesia, 15 Januari 2002</span>
             </div>
-            <div>
-              <span class="text-slate-400 block text-[10px] font-mono uppercase">Jenis Kelamin</span>
-              <span class="font-bold text-slate-800 editable" contenteditable="true">Laki-Laki</span>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+              <span class="text-slate-400 block text-[10px] font-mono uppercase font-semibold">Jenis Kelamin / Agama</span>
+              <span class="font-bold text-slate-800 editable" contenteditable="true">Laki-Laki / Islam</span>
             </div>
-            <div>
-              <span class="text-slate-400 block text-[10px] font-mono uppercase">Kewarganegaraan</span>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+              <span class="text-slate-400 block text-[10px] font-mono uppercase font-semibold">Kewarganegaraan</span>
               <span class="font-bold text-slate-800 editable" contenteditable="true">Indonesia (WNI)</span>
             </div>
-            <div>
-              <span class="text-slate-400 block text-[10px] font-mono uppercase">Status Ketersediaan</span>
-              <span class="font-bold text-emerald-600 editable" contenteditable="true">Tersedia untuk Full-Time / Remote</span>
+            <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200">
+              <span class="text-emerald-600 block text-[10px] font-mono uppercase font-bold">Status Ketersediaan</span>
+              <span class="font-bold text-emerald-700 editable" contenteditable="true">Siap Bekerja (Full-Time / Freelance)</span>
             </div>
           </div>
         </div>
 
-        <!-- KEAHLIAN UTAMA & TEKNOLOGI -->
-        <div class="space-y-3">
-          <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-orange-600 flex items-center gap-2 border-b border-slate-200 pb-1.5">
-            <i data-feather="code" class="w-3.5 h-3.5"></i> KEAHLIAN TEKNIS
-          </h3>
-          <div class="space-y-3 text-xs">
-            <div>
-              <div class="flex justify-between font-semibold mb-1">
-                <span class="editable" contenteditable="true">Frontend (React / Next.js / Tailwind)</span>
-                <span class="text-orange-600 font-mono">95%</span>
+        <!-- KEAHLIAN TEKNOLOGI & SKILL BARS -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between border-b-2 border-brandOrange/30 pb-2">
+            <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2">
+              <i data-feather="code" class="w-4 h-4 text-brandOrange"></i> KEAHLIAN TEKNIS
+            </h3>
+            <button onclick="addSkillItem()" class="no-print text-[11px] font-mono text-brandOrange hover:underline font-bold">+ Tambah</button>
+          </div>
+          
+          <div id="skills-list" class="space-y-3.5 text-xs">
+            
+            <div class="space-y-1.5 cv-item-hover relative group">
+              <div class="flex justify-between font-semibold text-slate-800">
+                <span class="editable" contenteditable="true">Full-Stack (React, Next.js, Node.js)</span>
+                <span class="text-brandOrange font-mono font-bold">95%</span>
               </div>
-              <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div class="bg-orange-500 h-1.5 rounded-full w-[95%]"></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-gradient-to-r from-brandOrange to-amber-500 h-2 rounded-full w-[95%]"></div>
               </div>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 absolute -right-4 top-0 hover:underline">✕</button>
             </div>
 
-            <div>
-              <div class="flex justify-between font-semibold mb-1">
-                <span class="editable" contenteditable="true">Backend (Node.js / Express / Python)</span>
-                <span class="text-orange-600 font-mono">90%</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div class="bg-orange-500 h-1.5 rounded-full w-[90%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex justify-between font-semibold mb-1">
+            <div class="space-y-1.5 cv-item-hover relative group">
+              <div class="flex justify-between font-semibold text-slate-800">
                 <span class="editable" contenteditable="true">AI Bot &amp; Workflow Automation</span>
-                <span class="text-orange-600 font-mono">95%</span>
+                <span class="text-brandOrange font-mono font-bold">92%</span>
               </div>
-              <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div class="bg-orange-500 h-1.5 rounded-full w-[95%]"></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-gradient-to-r from-brandOrange to-amber-500 h-2 rounded-full w-[92%]"></div>
               </div>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 absolute -right-4 top-0 hover:underline">✕</button>
             </div>
 
-            <div>
-              <div class="flex justify-between font-semibold mb-1">
-                <span class="editable" contenteditable="true">Mobile &amp; Android Termux SDK</span>
-                <span class="text-orange-600 font-mono">88%</span>
+            <div class="space-y-1.5 cv-item-hover relative group">
+              <div class="flex justify-between font-semibold text-slate-800">
+                <span class="editable" contenteditable="true">Python Scripting &amp; Linux/Termux</span>
+                <span class="text-brandOrange font-mono font-bold">90%</span>
               </div>
-              <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div class="bg-orange-500 h-1.5 rounded-full w-[88%]"></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-gradient-to-r from-brandOrange to-amber-500 h-2 rounded-full w-[90%]"></div>
               </div>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 absolute -right-4 top-0 hover:underline">✕</button>
             </div>
 
-            <div>
-              <div class="flex justify-between font-semibold mb-1">
-                <span class="editable" contenteditable="true">Database (PostgreSQL / Redis / SQL)</span>
-                <span class="text-orange-600 font-mono">85%</span>
+            <div class="space-y-1.5 cv-item-hover relative group">
+              <div class="flex justify-between font-semibold text-slate-800">
+                <span class="editable" contenteditable="true">Database (PostgreSQL, Redis, MySQL)</span>
+                <span class="text-brandOrange font-mono font-bold">88%</span>
               </div>
-              <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                <div class="bg-orange-500 h-1.5 rounded-full w-[85%]"></div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-gradient-to-r from-brandOrange to-amber-500 h-2 rounded-full w-[88%]"></div>
               </div>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 absolute -right-4 top-0 hover:underline">✕</button>
             </div>
+
           </div>
         </div>
 
-        <!-- SKILL BADGES TAGS -->
+        <!-- TECH STACK BADGES -->
         <div class="space-y-3">
-          <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-orange-600 flex items-center gap-2 border-b border-slate-200 pb-1.5">
-            <i data-feather="cpu" class="w-3.5 h-3.5"></i> TOOLS &amp; STACK
-          </h3>
+          <div class="flex items-center justify-between border-b-2 border-brandOrange/30 pb-2">
+            <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2">
+              <i data-feather="cpu" class="w-4 h-4 text-brandOrange"></i> TECH STACK &amp; TOOLS
+            </h3>
+          </div>
           <div class="flex flex-wrap gap-1.5 text-[11px] font-mono">
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Next.js 14</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Node.js</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Python 3</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">PostgreSQL</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Redis</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Docker</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Git &amp; GitHub</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Linux/Termux</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">REST APIs</span>
-            <span class="px-2 py-1 rounded-md bg-slate-100 border border-slate-200 font-medium editable" contenteditable="true">Vercel Cloud</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Next.js 14</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">React</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Node.js</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Python 3</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Tailwind CSS</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">PostgreSQL</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Docker</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Git &amp; GitHub</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Linux CLI</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Termux Environment</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">REST API Architecture</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 font-semibold text-slate-700 editable" contenteditable="true">Vercel Deployment</span>
           </div>
         </div>
 
-        <!-- MEDIA SOSIAL & TAUTAN -->
+        <!-- SOSIAL MEDIA & PORTAL -->
         <div class="space-y-3">
-          <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-orange-600 flex items-center gap-2 border-b border-slate-200 pb-1.5">
-            <i data-feather="share-2" class="w-3.5 h-3.5"></i> TAUTAN PROFIL
-          </h3>
+          <div class="flex items-center justify-between border-b-2 border-brandOrange/30 pb-2">
+            <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2">
+              <i data-feather="share-2" class="w-4 h-4 text-brandOrange"></i> PORTAL &amp; SOSMED
+            </h3>
+          </div>
           <div class="space-y-2 text-xs font-mono">
-            <div class="flex items-center gap-2">
-              <i data-feather="github" class="w-3.5 h-3.5 text-slate-500"></i>
-              <span class="editable" contenteditable="true">github.com/kheireditzz</span>
+            <div class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50">
+              <i data-feather="github" class="w-4 h-4 text-slate-700"></i>
+              <span class="editable font-medium text-slate-700" contenteditable="true">github.com/kheireditzz</span>
             </div>
-            <div class="flex items-center gap-2">
-              <i data-feather="instagram" class="w-3.5 h-3.5 text-slate-500"></i>
-              <span class="editable" contenteditable="true">instagram.com/khairindtz</span>
+            <div class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50">
+              <i data-feather="instagram" class="w-4 h-4 text-pink-600"></i>
+              <span class="editable font-medium text-slate-700" contenteditable="true">instagram.com/khairindtz</span>
             </div>
-            <div class="flex items-center gap-2">
-              <i data-feather="video" class="w-3.5 h-3.5 text-slate-500"></i>
-              <span class="editable" contenteditable="true">tiktok.com/@kheireditz</span>
+            <div class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-slate-50">
+              <i data-feather="video" class="w-4 h-4 text-purple-600"></i>
+              <span class="editable font-medium text-slate-700" contenteditable="true">tiktok.com/@kheireditz</span>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- KOLOM KANAN (PENGALAMAN KERJA, PROYEK UNGGULAN & PENDIDIKAN) - 8 COLUMNS -->
+      <!-- KOLOM KANAN (EXPERIENCE, PROJECTS & EDUCATION) - 8 COLS -->
       <div class="md:col-span-8 space-y-8">
         
-        <!-- PENGALAMAN KERJA / PENGEMBANGAN SISTEM -->
+        <!-- RIWAYAT PENGALAMAN KERJA -->
         <div class="space-y-4">
-          <h3 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2 border-b-2 border-orange-500 pb-2">
-            <i data-feather="briefcase" class="w-4 h-4 text-orange-600"></i> RIWAYAT PENGALAMAN &amp; PROYEK
-          </h3>
+          <div class="flex items-center justify-between border-b-2 border-brandOrange pb-2">
+            <h3 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2">
+              <i data-feather="briefcase" class="w-4 h-4 text-brandOrange"></i> PENGALAMAN PROFESIONAL
+            </h3>
+            <button onclick="addExperienceItem()" class="no-print px-2.5 py-1 rounded-md bg-brandOrange/10 hover:bg-brandOrange/20 text-brandOrange text-xs font-mono font-bold transition-colors">+ Tambah Pengalaman</button>
+          </div>
 
-          <div class="space-y-5 border-l-2 border-orange-200 pl-4">
+          <div id="experience-list" class="space-y-5 border-l-2 border-brandOrange/40 pl-5">
             
-            <!-- Posisi 1 -->
-            <div class="space-y-1 relative">
-              <span class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-orange-600"></span>
+            <!-- Item Pengalaman 1 -->
+            <div class="space-y-1.5 relative cv-item-hover group">
+              <span class="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-brandOrange border-2 border-white"></span>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-xs text-red-500 font-bold absolute right-0 top-0 hover:underline">Hapus ✕</button>
+              
               <div class="flex flex-wrap items-center justify-between text-xs font-mono">
-                <span class="font-bold text-orange-600 editable" contenteditable="true">LEAD FULL-STACK &amp; AI AUTOMATION ENGINEER</span>
-                <span class="text-slate-400 editable" contenteditable="true">2023 — SEKARANG</span>
+                <span class="font-bold text-brandOrange uppercase editable" contenteditable="true">LEAD FULL-STACK &amp; AI AUTOMATION ENGINEER</span>
+                <span class="text-slate-400 font-semibold editable" contenteditable="true">2023 — SEKARANG</span>
               </div>
-              <h4 class="font-bold text-slate-900 text-sm editable" contenteditable="true">Independent Software &amp; Automation Developer</h4>
+              <h4 class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">Independent Software &amp; Cloud Automation Architect</h4>
               <p class="text-xs text-slate-600 leading-relaxed editable" contenteditable="true">
-                • Merancang dan membangun arsitektur sistem berbasis Next.js 14, Node.js microservices, dan database PostgreSQL.<br>
-                • Mengembangkan bot otomatisasi affiliate TikTok dan WhatsApp Gateway API multi-device dengan uptime 24/7.<br>
-                • Mengoptimasi performa antarmuka spasial kedalaman 3D berbasis WebGL/Canvas dengan fluid render 120 FPS.
+                • Merancang arsitektur sistem berbasis Next.js 14, microservices Node.js, dan optimasi query PostgreSQL.<br>
+                • Membangun ekosistem bot otomatisasi TikTok &amp; WhatsApp Gateway API dengan uptime 99.9% tanpa downtime.<br>
+                • Mengembangkan visualisasi interaktif spasial kedalaman 3D dengan rendering fluida 120 FPS.
               </p>
             </div>
 
-            <!-- Posisi 2 -->
-            <div class="space-y-1 relative">
-              <span class="absolute -left-[21px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+            <!-- Item Pengalaman 2 -->
+            <div class="space-y-1.5 relative cv-item-hover group">
+              <span class="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-slate-400 border-2 border-white"></span>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-xs text-red-500 font-bold absolute right-0 top-0 hover:underline">Hapus ✕</button>
+              
               <div class="flex flex-wrap items-center justify-between text-xs font-mono">
-                <span class="font-bold text-slate-700 editable" contenteditable="true">WEB &amp; DIGITAL CREATIVE SPECIALIST</span>
-                <span class="text-slate-400 editable" contenteditable="true">2021 — 2023</span>
+                <span class="font-bold text-slate-700 uppercase editable" contenteditable="true">FRONTEND &amp; UI/UX SPECIALIST</span>
+                <span class="text-slate-400 font-semibold editable" contenteditable="true">2021 — 2023</span>
               </div>
-              <h4 class="font-bold text-slate-900 text-sm editable" contenteditable="true">Freelance Digital Creator &amp; Web Developer</h4>
+              <h4 class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">Digital Creative Developer &amp; Web Consultant</h4>
               <p class="text-xs text-slate-600 leading-relaxed editable" contenteditable="true">
-                • Membangun lebih dari 15+ website klien responsif dengan integrasi payment gateway dan backend REST API.<br>
-                • Mengelola strategi konten visual teknis serta optimasi mesin pencari (SEO On-Page &amp; Schema.org).
+                • Membangun lebih dari 15+ website klien responsif terintegrasi payment gateway dan backend REST API.<br>
+                • Menerapkan struktur SEO On-Page, JSON-LD Schema.org Multi-Entity Graph, dan optimasi kecepatan Web Vitals.
               </p>
             </div>
 
           </div>
         </div>
 
-        <!-- PORTOFOLIO KARYA UNGGULAN -->
+        <!-- PORTOFOLIO KARYA & PROYEK UNGGULAN -->
         <div class="space-y-4">
-          <h3 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2 border-b-2 border-orange-500 pb-2">
-            <i data-feather="layers" class="w-4 h-4 text-orange-600"></i> PROYEK UNGGULAN TERPILIH
-          </h3>
+          <div class="flex items-center justify-between border-b-2 border-brandOrange pb-2">
+            <h3 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2">
+              <i data-feather="layers" class="w-4 h-4 text-brandOrange"></i> PROYEK UNGGULAN PILIHAN
+            </h3>
+            <button onclick="addProjectItem()" class="no-print px-2.5 py-1 rounded-md bg-brandOrange/10 hover:bg-brandOrange/20 text-brandOrange text-xs font-mono font-bold transition-colors">+ Tambah Proyek</button>
+          </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             
-            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-              <div class="font-bold text-slate-900 text-sm editable" contenteditable="true">Perspective 3D Portfolio</div>
-              <div class="text-[10px] font-mono text-orange-600 editable" contenteditable="true">Next.js • Tailwind • CSS 3D Transforms</div>
+            <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/80 space-y-1.5 cv-item-hover relative group">
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-3 top-3 hover:underline">✕</button>
+              <div class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">Perspective 3D Portfolio</div>
+              <div class="text-[10px] font-mono text-brandOrange font-bold editable" contenteditable="true">Next.js • Tailwind • CSS 3D Depth</div>
               <p class="text-slate-600 leading-relaxed editable" contenteditable="true">
-                Engine web interaktif spasial dengan efek pencahayaan dinamis dan Telegram CMS terintegrasi.
+                Engine portofolio interaktif spasial dengan Telegram Bot CMS 24/7 untuk pembaruan instan.
               </p>
             </div>
 
-            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-              <div class="font-bold text-slate-900 text-sm editable" contenteditable="true">TikTok Auto-Uploader Suite</div>
-              <div class="text-[10px] font-mono text-orange-600 editable" contenteditable="true">Python • FFmpeg • Selenium • Termux</div>
+            <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/80 space-y-1.5 cv-item-hover relative group">
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-3 top-3 hover:underline">✕</button>
+              <div class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">TikTok Auto-Uploader Suite</div>
+              <div class="text-[10px] font-mono text-brandOrange font-bold editable" contenteditable="true">Python • Selenium • FFmpeg • Termux</div>
               <p class="text-slate-600 leading-relaxed editable" contenteditable="true">
-                Script otomatisasi pengunduhan video tanpa watermark dan auto-upload dengan caption AI.
+                Script automasi download HD tanpa watermark dan auto-upload dengan caption pintar AI.
               </p>
             </div>
 
-            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-              <div class="font-bold text-slate-900 text-sm editable" contenteditable="true">WhatsApp AI Gateway &amp; Bot</div>
-              <div class="text-[10px] font-mono text-orange-600 editable" contenteditable="true">Node.js • Baileys • Gemini AI API</div>
+            <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/80 space-y-1.5 cv-item-hover relative group">
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-3 top-3 hover:underline">✕</button>
+              <div class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">WhatsApp AI Gateway &amp; Bot</div>
+              <div class="text-[10px] font-mono text-brandOrange font-bold editable" contenteditable="true">Node.js • Baileys SDK • Gemini AI API</div>
               <p class="text-slate-600 leading-relaxed editable" contenteditable="true">
-                Gateway pesan otomatis untuk customer service pintar dengan multi-session handling.
+                Customer service cerdas dengan respons multi-device otomatis dan session keep-alive.
               </p>
             </div>
 
-            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-              <div class="font-bold text-slate-900 text-sm editable" contenteditable="true">Warehouse Management Cloud</div>
-              <div class="text-[10px] font-mono text-orange-600 editable" contenteditable="true">React • Express • PostgreSQL • Docker</div>
+            <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/80 space-y-1.5 cv-item-hover relative group">
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-3 top-3 hover:underline">✕</button>
+              <div class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">Multi-Store Inventory Cloud</div>
+              <div class="text-[10px] font-mono text-brandOrange font-bold editable" contenteditable="true">React • Express • PostgreSQL • Redis</div>
               <p class="text-slate-600 leading-relaxed editable" contenteditable="true">
-                Aplikasi manajemen inventaris multi-cabang dengan barcode scanner dan analitik penjualan.
+                Aplikasi manajemen stok pergudangan multi-cabang dengan barcode real-time scanner.
               </p>
             </div>
 
           </div>
         </div>
 
-        <!-- RIWAYAT PENDIDIKAN & SERTIFIKASI -->
+        <!-- PENDIDIKAN & SERTIFIKASI RESMI -->
         <div class="space-y-4">
-          <h3 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2 border-b-2 border-orange-500 pb-2">
-            <i data-feather="award" class="w-4 h-4 text-orange-600"></i> PENDIDIKAN &amp; SERTIFIKASI
-          </h3>
+          <div class="flex items-center justify-between border-b-2 border-brandOrange pb-2">
+            <h3 class="text-sm font-mono font-bold uppercase tracking-widest text-slate-900 flex items-center gap-2">
+              <i data-feather="award" class="w-4 h-4 text-brandOrange"></i> PENDIDIKAN &amp; SERTIFIKASI
+            </h3>
+            <button onclick="addEducationItem()" class="no-print px-2.5 py-1 rounded-md bg-brandOrange/10 hover:bg-brandOrange/20 text-brandOrange text-xs font-mono font-bold transition-colors">+ Tambah Pendidikan</button>
+          </div>
 
-          <div class="space-y-3 text-xs">
-            <div class="flex justify-between items-start">
+          <div id="education-list" class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap justify-between items-center gap-2 cv-item-hover relative group">
               <div>
                 <h4 class="font-bold text-slate-900 text-sm editable" contenteditable="true">Teknik Informatika / Ilmu Komputer</h4>
-                <p class="text-slate-500 font-mono editable" contenteditable="true">Pendidikan Formal Bidang Teknologi &amp; Rekayasa Perangkat Lunak</p>
+                <p class="text-slate-500 font-mono editable" contenteditable="true">Pendidikan Formal Bidang Rekayasa Perangkat Lunak &amp; Komputasi</p>
               </div>
-              <span class="font-mono text-orange-600 font-bold editable shrink-0" contenteditable="true">2020 — 2024</span>
+              <span class="font-mono text-brandOrange font-bold editable shrink-0" contenteditable="true">2020 — 2024</span>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-2 top-1 hover:underline">✕</button>
             </div>
 
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-              <span class="font-medium text-slate-800 editable" contenteditable="true">Sertifikasi Full-Stack Web Architecture &amp; Cloud Deployment</span>
-              <span class="font-mono text-emerald-600 font-bold">Verified</span>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap justify-between items-center gap-2 cv-item-hover relative group">
+              <div>
+                <h4 class="font-bold text-slate-900 text-sm editable" contenteditable="true">Sertifikasi Full-Stack Architecture &amp; Cloud Deployment</h4>
+                <p class="text-slate-500 font-mono editable" contenteditable="true">Standar Industri Rekayasa Web Skala Enterprise &amp; DevOps</p>
+              </div>
+              <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 font-mono font-bold text-[10px]">VERIFIED</span>
+              <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-2 top-1 hover:underline">✕</button>
             </div>
           </div>
         </div>
@@ -368,14 +435,17 @@
 
     </div>
 
-    <!-- FOOTER RESMI CV -->
-    <div class="bg-slate-50 border-t border-slate-200 px-8 py-4 flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-500">
+    <!-- FOOTER RESMI DOKUMEN CV -->
+    <footer class="bg-slate-50 border-t border-slate-200 px-8 sm:px-12 py-4 flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-500">
       <div>Dokumen Resmi &bull; Curriculum Vitae Miftahul Khairin</div>
-      <div>Verifikasi Online: <a href="https://portofolio.kheireditz.my.id/" class="text-orange-600 font-bold hover:underline">portofolio.kheireditz.my.id</a></div>
-    </div>
+      <div>Verifikasi Portofolio Online: <a href="https://portofolio.kheireditz.my.id/" class="text-brandOrange font-bold hover:underline">portofolio.kheireditz.my.id</a></div>
+    </footer>
 
-  </div>
+  </main>
 
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC FOR EDIT, ADD, DELETE & PDF -->
+  <!-- ========================================== -->
   <script>
     feather.replace();
 
@@ -387,30 +457,104 @@
         el.setAttribute('contenteditable', isEditing ? 'true' : 'false');
       });
       document.getElementById('txt-edit-mode').innerText = isEditing ? 'Mode Edit: Aktif' : 'Mode Edit: Nonaktif';
-      document.getElementById('btn-edit-mode').classList.toggle('bg-orange-600', isEditing);
+      document.getElementById('btn-edit-mode').classList.toggle('bg-brandOrange', isEditing);
     }
 
     function changePhotoPrompt() {
-      const url = prompt("Masukkan URL Gambar / Foto Baru (atau nama file lokal, contoh: profile.jpg):", "profile.jpg");
+      const url = prompt("Masukkan URL Foto / Gambar Baru (atau ketik 'profile.jpg'):", "profile.jpg");
       if (url) {
-        document.getElementById('cv-profile-img').src = url;
+        document.getElementById('cv-avatar').src = url;
       }
     }
 
+    // TAMBAH KEAHLIAN
+    function addSkillItem() {
+      const list = document.getElementById('skills-list');
+      const div = document.createElement('div');
+      div.className = "space-y-1.5 cv-item-hover relative group";
+      div.innerHTML = `
+        <div class="flex justify-between font-semibold text-slate-800">
+          <span class="editable" contenteditable="true">Keahlian Baru (Edit teks)</span>
+          <span class="text-brandOrange font-mono font-bold">85%</span>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-brandOrange to-amber-500 h-2 rounded-full w-[85%]"></div>
+        </div>
+        <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 absolute -right-4 top-0 hover:underline">✕</button>
+      `;
+      list.appendChild(div);
+      feather.replace();
+    }
+
+    // TAMBAH PENGALAMAN
+    function addExperienceItem() {
+      const list = document.getElementById('experience-list');
+      const div = document.createElement('div');
+      div.className = "space-y-1.5 relative cv-item-hover group";
+      div.innerHTML = `
+        <span class="absolute -left-[27px] top-1.5 w-3.5 h-3.5 rounded-full bg-brandOrange border-2 border-white"></span>
+        <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-xs text-red-500 font-bold absolute right-0 top-0 hover:underline">Hapus ✕</button>
+        <div class="flex flex-wrap items-center justify-between text-xs font-mono">
+          <span class="font-bold text-brandOrange uppercase editable" contenteditable="true">POSISI / JABATAN BARU</span>
+          <span class="text-slate-400 font-semibold editable" contenteditable="true">TAHUN — TAHUN</span>
+        </div>
+        <h4 class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">Nama Perusahaan / Tim</h4>
+        <p class="text-xs text-slate-600 leading-relaxed editable" contenteditable="true">
+          • Jelaskan tugas, tanggung jawab, serta pencapaian utama yang berhasil diraih di sini.
+        </p>
+      `;
+      list.appendChild(div);
+      feather.replace();
+    }
+
+    // TAMBAH PROYEK
+    function addProjectItem() {
+      const grid = document.getElementById('projects-grid');
+      const div = document.createElement('div');
+      div.className = "p-4 rounded-2xl border border-slate-200 bg-slate-50/80 space-y-1.5 cv-item-hover relative group";
+      div.innerHTML = `
+        <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-3 top-3 hover:underline">✕</button>
+        <div class="font-extrabold text-slate-900 text-sm editable" contenteditable="true">Judul Proyek Baru</div>
+        <div class="text-[10px] font-mono text-brandOrange font-bold editable" contenteditable="true">Tech Stack (Contoh: React • Node.js)</div>
+        <p class="text-slate-600 leading-relaxed editable" contenteditable="true">
+          Deskripsi singkat mengenai solusi dan fitur unggulan proyek ini.
+        </p>
+      `;
+      grid.appendChild(div);
+      feather.replace();
+    }
+
+    // TAMBAH PENDIDIKAN
+    function addEducationItem() {
+      const list = document.getElementById('education-list');
+      const div = document.createElement('div');
+      div.className = "p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap justify-between items-center gap-2 cv-item-hover relative group";
+      div.innerHTML = `
+        <div>
+          <h4 class="font-bold text-slate-900 text-sm editable" contenteditable="true">Nama Jurusan / Sertifikasi Baru</h4>
+          <p class="text-slate-500 font-mono editable" contenteditable="true">Nama Institusi / Penyelenggara</p>
+        </div>
+        <span class="font-mono text-brandOrange font-bold editable shrink-0" contenteditable="true">2024</span>
+        <button onclick="this.parentElement.remove()" class="no-print delete-btn opacity-0 text-[10px] text-red-500 font-bold absolute right-2 top-1 hover:underline">✕</button>
+      `;
+      list.appendChild(div);
+      feather.replace();
+    }
+
+    // DOWNLOAD PDF HIGH DEFINITION (A4)
     function downloadPDF() {
-      const element = document.getElementById('cv-content');
+      const element = document.getElementById('cv-sheet');
       
       const opt = {
         margin:       [0, 0, 0, 0],
-        filename:     'CV_Miftahul_Khairin_Developer.pdf',
+        filename:     'Curriculum_Vitae_Miftahul_Khairin.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+        html2canvas:  { scale: 2.2, useCORS: true, letterRendering: true, scrollY: 0 },
         jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
       };
 
-      // Tampilkan notifikasi download
       const origTitle = document.title;
-      document.title = "Mengunduh PDF...";
+      document.title = "Generating_CV_PDF...";
       html2pdf().set(opt).from(element).save().then(() => {
         document.title = origTitle;
       });
