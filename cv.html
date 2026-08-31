@@ -50,6 +50,7 @@
       body { background: #ffffff !important; padding: 0 !important; margin: 0 !important; }
       .a4-page { box-shadow: none !important; border: none !important; margin: 0 !important; width: 100% !important; height: 100% !important; max-height: 100% !important; page-break-inside: avoid !important; }
       .del-btn { display: none !important; }
+      .stepper-btn { display: none !important; }
     }
 
     .editable:focus {
@@ -59,6 +60,10 @@
     }
 
     .cv-item:hover .del-btn {
+      opacity: 1 !important;
+    }
+    
+    .cv-item:hover .stepper-btn {
       opacity: 1 !important;
     }
   </style>
@@ -73,7 +78,7 @@
       </div>
       <div>
         <h1 class="text-white font-bold text-xs font-display leading-tight">SUPER FULL CRUD CV BUILDER</h1>
-        <p class="text-[10px] text-slate-400">Semua teks bisa diedit &bull; Semua elemen bisa ditambah &amp; dihapus &bull; Kanan-Kiri Penuh.</p>
+        <p class="text-[10px] text-slate-400">Tekan tombol +/- untuk menaikkan/menurunkan persen &bull; Edit teks &bull; Hapus / Tambah item.</p>
       </div>
     </div>
 
@@ -128,7 +133,7 @@
       <!-- 2. GRID UTAMA 2 KOLOM (PADAT, LENGKAP & SEIMBANG) -->
       <div class="grid grid-cols-12 gap-5">
         
-        <!-- KOLOM KIRI (BIODATA, SKILL, TOOLS, BAHASA & PENGHARGAAN) - 5 COLS -->
+        <!-- KOLOM KIRI (BIODATA, SKILL DENGAN STEPPER NAIK/TURUN, TOOLS, BAHASA & PENGHARGAAN) - 5 COLS -->
         <div class="col-span-5 space-y-2.5 border-r border-slate-200 pr-4">
           
           <!-- BIODATA PRIBADI DETAIL -->
@@ -163,7 +168,7 @@
             </div>
           </div>
 
-          <!-- KEAHLIAN TEKNIS (PROGRESS BARS) -->
+          <!-- KEAHLIAN TEKNIS (DENGAN STEPPER NAIK/TURUN & LIVE BAR UPDATE) -->
           <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
@@ -172,31 +177,77 @@
               <button onclick="addSkill()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
             </div>
             <div id="skills-list" class="space-y-1.5 text-[10px]">
+              
+              <!-- Item 1 -->
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Frontend (React, Next.js 14, Tailwind)</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">95%</span></div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[95%]"></div></div>
+                <div class="flex justify-between items-center font-semibold">
+                  <span class="editable" contenteditable="false">Frontend (React, Next.js 14, Tailwind)</span>
+                  <div class="flex items-center gap-1">
+                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val">95%</span>
+                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                  </div>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 95%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
+
+              <!-- Item 2 -->
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Backend &amp; API (Node.js, Express)</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">90%</span></div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[90%]"></div></div>
+                <div class="flex justify-between items-center font-semibold">
+                  <span class="editable" contenteditable="false">Backend &amp; API (Node.js, Express)</span>
+                  <div class="flex items-center gap-1">
+                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val">90%</span>
+                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                  </div>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 90%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
+
+              <!-- Item 3 -->
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">AI Bot &amp; Workflow Automation</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">95%</span></div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[95%]"></div></div>
+                <div class="flex justify-between items-center font-semibold">
+                  <span class="editable" contenteditable="false">AI Bot &amp; Workflow Automation</span>
+                  <div class="flex items-center gap-1">
+                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val">95%</span>
+                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                  </div>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 95%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
+
+              <!-- Item 4 -->
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Python &amp; Linux/Termux Scripting</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">88%</span></div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[88%]"></div></div>
+                <div class="flex justify-between items-center font-semibold">
+                  <span class="editable" contenteditable="false">Python &amp; Linux/Termux Scripting</span>
+                  <div class="flex items-center gap-1">
+                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val">88%</span>
+                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                  </div>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 88%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
+
+              <!-- Item 5 -->
               <div class="cv-item relative group">
-                <div class="flex justify-between font-semibold"><span class="editable" contenteditable="false">Database (PostgreSQL, Redis, SQL)</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="false">85%</span></div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[85%]"></div></div>
+                <div class="flex justify-between items-center font-semibold">
+                  <span class="editable" contenteditable="false">Database (PostgreSQL, Redis, SQL)</span>
+                  <div class="flex items-center gap-1">
+                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val">85%</span>
+                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                  </div>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 85%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
+
             </div>
           </div>
 
@@ -470,6 +521,19 @@
       }
     }
 
+    // FUNGSI NAIKKAN / TURUNKAN PERSEN KEAHLIAN (+/- STEPPER LIVE BAR UPDATE)
+    function adjustPercent(btn, delta) {
+      const parent = btn.closest('.cv-item');
+      const textSpan = parent.querySelector('.percent-val');
+      const progressBar = parent.querySelector('.progress-bar');
+      
+      let currentVal = parseInt(textSpan.innerText.replace('%', '')) || 80;
+      currentVal = Math.min(100, Math.max(10, currentVal + delta));
+      
+      textSpan.innerText = currentVal + '%';
+      progressBar.style.width = currentVal + '%';
+    }
+
     // FUNGSI TAMBAH ITEM (SUPER FULL CRUD)
     function addBiodata() {
       const list = document.getElementById('biodata-list');
@@ -488,8 +552,15 @@
       const div = document.createElement('div');
       div.className = "cv-item relative group";
       div.innerHTML = `
-        <div class="flex justify-between font-semibold"><span class="editable" contenteditable="true">Keahlian Baru</span><span class="text-brandOrange font-mono font-bold editable" contenteditable="true">85%</span></div>
-        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full w-[85%]"></div></div>
+        <div class="flex justify-between items-center font-semibold">
+          <span class="editable" contenteditable="true">Keahlian Baru (Edit teks)</span>
+          <div class="flex items-center gap-1">
+            <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
+            <span class="text-brandOrange font-mono font-bold percent-val">85%</span>
+            <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+          </div>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 85%;"></div></div>
         <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
       `;
       list.appendChild(div);
