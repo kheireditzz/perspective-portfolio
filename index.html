@@ -29,25 +29,63 @@
   <meta name="twitter:description" content="Portofolio resmi Miftahul Khairin (kheireditz). Menampilkan karya interaktif spatial computing, full-stack web, dan AI automation.">
   <meta name="twitter:image" content="https://portofolio.kheireditz.my.id/profile.jpg">
 
-  <!-- Schema.org JSON-LD Structured Data (Google Knowledge Graph & Rich Snippets) -->
+  <!-- Schema.org Multi-Entity Graph (Google Knowledge Graph, WebSite & ProfilePage) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Miftahul Khairin",
-    "alternateName": ["kheireditz", "Khairin", "Miftahul"],
-    "url": "https://portofolio.kheireditz.my.id/",
-    "image": "https://portofolio.kheireditz.my.id/profile.jpg",
-    "jobTitle": "Full-Stack Developer & Digital Creator",
-    "description": "Full-Stack Developer, AI Automation Engineer, dan Kreator Digital yang berfokus pada teknologi modern dan spatial computing.",
-    "sameAs": [
-      "https://github.com/kheireditzz",
-      "https://www.tiktok.com/@kheireditz"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://portofolio.kheireditz.my.id/#website",
+        "url": "https://portofolio.kheireditz.my.id/",
+        "name": "Miftahul Khairin Portfolio",
+        "alternateName": "Portofolio Miftahul Khairin",
+        "description": "Portofolio resmi Miftahul Khairin - Full-Stack Developer & Kreator Digital",
+        "inLanguage": "id-ID"
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://portofolio.kheireditz.my.id/#webpage",
+        "url": "https://portofolio.kheireditz.my.id/",
+        "name": "Miftahul Khairin — Full-Stack Developer & Kreator Digital | Official Portfolio",
+        "isPartOf": { "@id": "https://portofolio.kheireditz.my.id/#website" },
+        "about": { "@id": "https://portofolio.kheireditz.my.id/#person" },
+        "mainEntity": { "@id": "https://portofolio.kheireditz.my.id/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://portofolio.kheireditz.my.id/#person",
+        "name": "Miftahul Khairin",
+        "alternateName": ["kheireditz", "Khairin", "Miftahul", "Khairin Developer"],
+        "url": "https://portofolio.kheireditz.my.id/",
+        "image": "https://portofolio.kheireditz.my.id/profile.jpg",
+        "jobTitle": "Full-Stack Developer & Digital Creator",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Independent Developer / Freelance"
+        },
+        "description": "Full-Stack Developer, AI Automation Engineer, dan Kreator Digital yang berfokus pada web modern, spatial UI, dan mobile computing.",
+        "knowsAbout": [
+          "Full-Stack Development",
+          "JavaScript",
+          "Python",
+          "Android Development",
+          "AI Automation",
+          "UI/UX Design",
+          "Spatial Web Design"
+        ],
+        "sameAs": [
+          "https://github.com/kheireditzz",
+          "https://www.tiktok.com/@kheireditz"
+        ]
+      }
     ]
   }
   </script>
 
-  <!-- Favicon / Browser Icon -->
+  <!-- PWA & Mobile Icons -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FF6B00">
   <link rel="icon" type="image/jpeg" href="profile.jpg">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" href="profile.jpg">
