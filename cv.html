@@ -78,7 +78,7 @@
       </div>
       <div>
         <h1 class="text-white font-bold text-xs font-display leading-tight">SUPER FULL CRUD CV BUILDER</h1>
-        <p class="text-[10px] text-slate-400">Tekan tombol +/- untuk menaikkan/menurunkan persen &bull; Edit teks &bull; Hapus / Tambah item.</p>
+        <p class="text-[10px] text-slate-400">Tekan tombol +/- atau ketik angka langsung &bull; Garis otomatis mengikuti persen &bull; Simpan &amp; PDF.</p>
       </div>
     </div>
 
@@ -183,12 +183,12 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Frontend (React, Next.js 14, Tailwind)</span>
                   <div class="flex items-center gap-1">
-                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val">95%</span>
-                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">95%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 95%;"></div></div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 95%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
@@ -197,12 +197,12 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Backend &amp; API (Node.js, Express)</span>
                   <div class="flex items-center gap-1">
-                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val">90%</span>
-                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">90%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 90%;"></div></div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 90%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
@@ -211,12 +211,12 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">AI Bot &amp; Workflow Automation</span>
                   <div class="flex items-center gap-1">
-                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val">95%</span>
-                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">95%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 95%;"></div></div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 95%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
@@ -225,12 +225,12 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Python &amp; Linux/Termux Scripting</span>
                   <div class="flex items-center gap-1">
-                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val">88%</span>
-                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">88%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 88%;"></div></div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 88%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
@@ -239,12 +239,12 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Database (PostgreSQL, Redis, SQL)</span>
                   <div class="flex items-center gap-1">
-                    <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val">85%</span>
-                    <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">85%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 85%;"></div></div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 85%;"></div></div>
                 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
@@ -521,17 +521,33 @@
       }
     }
 
-    // FUNGSI NAIKKAN / TURUNKAN PERSEN KEAHLIAN (+/- STEPPER LIVE BAR UPDATE)
+    // UPDATE PROGRESS BAR SECARA REALTIME DENGAN ANIMASI
+    function updateBar(parent, percent) {
+      const progressBar = parent.querySelector('.progress-bar');
+      if (progressBar) {
+        progressBar.style.setProperty('width', percent + '%', 'important');
+      }
+    }
+
+    // FUNGSI NAIKKAN / TURUNKAN PERSEN KEAHLIAN (+/- STEPPER)
     function adjustPercent(btn, delta) {
       const parent = btn.closest('.cv-item');
       const textSpan = parent.querySelector('.percent-val');
-      const progressBar = parent.querySelector('.progress-bar');
       
-      let currentVal = parseInt(textSpan.innerText.replace('%', '')) || 80;
-      currentVal = Math.min(100, Math.max(10, currentVal + delta));
+      let currentVal = parseInt(textSpan.innerText.replace(/[^0-9]/g, '')) || 80;
+      currentVal = Math.min(100, Math.max(5, currentVal + delta));
       
       textSpan.innerText = currentVal + '%';
-      progressBar.style.width = currentVal + '%';
+      updateBar(parent, currentVal);
+    }
+
+    // FUNGSI MENGIKUTI PERSEN JIKA DIKETIK MANUAL
+    function handleManualInput(textSpan) {
+      const parent = textSpan.closest('.cv-item');
+      let val = parseInt(textSpan.innerText.replace(/[^0-9]/g, '')) || 80;
+      val = Math.min(100, Math.max(5, val));
+      textSpan.innerText = val + '%';
+      updateBar(parent, val);
     }
 
     // FUNGSI TAMBAH ITEM (SUPER FULL CRUD)
@@ -553,14 +569,14 @@
       div.className = "cv-item relative group";
       div.innerHTML = `
         <div class="flex justify-between items-center font-semibold">
-          <span class="editable" contenteditable="true">Keahlian Baru (Edit teks)</span>
+          <span class="editable" contenteditable="true">Keahlian Baru</span>
           <div class="flex items-center gap-1">
-            <button onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">-</button>
-            <span class="text-brandOrange font-mono font-bold percent-val">85%</span>
-            <button onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none">+</button>
+            <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
+            <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="true" onblur="handleManualInput(this)">85%</span>
+            <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
           </div>
         </div>
-        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar" style="width: 85%;"></div></div>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 85%;"></div></div>
         <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
       `;
       list.appendChild(div);
