@@ -59,12 +59,25 @@
       border-radius: 4px;
     }
 
+    /* TAMPILKAN TOMBOL STEPPER & HAPUS SECARA ELEGAN */
+    .cv-item .del-btn {
+      opacity: 0.3;
+      transition: opacity 0.2s;
+    }
     .cv-item:hover .del-btn {
       opacity: 1 !important;
     }
     
+    .cv-item .stepper-btn {
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
     .cv-item:hover .stepper-btn {
       opacity: 1 !important;
+    }
+
+    .progress-bar-fill {
+      transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
   </style>
 </head>
@@ -78,11 +91,15 @@
       </div>
       <div>
         <h1 class="text-white font-bold text-xs font-display leading-tight">SUPER FULL CRUD CV BUILDER</h1>
-        <p class="text-[10px] text-slate-400">Tekan tombol +/- atau ketik angka langsung &bull; Garis otomatis mengikuti persen &bull; Simpan &amp; PDF.</p>
+        <p class="text-[10px] text-slate-400">Tekan tombol +/- atau ketik angka langsung &bull; Garis oranye otomatis mengikuti &bull; Klik Simpan.</p>
       </div>
     </div>
 
     <div class="flex items-center gap-2">
+      <button onclick="resetToDefault()" class="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs flex items-center gap-1 shadow-md transition-all">
+        <i data-feather="rotate-ccw" class="w-3.5 h-3.5"></i>
+        <span>Reset Baru</span>
+      </button>
       <button onclick="saveChanges()" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 shadow-md transition-all">
         <i data-feather="save" class="w-3.5 h-3.5"></i>
         <span>Simpan Perubahan</span>
@@ -148,27 +165,27 @@
               <div class="cv-item relative group">
                 <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold">Tempat, Tanggal Lahir</span>
                 <span class="font-bold text-slate-800 editable" contenteditable="false">Indonesia, 15 Januari 2002</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
                 <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold">Jenis Kelamin / Agama</span>
                 <span class="font-bold text-slate-800 editable" contenteditable="false">Laki-Laki / Islam</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
               </div>
               <div class="cv-item relative group">
                 <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold">Kewarganegaraan</span>
                 <span class="font-bold text-slate-800 editable" contenteditable="false">Indonesia (WNI)</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
               </div>
               <div class="cv-item relative group p-1.5 rounded-lg bg-emerald-50 border border-emerald-200">
                 <span class="text-[8px] text-emerald-600 font-mono font-bold uppercase block">Status Ketersediaan</span>
                 <span class="font-bold text-emerald-700 editable" contenteditable="false">Siap Bekerja (Full-Time / Remote)</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
             </div>
           </div>
 
-          <!-- KEAHLIAN TEKNIS (DENGAN STEPPER NAIK/TURUN & LIVE BAR UPDATE) -->
+          <!-- KEAHLIAN TEKNIS (DENGAN STEPPER NAIK/TURUN & LIVE BAR SYNC 100%) -->
           <div class="space-y-1">
             <div class="flex justify-between items-center border-b border-brandOrange pb-0.5">
               <h3 class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900 flex items-center gap-1.5">
@@ -183,13 +200,15 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Frontend (React, Next.js 14, Tailwind)</span>
                   <div class="flex items-center gap-1">
-                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">95%</span>
-                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" oninput="syncBarFromInput(this)" onblur="formatPercent(this)">95%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 95%;"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5 overflow-hidden">
+                  <div class="bg-brandOrange h-1.5 rounded-full progress-bar-fill" style="width: 95%;"></div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
               <!-- Item 2 -->
@@ -197,13 +216,15 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Backend &amp; API (Node.js, Express)</span>
                   <div class="flex items-center gap-1">
-                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">90%</span>
-                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" oninput="syncBarFromInput(this)" onblur="formatPercent(this)">90%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 90%;"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5 overflow-hidden">
+                  <div class="bg-brandOrange h-1.5 rounded-full progress-bar-fill" style="width: 90%;"></div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
               <!-- Item 3 -->
@@ -211,13 +232,15 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">AI Bot &amp; Workflow Automation</span>
                   <div class="flex items-center gap-1">
-                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">95%</span>
-                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" oninput="syncBarFromInput(this)" onblur="formatPercent(this)">95%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 95%;"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5 overflow-hidden">
+                  <div class="bg-brandOrange h-1.5 rounded-full progress-bar-fill" style="width: 95%;"></div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
               <!-- Item 4 -->
@@ -225,13 +248,15 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Python &amp; Linux/Termux Scripting</span>
                   <div class="flex items-center gap-1">
-                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">88%</span>
-                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" oninput="syncBarFromInput(this)" onblur="formatPercent(this)">88%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 88%;"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5 overflow-hidden">
+                  <div class="bg-brandOrange h-1.5 rounded-full progress-bar-fill" style="width: 88%;"></div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
               <!-- Item 5 -->
@@ -239,13 +264,15 @@
                 <div class="flex justify-between items-center font-semibold">
                   <span class="editable" contenteditable="false">Database (PostgreSQL, Redis, SQL)</span>
                   <div class="flex items-center gap-1">
-                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
-                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" onblur="handleManualInput(this)">85%</span>
-                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
+                    <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">-</button>
+                    <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="false" oninput="syncBarFromInput(this)" onblur="formatPercent(this)">85%</span>
+                    <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">+</button>
                   </div>
                 </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 85%;"></div></div>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5 overflow-hidden">
+                  <div class="bg-brandOrange h-1.5 rounded-full progress-bar-fill" style="width: 85%;"></div>
+                </div>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
               </div>
 
             </div>
@@ -260,17 +287,17 @@
               <button onclick="addTechBadge()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
             </div>
             <div id="tech-badges" class="flex flex-wrap gap-1 text-[9px] font-mono">
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Next.js 14 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">React <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Node.js <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Python 3 <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">PostgreSQL <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Redis <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Docker <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Git <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Termux <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">REST API <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
-              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Vercel <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Next.js 14 <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">React <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Node.js <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Python 3 <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">PostgreSQL <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Redis <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Docker <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Git <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Termux <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">REST API <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
+              <span class="cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable" contenteditable="false">Vercel <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button></span>
             </div>
           </div>
 
@@ -286,12 +313,12 @@
               <div class="cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="font-bold text-slate-800 block editable" contenteditable="false">Bahasa Indonesia</span>
                 <span class="text-slate-500 font-mono text-[8px] editable" contenteditable="false">Penutur Asli (Native)</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
               <div class="cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="font-bold text-slate-800 block editable" contenteditable="false">Bahasa Inggris</span>
                 <span class="text-slate-500 font-mono text-[8px] editable" contenteditable="false">Teknis &amp; Dokumentasi</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
             </div>
           </div>
@@ -308,12 +335,12 @@
               <div class="cv-item relative group p-1.5 rounded-lg bg-amber-50/60 border border-amber-200">
                 <span class="font-bold text-amber-900 block editable" contenteditable="false">Top Creator &amp; Automation Developer</span>
                 <span class="text-amber-700 text-[8.5px] editable" contenteditable="false">Mengelola ekosistem cloud bot mandiri dengan uptime 99.9%.</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
               <div class="cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="font-bold text-slate-800 block editable" contenteditable="false">Publikasi 15+ Solusi Web Siap Pakai</span>
                 <span class="text-slate-600 text-[8.5px] editable" contenteditable="false">Merilis source code open-source &amp; template komersial.</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
             </div>
           </div>
@@ -345,7 +372,7 @@
                   • Mengembangkan bot automasi TikTok &amp; WhatsApp Gateway API dengan uptime 99.9%.<br>
                   • Merancang engine antarmuka spasial kedalaman 3D dengan rendering fluida 120 FPS.
                 </p>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕ Hapus</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-0 top-0">✕ Hapus</button>
               </div>
 
               <div class="cv-item space-y-0.5 relative pt-0.5 group">
@@ -359,7 +386,7 @@
                   • Membangun 15+ website klien responsif terintegrasi payment gateway dan backend REST API.<br>
                   • Menerapkan struktur SEO On-Page, JSON-LD Schema.org Graph, dan optimasi Core Web Vitals.
                 </p>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-1">✕ Hapus</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-0 top-1">✕ Hapus</button>
               </div>
             </div>
           </div>
@@ -378,28 +405,28 @@
                 <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">Perspective 3D Portfolio</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">Next.js • Tailwind • CSS 3D</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Engine portofolio interaktif spasial dengan Telegram Bot CMS terintegrasi.</p>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
               </div>
 
               <div class="cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group">
                 <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">TikTok Auto-Uploader</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">Python • Selenium • FFmpeg</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Script automasi download HD tanpa watermark &amp; upload otomatis.</p>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
               </div>
 
               <div class="cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group">
                 <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">WhatsApp AI Gateway</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">Node.js • Baileys • Gemini AI</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Customer service cerdas dengan respons multi-device otomatis.</p>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
               </div>
 
               <div class="cv-item p-2 rounded-xl bg-slate-50 border border-slate-200 space-y-0.5 relative group">
                 <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="false">Warehouse Cloud System</span>
                 <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="false">React • Express • PostgreSQL</span>
                 <p class="text-slate-600 leading-snug editable" contenteditable="false">Aplikasi manajemen stok multi-cabang dengan barcode scanner.</p>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
               </div>
             </div>
           </div>
@@ -419,12 +446,12 @@
                   <p class="text-slate-500 font-mono text-[8.5px] editable" contenteditable="false">Pendidikan Formal Bidang Komputasi &amp; Rekayasa Web</p>
                 </div>
                 <span class="font-mono text-brandOrange font-bold text-[9px] editable shrink-0" contenteditable="false">2020 — 2024</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold ml-2">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold ml-2">✕</button>
               </div>
               <div class="cv-item p-1.5 rounded-lg bg-slate-50 border border-slate-200 flex justify-between items-center relative group">
                 <span class="font-medium text-slate-800 editable" contenteditable="false">Sertifikasi Full-Stack Web Architecture &amp; Cloud Deployment</span>
                 <span class="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 font-mono font-bold text-[8px] editable" contenteditable="false">VERIFIED</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold ml-2">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold ml-2">✕</button>
               </div>
             </div>
           </div>
@@ -438,9 +465,9 @@
               <button onclick="addMethodItem()" class="no-print text-[9px] font-mono text-brandOrange font-bold hover:underline">+ Tambah</button>
             </div>
             <div id="method-grid" class="grid grid-cols-3 gap-1 text-[9px] font-mono text-slate-700">
-              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">Agile &amp; Scrum <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
-              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">CI/CD DevOps <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
-              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">REST Architecture <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
+              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">Agile &amp; Scrum <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
+              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">CI/CD DevOps <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
+              <div class="cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable" contenteditable="false">REST Architecture <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button></div>
             </div>
           </div>
 
@@ -456,12 +483,12 @@
               <div class="cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="font-bold text-slate-800 block editable" contenteditable="false">Kecepatan &amp; Optimasi 120 FPS</span>
                 <span class="text-slate-500 editable" contenteditable="false">Kompresi aset visual &amp; Core Web Vitals tinggi.</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
               <div class="cv-item relative group p-1.5 rounded-lg bg-slate-50 border border-slate-200">
                 <span class="font-bold text-slate-800 block editable" contenteditable="false">Keamanan &amp; High Availability</span>
                 <span class="text-slate-500 editable" contenteditable="false">Proteksi endpoint API &amp; uptime server 24/7.</span>
-                <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+                <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
               </div>
             </div>
           </div>
@@ -493,7 +520,7 @@
     }
 
     // LOAD LOCAL STORAGE JIKA PERNAH DIEDIT SECARA PRIVATE
-    const savedContent = localStorage.getItem('my_private_cv_content');
+    const savedContent = localStorage.getItem('my_private_cv_content_v2');
     if (savedContent) {
       document.getElementById('cv-sheet').innerHTML = savedContent;
       feather.replace();
@@ -521,11 +548,11 @@
       }
     }
 
-    // UPDATE PROGRESS BAR SECARA REALTIME DENGAN ANIMASI
+    // UPDATE PROGRESS BAR SECARA REALTIME
     function updateBar(parent, percent) {
-      const progressBar = parent.querySelector('.progress-bar');
-      if (progressBar) {
-        progressBar.style.setProperty('width', percent + '%', 'important');
+      const bar = parent.querySelector('.progress-bar-fill');
+      if (bar) {
+        bar.style.width = percent + '%';
       }
     }
 
@@ -534,20 +561,42 @@
       const parent = btn.closest('.cv-item');
       const textSpan = parent.querySelector('.percent-val');
       
-      let currentVal = parseInt(textSpan.innerText.replace(/[^0-9]/g, '')) || 80;
+      let rawText = textSpan.innerText || textSpan.textContent || '80';
+      let currentVal = parseInt(rawText.replace(/[^0-9]/g, '')) || 80;
       currentVal = Math.min(100, Math.max(5, currentVal + delta));
       
       textSpan.innerText = currentVal + '%';
       updateBar(parent, currentVal);
     }
 
-    // FUNGSI MENGIKUTI PERSEN JIKA DIKETIK MANUAL
-    function handleManualInput(textSpan) {
+    // FUNGSI REALTIME SAAT KETIK ANGKA MANUAL
+    function syncBarFromInput(textSpan) {
       const parent = textSpan.closest('.cv-item');
-      let val = parseInt(textSpan.innerText.replace(/[^0-9]/g, '')) || 80;
+      let rawText = textSpan.innerText || textSpan.textContent || '0';
+      let val = parseInt(rawText.replace(/[^0-9]/g, '')) || 0;
+      if (val > 100) val = 100;
+      if (val > 0) {
+        updateBar(parent, val);
+      }
+    }
+
+    // FORMAT PERSEN SAAT SELESAI KETIK
+    function formatPercent(textSpan) {
+      const parent = textSpan.closest('.cv-item');
+      let rawText = textSpan.innerText || textSpan.textContent || '80';
+      let val = parseInt(rawText.replace(/[^0-9]/g, '')) || 80;
       val = Math.min(100, Math.max(5, val));
       textSpan.innerText = val + '%';
       updateBar(parent, val);
+    }
+
+    // RESET KE TAMPILAN BARU & BERSIHKAN CACHE LAMA
+    function resetToDefault() {
+      if (confirm("Reset CV ke pengaturan awal template terbaru?")) {
+        localStorage.removeItem('my_private_cv_content');
+        localStorage.removeItem('my_private_cv_content_v2');
+        location.reload();
+      }
     }
 
     // FUNGSI TAMBAH ITEM (SUPER FULL CRUD)
@@ -558,7 +607,7 @@
       div.innerHTML = `
         <span class="text-slate-400 block text-[8px] font-mono uppercase font-semibold editable" contenteditable="true">Label Baru</span>
         <span class="font-bold text-slate-800 editable" contenteditable="true">Nilai Data Baru</span>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-0 top-0">✕</button>
       `;
       list.appendChild(div);
     }
@@ -571,13 +620,15 @@
         <div class="flex justify-between items-center font-semibold">
           <span class="editable" contenteditable="true">Keahlian Baru</span>
           <div class="flex items-center gap-1">
-            <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">-</button>
-            <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="true" onblur="handleManualInput(this)">85%</span>
-            <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print opacity-0 w-3.5 h-3.5 rounded bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[9px] flex items-center justify-center leading-none select-none">+</button>
+            <button type="button" onclick="adjustPercent(this, -5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">-</button>
+            <span class="text-brandOrange font-mono font-bold percent-val editable" contenteditable="true" oninput="syncBarFromInput(this)" onblur="formatPercent(this)">85%</span>
+            <button type="button" onclick="adjustPercent(this, 5)" class="stepper-btn no-print w-4 h-4 rounded bg-slate-200 hover:bg-brandOrange hover:text-white text-slate-800 font-bold text-[10px] flex items-center justify-center leading-none select-none shadow-sm">+</button>
           </div>
         </div>
-        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5"><div class="bg-brandOrange h-1.5 rounded-full progress-bar transition-all duration-200" style="width: 85%;"></div></div>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 mt-0.5 overflow-hidden">
+          <div class="bg-brandOrange h-1.5 rounded-full progress-bar-fill" style="width: 85%;"></div>
+        </div>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute -right-3 top-0">✕</button>
       `;
       list.appendChild(div);
       feather.replace();
@@ -588,7 +639,7 @@
       const span = document.createElement('span');
       span.className = "cv-item relative group px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 font-medium editable";
       span.setAttribute('contenteditable', 'true');
-      span.innerHTML = `Tech Baru <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold ml-1">✕</button>`;
+      span.innerHTML = `Tech Baru <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold ml-1">✕</button>`;
       list.appendChild(span);
     }
 
@@ -599,7 +650,7 @@
       div.innerHTML = `
         <span class="font-bold text-slate-800 block editable" contenteditable="true">Bahasa Baru</span>
         <span class="text-slate-500 font-mono text-[8px] editable" contenteditable="true">Kemahiran</span>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
       `;
       list.appendChild(div);
     }
@@ -611,7 +662,7 @@
       div.innerHTML = `
         <span class="font-bold text-slate-800 block editable" contenteditable="true">Pencapaian Baru</span>
         <span class="text-slate-600 text-[8.5px] editable" contenteditable="true">Deskripsi pencapaian.</span>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
       `;
       list.appendChild(div);
     }
@@ -630,7 +681,7 @@
         <p class="text-[9.5px] text-slate-600 leading-relaxed editable" contenteditable="true">
           • Uraikan tanggung jawab dan pencapaian di sini.
         </p>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[10px] text-red-500 font-bold absolute right-0 top-1">✕ Hapus</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[10px] text-red-500 font-bold absolute right-0 top-1">✕ Hapus</button>
       `;
       list.appendChild(div);
     }
@@ -643,7 +694,7 @@
         <span class="font-bold text-slate-900 block text-[10px] editable" contenteditable="true">Judul Proyek Baru</span>
         <span class="text-brandOrange font-mono font-bold block text-[8px] editable" contenteditable="true">Tech Stack</span>
         <p class="text-slate-600 leading-snug editable" contenteditable="true">Deskripsi singkat proyek.</p>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1.5 top-1">✕</button>
       `;
       grid.appendChild(div);
     }
@@ -658,7 +709,7 @@
           <p class="text-slate-500 font-mono text-[8.5px] editable" contenteditable="true">Institusi Penyelenggara</p>
         </div>
         <span class="font-mono text-brandOrange font-bold text-[9px] editable shrink-0" contenteditable="true">2024</span>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold ml-2">✕</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold ml-2">✕</button>
       `;
       list.appendChild(div);
     }
@@ -668,7 +719,7 @@
       const div = document.createElement('div');
       div.className = "cv-item relative group p-1 rounded bg-orange-50 border border-orange-200 text-center font-semibold editable";
       div.setAttribute('contenteditable', 'true');
-      div.innerHTML = `Metode Baru <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button>`;
+      div.innerHTML = `Metode Baru <button onclick="this.parentElement.remove()" class="del-btn no-print text-[8px] text-red-500 font-bold absolute right-0.5 top-0.5">✕</button>`;
       grid.appendChild(div);
     }
 
@@ -679,7 +730,7 @@
       div.innerHTML = `
         <span class="font-bold text-slate-800 block editable" contenteditable="true">Spesialisasi Baru</span>
         <span class="text-slate-500 editable" contenteditable="true">Deskripsi keunggulan kerja.</span>
-        <button onclick="this.parentElement.remove()" class="del-btn no-print opacity-0 text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
+        <button onclick="this.parentElement.remove()" class="del-btn no-print text-[9px] text-red-500 font-bold absolute right-1 top-1">✕</button>
       `;
       list.appendChild(div);
     }
@@ -687,7 +738,7 @@
     // SIMPAN PERUBAHAN PRIVATE KE LOCALSTORAGE
     function saveChanges() {
       const html = document.getElementById('cv-sheet').innerHTML;
-      localStorage.setItem('my_private_cv_content', html);
+      localStorage.setItem('my_private_cv_content_v2', html);
       alert('✅ Semua perubahan & tata letak UI CV berhasil disimpan!');
     }
 
