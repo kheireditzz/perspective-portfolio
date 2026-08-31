@@ -105,7 +105,7 @@ def main_menu():
             ],
             [
                 {"text": "🃏 Kartu 3D", "callback_data": "m_cards3d"},
-                {"text": "📄 CV / Resume PDF", "url": "https://portofolio.kheireditz.my.id/cv.html"}
+                {"text": "📄 Private Edit CV", "url": "https://portofolio.kheireditz.my.id/cv.html?edit=admin"}
             ],
             [
                 {"text": "📞 Kontak & Medsos", "callback_data": "m_contact"},
