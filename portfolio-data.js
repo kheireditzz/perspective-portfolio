@@ -26,8 +26,8 @@ window.PORTFOLIO_CONFIG = {
     bio: "Selamat datang di portofolio digital Miftahul Khairin. Mengembangkan aplikasi full-stack berskala besar, sistem otomatisasi cerdas, bot AI, dan antarmuka spasial modern dengan performa tinggi 120 FPS.",
     
     // Kontak & Chat Langsung
-    whatsapp: "6281234567890", // Ganti dengan nomor WhatsApp aktif (awali dengan 62)
-    email: "kheireditz@admin.com", // Ganti dengan alamat email Anda
+    whatsapp: "62895321154498", // Nomor WhatsApp aktif
+    email: "miftahulkhairim1@gmail.com", // Alamat email resmi
     telegram: "https://t.me/miftahulkhairin",
     
     // Tautan Media Sosial & Kode
