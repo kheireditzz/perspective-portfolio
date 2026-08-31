@@ -59,7 +59,6 @@
       border-radius: 4px;
     }
 
-    /* TAMPILKAN TOMBOL STEPPER & HAPUS SECARA ELEGAN */
     .cv-item .del-btn {
       opacity: 0.3;
       transition: opacity 0.2s;
@@ -83,31 +82,49 @@
 </head>
 <body class="bg-[#07090e] text-slate-800 min-h-screen py-4 px-2 flex flex-col items-center justify-start antialiased selection:bg-brandOrange selection:text-white">
 
-  <!-- FLOATING TOOLBAR PRIVATE EDIT -->
-  <div id="private-toolbar" class="w-[794px] max-w-full mb-3 no-print hidden bg-[#0e1424]/95 backdrop-blur-md border border-slate-800 p-3 rounded-2xl flex items-center justify-between gap-3 shadow-2xl">
-    <div class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-xl bg-brandOrange flex items-center justify-center text-black font-bold">
-        <i data-feather="lock" class="w-4 h-4"></i>
+  <!-- ======================================================== -->
+  <!-- FLOATING TOOLBAR MODERN & MEWAH KHUSUS PRIVATE EDITOR    -->
+  <!-- ======================================================== -->
+  <div id="private-toolbar" class="w-[794px] max-w-full mb-3 no-print hidden bg-gradient-to-r from-[#0d1322]/95 via-[#11192e]/95 to-[#0d1322]/95 backdrop-blur-xl border border-slate-700/60 p-2.5 px-4 rounded-2xl flex items-center justify-between gap-4 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+    
+    <!-- BRAND / TITLE DENGAN GLOW ICON -->
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-400 p-[1px] shadow-[0_0_15px_rgba(255,107,0,0.4)]">
+        <div class="w-full h-full bg-[#0d1322] rounded-xl flex items-center justify-center text-brandOrange">
+          <i data-feather="sliders" class="w-4 h-4 text-brandOrange"></i>
+        </div>
       </div>
       <div>
-        <h1 class="text-white font-bold text-xs font-display leading-tight">SUPER FULL CRUD CV BUILDER</h1>
-        <p class="text-[10px] text-slate-400">Tekan tombol +/- atau ketik angka langsung &bull; Garis oranye otomatis mengikuti &bull; Klik Simpan.</p>
+        <div class="flex items-center gap-2">
+          <span class="text-white font-extrabold text-xs font-display tracking-wide uppercase">CV STUDIO PRO</span>
+          <span class="px-2 py-0.2 rounded-full bg-brandOrange/20 border border-brandOrange/40 text-brandOrange text-[9px] font-mono font-bold">LIVE EDITOR</span>
+        </div>
+        <p class="text-[10px] text-slate-400 font-medium">Klik teks untuk edit &bull; Klik icon untuk aksi &bull; Auto-sync garis.</p>
       </div>
     </div>
 
+    <!-- ICON ACTION BUTTONS (CLEAN, MINIMALIS, MEWAH DENGAN TOOLTIP) -->
     <div class="flex items-center gap-2">
-      <button onclick="resetToDefault()" class="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs flex items-center gap-1 shadow-md transition-all">
-        <i data-feather="rotate-ccw" class="w-3.5 h-3.5"></i>
-        <span>Reset Baru</span>
+      
+      <!-- TOMBOL RESET (ICON SAJA) -->
+      <button onclick="resetToDefault()" title="Reset Tampilan ke Awal" class="group relative w-9 h-9 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 shadow-md">
+        <i data-feather="rotate-ccw" class="w-4 h-4 group-hover:-rotate-90 transition-transform duration-300"></i>
+        <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-black/90 border border-slate-800 text-white text-[9px] font-mono px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Reset</span>
       </button>
-      <button onclick="saveChanges()" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1 shadow-md transition-all">
-        <i data-feather="save" class="w-3.5 h-3.5"></i>
-        <span>Simpan Perubahan</span>
+
+      <!-- TOMBOL SIMPAN (ICON SAJA DENGAN GLOW HIJAU) -->
+      <button onclick="saveChanges()" title="Simpan Semua Perubahan" class="group relative w-9 h-9 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 border border-emerald-400/50 text-white flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 shadow-[0_0_12px_rgba(16,185,129,0.35)]">
+        <i data-feather="save" class="w-4 h-4"></i>
+        <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-black/90 border border-slate-800 text-emerald-400 text-[9px] font-mono px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Simpan</span>
       </button>
-      <button onclick="downloadPDF()" class="px-4 py-1.5 rounded-xl bg-brandOrange hover:bg-brandOrangeHover text-black font-bold text-xs uppercase flex items-center gap-1 shadow-md transition-all">
-        <i data-feather="download" class="w-3.5 h-3.5"></i>
-        <span>Download PDF</span>
+
+      <!-- TOMBOL DOWNLOAD PDF (ICON SAJA DENGAN GLOW ORANGE EMAS) -->
+      <button onclick="downloadPDF()" title="Download PDF 1 Lembar" class="group relative px-3.5 h-9 rounded-xl bg-gradient-to-r from-brandOrange to-amber-500 hover:from-brandOrangeHover hover:to-amber-600 text-black font-bold text-xs flex items-center gap-1.5 transition-all duration-200 hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(255,107,0,0.5)]">
+        <i data-feather="download" class="w-4 h-4 text-black"></i>
+        <span class="font-display font-extrabold text-[11px] uppercase tracking-wider hidden sm:inline">PDF</span>
+        <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 bg-black/90 border border-slate-800 text-brandOrange text-[9px] font-mono px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">Download PDF</span>
       </button>
+
     </div>
   </div>
 
@@ -520,7 +537,7 @@
     }
 
     // LOAD LOCAL STORAGE JIKA PERNAH DIEDIT SECARA PRIVATE
-    const savedContent = localStorage.getItem('my_private_cv_content_v2');
+    const savedContent = localStorage.getItem('my_private_cv_content_v3');
     if (savedContent) {
       document.getElementById('cv-sheet').innerHTML = savedContent;
       feather.replace();
@@ -595,6 +612,7 @@
       if (confirm("Reset CV ke pengaturan awal template terbaru?")) {
         localStorage.removeItem('my_private_cv_content');
         localStorage.removeItem('my_private_cv_content_v2');
+        localStorage.removeItem('my_private_cv_content_v3');
         location.reload();
       }
     }
@@ -738,7 +756,7 @@
     // SIMPAN PERUBAHAN PRIVATE KE LOCALSTORAGE
     function saveChanges() {
       const html = document.getElementById('cv-sheet').innerHTML;
-      localStorage.setItem('my_private_cv_content_v2', html);
+      localStorage.setItem('my_private_cv_content_v3', html);
       alert('✅ Semua perubahan & tata letak UI CV berhasil disimpan!');
     }
 
