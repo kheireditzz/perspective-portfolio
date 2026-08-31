@@ -255,11 +255,30 @@ def handle_message(msg):
                 send_msg(chat_id, welcome, main_menu())
                 return
 
+            elif cmd in ["/cv", "/editcv", "/admincv"]:
+                cv_text = (
+                    "📄 <b>STUDIO CV & PRIVATE EDITOR PRO</b>\n"
+                    "━━━━━━━━━━━━━━━━━━━━\n"
+                    "Gunakan tautan privat di bawah untuk mengedit CV, menambah/menghapus bagian, menyesuaikan persentase live, dan download PDF:\n\n"
+                    "🔗 <b>URL Private Editor:</b>\n"
+                    "<code>https://portofolio.kheireditz.my.id/cv.html?edit=admin</code>"
+                )
+                kb = {
+                    "inline_keyboard": [
+                        [{"text": "⚡ Buka Private Editor CV", "url": "https://portofolio.kheireditz.my.id/cv.html?edit=admin"}],
+                        [{"text": "📥 Download PDF Langsung", "url": "https://portofolio.kheireditz.my.id/cv.html?download=1"}],
+                        [{"text": "🏠 Menu", "callback_data": "b_main"}]
+                    ]
+                }
+                send_msg(chat_id, cv_text, kb)
+                return
+
             elif cmd == "/help":
                 help_text = (
                     "📖 <b>DAFTAR PERINTAH CEPAT</b>\n"
                     "━━━━━━━━━━━━━━━━━━━━\n"
                     "• /menu — Buka Dashboard Utama\n"
+                    "• /cv — Link Private Admin Edit CV\n"
                     "• /deploy — Deploy ke Web Live\n"
                     "• /status — Status Web & Git\n"
                     "• /backup — Download File Data\n"

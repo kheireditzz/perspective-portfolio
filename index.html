@@ -489,21 +489,27 @@
         </div>
 
         <!-- Menu Links -->
-        <nav class="flex flex-col space-y-3 font-medium text-sm">
+        <nav class="flex flex-col space-y-2.5 font-medium text-sm">
+          <a href="https://produk.kheireditz.my.id" target="_blank" class="px-4 py-2.5 rounded-xl bg-brandOrange/15 border border-brandOrange/40 text-brandOrange hover:bg-brandOrange hover:text-black flex items-center justify-between transition-all font-semibold">
+            <span class="flex items-center gap-3">
+              <i data-feather="shopping-bag" class="w-4 h-4"></i> Toko Digital Resmi
+            </span>
+            <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brandOrange text-black font-bold">QRIS LIVE</span>
+          </a>
           <a href="#about" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
             <i data-feather="user" class="w-4 h-4 text-brandOrange"></i> Profil Saya
           </a>
           <a href="#projects" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
             <i data-feather="layers" class="w-4 h-4 text-brandOrange"></i> Hasil Karya & Proyek
           </a>
+          <a href="#store" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
+            <i data-feather="shopping-cart" class="w-4 h-4 text-emerald-400"></i> Etalase Produk
+          </a>
           <a href="#gallery" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
             <i data-feather="image" class="w-4 h-4 text-cyanAccent"></i> Galeri Dokumentasi
           </a>
           <a href="#video" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
             <i data-feather="video" class="w-4 h-4 text-purpleAccent"></i> Video Showcase
-          </a>
-          <a href="#store" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
-            <i data-feather="shopping-bag" class="w-4 h-4 text-emerald-400"></i> Toko Digital & Source Code
           </a>
           <a href="#cv" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-xl hover:bg-slate-900 text-slate-200 hover:text-brandOrange flex items-center gap-3 transition-colors">
             <i data-feather="file-text" class="w-4 h-4 text-amberAccent"></i> CV & Resume Karir
@@ -627,14 +633,15 @@
                 <div id="card-skill-desc" class="text-[11px] text-slate-400 mt-1">Aplikasi web modern, API cloud & microservices</div>
               </div>
 
-              <!-- Kartu 2: Aset Digital -->
-              <div class="p-4 rounded-xl bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/10 hover:border-amberAccent/60 transition-all duration-300 shadow-lg hover:scale-[1.03] active:scale-95 cursor-pointer group" data-aos="fade-up" data-aos-delay="500">
-                <div class="text-amberAccent font-mono text-xs mb-1 flex items-center gap-1.5 font-bold">
-                  <i data-feather="shopping-bag" class="w-3.5 h-3.5 group-hover:rotate-12 transition-transform"></i> <span id="card-asset-badge">ASET & PRODUK DIGITAL</span>
+              <!-- Kartu 2: Aset Digital (Link ke Toko Resmi) -->
+              <a href="https://produk.kheireditz.my.id" target="_blank" class="p-4 rounded-xl bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/10 hover:border-amberAccent/60 transition-all duration-300 shadow-lg hover:scale-[1.03] active:scale-95 cursor-pointer group block" data-aos="fade-up" data-aos-delay="500">
+                <div class="text-amberAccent font-mono text-xs mb-1 flex items-center justify-between font-bold">
+                  <span class="flex items-center gap-1.5"><i data-feather="shopping-bag" class="w-3.5 h-3.5 group-hover:rotate-12 transition-transform"></i> <span id="card-asset-badge">TOKO DIGITAL RESMI</span></span>
+                  <i data-feather="external-link" class="w-3 h-3 text-slate-400 group-hover:text-amberAccent transition-colors"></i>
                 </div>
-                <div id="card-asset-title" class="text-sm font-bold text-white group-hover:text-amber-200 transition-colors">Toko Digital & Script Otomasi</div>
-                <div id="card-asset-desc" class="text-[11px] text-slate-400 mt-1">Source code, bot affiliate & integrasi AI cerdas</div>
-              </div>
+                <div id="card-asset-title" class="text-sm font-bold text-white group-hover:text-amber-200 transition-colors">Kheireditz Produk Digital</div>
+                <div id="card-asset-desc" class="text-[11px] text-slate-400 mt-1">Kunjungi portal resmi: produk.kheireditz.my.id</div>
+              </a>
 
               <!-- Kartu 3: Video Demo Showcase -->
               <div class="p-4 rounded-xl bg-black/50 hover:bg-black/70 backdrop-blur-md border border-white/10 hover:border-purpleAccent/60 transition-all duration-300 shadow-lg sm:col-span-2 flex items-center justify-between hover:scale-[1.02] active:scale-95 group" data-aos="fade-up" data-aos-delay="550">
@@ -737,8 +744,28 @@
           Etalase Produk Digital & Source Code
         </h2>
         <p class="text-sm text-slate-400">
-          Source code siap pakai, bot otomatisasi, template antarmuka, dan aset digital siap pakai. Klik tombol untuk pesan langsung melalui WhatsApp.
+          Source code siap pakai, bot otomatisasi, template antarmuka, dan aset digital siap pakai dengan sistem pembayaran QRIS otomatis.
         </p>
+      </div>
+
+      <!-- BANNER DIRECT ACCESS PORTAL TOKO RESMI -->
+      <div class="mb-10 p-6 rounded-2xl bg-gradient-to-r from-brandOrange/20 via-amberAccent/10 to-slate-900 border border-brandOrange/40 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-2xl" data-aos="zoom-in">
+        <div class="flex items-center gap-4 text-center sm:text-left flex-col sm:flex-row">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brandOrange to-amberAccent text-black flex items-center justify-center font-bold shadow-lg shadow-brandOrange/40 shrink-0">
+            <i data-feather="shopping-bag" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 justify-center sm:justify-start">
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-brandOrange text-black font-bold uppercase">LIVE STORE</span>
+              <h3 class="text-lg font-bold text-white font-display uppercase">Portal Toko Digital Resmi</h3>
+            </div>
+            <p class="text-xs text-slate-300 mt-1">Kunjungi <strong class="text-brandOrange-light font-mono">produk.kheireditz.my.id</strong> untuk belanja instan, bayar otomatis QRIS & aktivasi lisensi realtime.</p>
+          </div>
+        </div>
+        <a href="https://produk.kheireditz.my.id" target="_blank" class="px-6 py-3.5 rounded-xl bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(255,107,0,0.5)] transition-all shrink-0">
+          <span>Buka Toko Digital</span>
+          <i data-feather="external-link" class="w-4 h-4"></i>
+        </a>
       </div>
 
       <!-- DYNAMIC STORE PRODUCTS GRID (DAPAT DITAMBAH, DIUBAH & DIHAPUS DARI ADMIN) -->
@@ -1435,13 +1462,12 @@
               </ul>
             </div>
             <div class="pt-6 mt-6 border-t border-slate-800 space-y-2.5">
-              ${p.demoUrl ? `
-              <a href="${p.demoUrl}" target="_blank" class="w-full py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-mono text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-700">
-                <span>Lihat Preview Demo</span>
-                <i data-feather="external-link" class="w-3.5 h-3.5"></i>
-              </a>` : ''}
-              <a href="https://wa.me/${waNumber}?text=Halo%20${encodeURIComponent(ownerName)},%20saya%20tertarik%20membeli%20${encodeURIComponent(p.title)}" target="_blank" class="w-full py-3 rounded-xl bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,107,0,0.3)] transition-all">
-                <i data-feather="shopping-cart" class="w-4 h-4"></i> Beli Sekarang (WhatsApp)
+              <a href="https://produk.kheireditz.my.id" target="_blank" class="w-full py-3 rounded-xl bg-brandOrange hover:bg-brandOrange-hover text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,107,0,0.4)] transition-all">
+                <i data-feather="shopping-bag" class="w-4 h-4"></i> Beli Instan QRIS (Toko Resmi)
+              </a>
+              <a href="https://wa.me/${waNumber}?text=Halo%20${encodeURIComponent(ownerName)},%20saya%20tertarik%20membeli%20${encodeURIComponent(p.title)}" target="_blank" class="w-full py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-mono text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-700">
+                <i data-feather="message-circle" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Tanya via WhatsApp</span>
               </a>
             </div>
           </div>

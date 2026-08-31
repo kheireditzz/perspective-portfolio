@@ -25,6 +25,9 @@ window.PORTFOLIO_CONFIG = {
     logo: "profile.jpg",
     bio: "Selamat datang di portofolio digital Miftahul Khairin. Mengembangkan aplikasi full-stack berskala besar, sistem otomatisasi cerdas, bot AI, dan antarmuka spasial modern dengan performa tinggi 120 FPS.",
     
+    // Toko Digital Resmi
+    storeUrl: "https://produk.kheireditz.my.id",
+
     // Kontak & Chat Langsung
     whatsapp: "62895321154498", // Nomor WhatsApp aktif
     email: "miftahulkhairim1@gmail.com", // Alamat email resmi
@@ -51,13 +54,14 @@ window.PORTFOLIO_CONFIG = {
   cards3D: {
     skill: {
       badge: "ARSITEKTUR UTAMA",
-      title: "Next.js 14, Node.js, Go & Python",
-      desc: "Aplikasi web modern, API cloud microservices, caching Redis & performa ultra cepat."
+      title: "Next.js 15, Python, Supabase & Go",
+      desc: "Aplikasi web full-stack, cloud serverless API, database PostgreSQL & performa ultra cepat."
     },
     asset: {
-      badge: "SOLUSI DIGITAL",
-      title: "Toko Digital & Script Otomasi",
-      desc: "Source code enterprise, bot affiliate cerdas, automasi background & integrasi AI."
+      badge: "TOKO DIGITAL RESMI",
+      title: "Kheireditz Produk Digital",
+      desc: "Kunjungi portal resmi: https://produk.kheireditz.my.id dengan sistem QRIS otomatis.",
+      url: "https://produk.kheireditz.my.id"
     },
     video: {
       badge: "MULTIMEDIA",
@@ -72,42 +76,52 @@ window.PORTFOLIO_CONFIG = {
   projects: [
     {
       id: 1,
-      category: "01 / APLIKASI WEB ENTERPRISE",
-      title: "Sistem Manajemen Gudang & Logistik",
-      desc: "Platform manajemen inventaris multi-cabang dengan analitik realtime, cetak barcode otomatis, dan sinkronisasi cloud terpusat.",
-      tech: "Next.js 14 • Node.js • PostgreSQL • Docker",
-      link: "https://github.com/miftahulkhairin", // URL Demo Web atau GitHub
-      githubUrl: "https://github.com/miftahulkhairin/warehouse-management",
-      icon: "layers"
+      category: "01 / PLATFORM TOKO DIGITAL & SAAS",
+      title: "Kheireditz Produk — Official Store",
+      desc: "Toko produk digital full-stack dengan integrasi database Supabase Cloud, pembayaran QRIS otomatis, penerbitan lisensi instan, dan riwayat transaksi realtime.",
+      tech: "Python MVC • Supabase PostgreSQL • Tailwind CSS • Vercel",
+      link: "https://produk.kheireditz.my.id",
+      githubUrl: "https://github.com/kheireditzz/digital-product-store",
+      icon: "shopping-bag"
     },
     {
       id: 2,
-      category: "02 / OTOMASI & BOT CERDAS",
-      title: "TikTok Affiliate Auto-Uploader Suite",
-      desc: "Script otomasi Python untuk mengunduh, mengedit, menambahkan audio tren, dan mengunggah video affiliasi otomatis tanpa watermark.",
-      tech: "Python • FFmpeg • Selenium • Termux Linux",
-      link: "https://github.com/miftahulkhairin",
-      githubUrl: "https://github.com/miftahulkhairin/tiktok-auto-uploader",
-      icon: "cpu"
+      category: "02 / APLIKASI WEB ENTERPRISE",
+      title: "Sistem Manajemen Gudang & Logistik",
+      desc: "Platform manajemen inventaris multi-cabang dengan analitik realtime, cetak barcode otomatis, dan sinkronisasi cloud terpusat.",
+      tech: "Next.js 14 • Node.js • PostgreSQL • Docker",
+      link: "https://github.com/kheireditzz",
+      githubUrl: "https://github.com/kheireditzz/warehouse-management",
+      icon: "layers"
     },
     {
       id: 3,
-      category: "03 / CLOUD MICROSERVICES & API",
-      title: "High-Performance WhatsApp Gateway API",
-      desc: "RESTful API multi-device dengan protokol Baileys, mendukung webhook pesan masuk, pengiriman massal, dan integrasi AI pintar.",
-      tech: "Node.js • Express • Redis • WebSocket",
-      link: "https://github.com/miftahulkhairin",
-      githubUrl: "https://github.com/miftahulkhairin/whatsapp-gateway-api",
-      icon: "activity"
+      category: "03 / OTOMASI & BOT CERDAS",
+      title: "TikTok Affiliate Auto-Uploader Suite",
+      desc: "Script otomasi Python untuk mengunduh, mengedit, menambahkan audio tren, dan mengunggah video affiliasi otomatis tanpa watermark.",
+      tech: "Python • FFmpeg • Selenium • Termux Linux",
+      link: "https://produk.kheireditz.my.id",
+      githubUrl: "https://github.com/kheireditzz/tiktok-auto-uploader",
+      icon: "cpu"
     },
     {
       id: 4,
-      category: "04 / ANTARMUKA SPASIAL & 3D WEB",
+      category: "04 / CLOUD MICROSERVICES & API",
+      title: "High-Performance WhatsApp Gateway API",
+      desc: "RESTful API multi-device dengan protokol Baileys, mendukung webhook pesan masuk, pengiriman massal, dan integrasi AI pintar.",
+      tech: "Node.js • Express • Redis • WebSocket",
+      link: "https://github.com/kheireditzz",
+      githubUrl: "https://github.com/kheireditzz/whatsapp-gateway-api",
+      icon: "activity"
+    },
+    {
+      id: 5,
+      category: "05 / ANTARMUKA SPASIAL & 3D WEB",
       title: "Perspective 3D Spatial Portfolio Engine",
       desc: "Engine antarmuka web modern dengan simulasi pencahayaan volumetric, kartu kanvas kedalaman multi-layer, dan fluid dynamic motion.",
       tech: "Tailwind CSS • Vanilla JS • CSS 3D Transforms",
-      link: "https://github.com/miftahulkhairin",
-      githubUrl: "https://github.com/miftahulkhairin/perspective-portfolio",
+      link: "https://portofolio.kheireditz.my.id",
+      githubUrl: "https://github.com/kheireditzz/perspective-portfolio",
       icon: "box"
     }
   ],
@@ -179,44 +193,44 @@ window.PORTFOLIO_CONFIG = {
   products: [
     {
       id: 1,
-      badge: "SOURCE CODE",
-      title: "Perspective UI Pro Boilerplate",
-      desc: "Template Next.js 14 + Tailwind lengkap dengan kanvas kedalaman spasial 3D, mode gelap, dan komponen modern siap pakai.",
-      price: "Rp 199.000",
-      originalPrice: "Rp 350.000",
-      demoUrl: "https://github.com/miftahulkhairin",
+      badge: "FULL-STACK SAAS",
+      title: "OmniAI Multi-Model SaaS Platform",
+      desc: "Platform SaaS multi-AI (GPT-4o, Claude, Gemini, DeepSeek) dengan sistem pembayaran otomatis QRIS & lisensi komersial lifetime.",
+      price: "Rp 149.000",
+      originalPrice: "Rp 499.000",
+      demoUrl: "https://produk.kheireditz.my.id",
       features: [
-        "Kode Sumber Lengkap Next.js 14",
-        "Efek Spasial 3D Continuous Carousel",
-        "Gratis Update Selamanya & Panduan Setup"
+        "Full-Stack Next.js 15 + FastAPI Python",
+        "Integrasi Supabase Cloud PostgreSQL",
+        "Pembayaran QRIS & Lisensi Otomatis"
       ]
     },
     {
       id: 2,
-      badge: "BOT & SCRIPT",
-      title: "TikTok Affiliate Smart Uploader",
-      desc: "Script Python otomatisasi upload video affiliasi, pembuatan caption otomatis dengan AI, musik tren, dan anti-deteksi headless.",
-      price: "Rp 299.000",
-      originalPrice: "Rp 500.000",
-      demoUrl: "https://github.com/miftahulkhairin",
+      badge: "DASHBOARD UI",
+      title: "Next.js 15 Tailwind UI Dashboard Kit",
+      desc: "Koleksi 45+ modul antarmuka dashboard analitik, billing panel, charts dan manajemen pengguna dengan tema dark mode Obsidian & Orange.",
+      price: "Rp 119.000",
+      originalPrice: "Rp 399.000",
+      demoUrl: "https://produk.kheireditz.my.id",
       features: [
-        "Script Python Otomasi Lengkap",
-        "Bypass Headless & Multi-Akun",
-        "Panduan Instalasi Termux & VPS Lengkap"
+        "45+ Komponen Reusable & Responsive",
+        "Charts Interaktif Recharts & Lucide Icons",
+        "Desain Ultra Modern 120 FPS"
       ]
     },
     {
       id: 3,
       badge: "BOT OTOMASI",
-      title: "WhatsApp AI Customer Auto-Reply",
-      desc: "Bot WhatsApp Baileys otomatis merespons pesan pelanggan dengan integrasi kecerdasan buatan Gemini AI secara 24/7.",
-      price: "Rp 149.000",
-      originalPrice: "Rp 250.000",
-      demoUrl: "https://github.com/miftahulkhairin",
+      title: "TikTok Affiliate Smart Uploader Suite",
+      desc: "Script Python otomatisasi upload video affiliasi, AI caption generator, pemilihan audio tren, dan anti-deteksi headless.",
+      price: "Rp 99.000",
+      originalPrice: "Rp 349.000",
+      demoUrl: "https://produk.kheireditz.my.id",
       features: [
-        "Kode Sumber Node.js Baileys",
-        "Integrasi API Gemini AI Cerdas",
-        "Multi-Device Session & Webhook Support"
+        "Script Python Otomasi Termux & VPS",
+        "Bypass Headless & Multi-Akun",
+        "Panduan Setup Lengkap & Lifetime Update"
       ]
     }
   ]
