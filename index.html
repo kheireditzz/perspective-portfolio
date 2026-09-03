@@ -1033,7 +1033,7 @@
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500">
       <div class="flex items-center gap-3 text-slate-300">
         <div class="w-7 h-7 rounded-lg overflow-hidden border border-brandOrange/50 shadow-[0_0_15px_rgba(255,107,0,0.3)] bg-black flex items-center justify-center shrink-0">
-          <img src="https://i.ibb.co.com/840ySX1j/Screenshot-20260831-064748.jpg" alt="Logo" class="w-full h-full object-cover">
+          <img id="footer-brand-logo" src="profile.jpg" alt="Logo" class="w-full h-full object-cover">
         </div>
         <span class="font-bold text-white">Miftahul Khairin</span>
         <span class="text-slate-600">&bull;</span>
@@ -1306,13 +1306,18 @@
       // 1. Profil & Header Data
       if (config.profile) {
         const p = config.profile;
+        const cacheBust = `?v=${Date.now()}`;
+        const photoUrl = p.photo ? (p.photo.includes('?') ? p.photo : p.photo + cacheBust) : 'profile.jpg' + cacheBust;
+        const logoUrl = p.logo ? (p.logo.includes('?') ? p.logo : p.logo + cacheBust) : photoUrl;
+
         if (document.getElementById('main-name')) document.getElementById('main-name').innerHTML = `${p.name} <i data-feather="check-circle" class="w-4 h-4 text-brandOrange"></i>`;
         if (document.getElementById('main-profession')) document.getElementById('main-profession').innerText = p.profession;
         if (document.getElementById('main-address')) document.getElementById('main-address').innerHTML = `<i data-feather="map-pin" class="w-3.5 h-3.5 text-brandOrange"></i> ${p.location}`;
         if (document.getElementById('hero-bio')) document.getElementById('hero-bio').innerText = p.bio;
-        if (document.getElementById('main-profile-img') && p.photo) document.getElementById('main-profile-img').src = p.photo;
-        if (document.getElementById('nav-brand-logo') && (p.logo || p.photo)) document.getElementById('nav-brand-logo').src = p.logo || p.photo;
-        if (document.getElementById('drawer-brand-logo') && (p.logo || p.photo)) document.getElementById('drawer-brand-logo').src = p.logo || p.photo;
+        if (document.getElementById('main-profile-img')) document.getElementById('main-profile-img').src = photoUrl;
+        if (document.getElementById('nav-brand-logo')) document.getElementById('nav-brand-logo').src = logoUrl;
+        if (document.getElementById('drawer-brand-logo')) document.getElementById('drawer-brand-logo').src = logoUrl;
+        if (document.getElementById('footer-brand-logo')) document.getElementById('footer-brand-logo').src = logoUrl;
         if (document.getElementById('nav-brand-name')) document.getElementById('nav-brand-name').innerText = p.headerTitle || p.name;
         if (document.getElementById('drawer-brand-name')) document.getElementById('drawer-brand-name').innerText = p.headerTitle || p.name;
         if (document.getElementById('nav-brand-sub')) document.getElementById('nav-brand-sub').innerText = p.headerSubtitle || "Perspective Engine";
